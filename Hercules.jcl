@@ -138,3 +138,235 @@ DATASETNAMETABLE
     UPDATEBACKUP(NOSTATS)            
     BUFFERS(255)                     
 
+--------------------------
+
+SMS Changes
+
+D SMS                                                 
+IGD002I 16:47:59 DISPLAY SMS 902                      
+SCDS = ACSVS.DFSMS.SCDS                               
+ACDS = ACSVS.DFSMS.ACDS                               
+COMMDS = ACSVS.DFSMS.COMMDS                           
+ACDS LEVEL = z/OS V2.4                                
+DINTERVAL = 150                                       
+REVERIFY = NO                                         
+ACSDEFAULTS = NO                                      
+    SYSTEM     CONFIGURATION LEVEL    INTERVAL SECONDS
+    DCUF       2021/05/29 16:47:48           15       
+
+ACSNS.DFSMS.DCUF.ACS
+
+sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+    ACSNS.DFSMS.DCUF.ACS(MGMTCLAS) - 01.09                  Columns 000
+ ===>                                                          Scroll =
+********************************* Top of Data *************************
+PROC 1 MGMTCLAS                                                        
+/*-------------------------------------------------------------------*/
+/*                  M A N A G E M E N T   C L A S S                  */
+/*                  ===============================                  */
+/*                                                                   */
+/*  DATE   RESP  DESCRIPTION OF CHANGE                       REQUEST */
+/* ------  ----  ---------------------                       ------- */
+/*                                                                   */
+/*-------------------------------------------------------------------*/
+/*                                                                   */
+                                                                       
+SELECT                                                                 
+                                                                       
+/*===================================================================*/
+/* STORAGE GROUP FOR TSO DATASETS                                    */
+/*-------------------------------------------------------------------*/
+                                                                       
+    WHEN (&STORCLAS EQ 'TSO') DO                                       
+      WRITE ' TSO MGMTCLASS ASSIGNED'                                  
+      SET &MGMTCLAS = 'TSO'                                            
+      EXIT CODE(0)                                                     
+      END                                                              
+                                                                       
+/*===================================================================*/
+/* TEMPORARY FILES                                                   */
+/*-------------------------------------------------------------------*/
+                                                                       
+    WHEN (&STORCLAS EQ 'TMPORARY') DO                                  
+      WRITE ' TEMPORARY MGMTCLASS'                                     
+      SET &MGMTCLAS = 'TMPORARY'                                       
+      EXIT CODE(0)                                                     
+      END                                                              
+                                                                       
+                                                                       
+/*===================================================================*/
+/* DEFAULT TO STRG MC                                                */
+/*-------------------------------------------------------------------*/
+   OTHERWISE                   
+      DO                       
+         SET &MGMTCLAS EQ ''   
+         EXIT CODE(0)          
+      END                      
+   END                         
+END                            
+
+sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+    ACSNS.DFSMS.DCUF.ACS(DATACLAS) - 01.00                Member DATACL
+ ===>                                                          Scroll =
+********************************* Top of Data *************************
+PROC 1 DATACLAS                                                        
+/*-------------------------------------------------------------------*/
+/*                      D A T A   C L A S S                          */
+/*                      ===================                          */
+/*    SELECTION ROUTINE FOR NEW DATA SET ALLOCATIONS                 */
+/*                                                                   */
+/* MMDDYY  RESP  DESCRIPTION OF CHANGE                        REQUEST*/
+/* ------  ----  ------------------------------------------- ------- */
+                                                                       
+FILTLIST VALIDDASD INCLUDE('DASD','DISK','PROD','SYSALLDA','SYSDA',    
+                           'SYSSQ','TEST','TSO','3380','3390')         
+                                                                       
+SELECT                                                                 
+                                                                       
+/*===================================================================*/
+/*  DEFAULT TO NULL                                                  */
+/*-------------------------------------------------------------------*/
+                                                                       
+    WHEN (&UNIT = &VALIDDASD)                                          
+      SET &DATACLAS = 'DEFAULT'                                        
+     OTHERWISE                                                         
+      SET &DATACLAS = ''                                               
+                                                                       
+END                                                                    
+END                                                                    
+
+
+    ACSNS.DFSMS.DCUF.ACS(STORCLAS) - 01.26                  Columns 000
+ ===>                                                          Scroll =
+********************************* Top of Data *************************
+PROC 1 STORCLAS                                                        
+/*-------------------------------------------------------------------*/
+/*                  S T O R A G E   C L A S S                        */
+/*                  =========================                        */
+/*    SELECTION ROUTINE FOR NEW DATA SET ALLOCATIONS                 */
+/*                                                                   */
+/*  DATE   RESP  DESCRIPTION OF CHANGE                       REQUEST */
+/* ------  ----  ------------------------------------------- ------- */
+/*-------------------------------------------------------------------*/
+/*                                                                   */
+                                                                       
+FILTLIST TSO     INCLUDE(SYS*.ISPF.**,                                 
+                         SYS*.LOG.MISC.**,                             
+                         SYS*.SPFLOG%.**,                              
+                         SYS*.SPFTEMP%.**,                             
+                         SYS*.SRCHFOR.**,                              
+                         SYS*.HCD.MSGLOG,                              
+                         SYS*.HCD.TERM,                                
+                         SYS*.HCD.TRACE,                               
+                         SYS*.CLIST,                                   
+                         SYS*.**.CNTL*.**,                             
+                         SYS*.DITPROF.**,                              
+                         SYS*.LIST*.**,                                
+                         SYS*.SUPERC.**,                               
+                         SYS.SPF*.**,                                  
+                 EXCLUDE(ACS%S.**,AUSNP.**,SYS1.**,SYS2.**)            
+                                                                       
+FILTLIST SDT     INCLUDE('SYS055','SYS195','SYS279','SYS307','SYS361') 
+                                                                       
+SELECT                                                                 
+                                                                       
+                                                                       
+/*********************************************************************/
+/* HANDLE SDT IDS FOR SYSTEM CONFIGURATIONS                          */
+/*********************************************************************/
+   WHEN ( &USER EQ &SDT )                                              
+      DO                                                               
+         SET &STORCLAS EQ ''                                            
+         EXIT CODE(0)                                                   
+      END                                                               
+                                                                        
+                                                                        
+/*===================================================================*/ 
+/* TSO DATASET ALLOCATION                                            */ 
+/*-------------------------------------------------------------------*/ 
+    WHEN (&HLQ EQ &USER) DO                                             
+      WRITE ' TSO STORCLAS ASSIGNED'                                    
+      SET &STORCLAS = 'TSO'                                             
+      EXIT CODE(0)                                                      
+      END                                                               
+                                                                        
+    WHEN (&DSN EQ &TSO) DO                                              
+      WRITE ' TSO STORCLAS ASSIGNED'                                    
+      SET &STORCLAS = 'TSO'                                             
+      EXIT CODE(0)                                                      
+      END                                                               
+                                                                        
+                                                                        
+/*===================================================================*/ 
+/* TEMPORARY DATASET ALLOCATION                                      */ 
+/*-------------------------------------------------------------------*/ 
+                                                                        
+    WHEN (&DSTYPE EQ 'TEMP') DO                                         
+      WRITE ' TEMPORARY DATASET'                                        
+      SET &STORCLAS = 'TMPORARY'                                        
+      EXIT CODE(0)                                                      
+      END                                                               
+                                                                        
+                                                                        
+/*===================================================================*/ 
+/* DEFAULT TO NULL SC                                                */ 
+/*-------------------------------------------------------------------*/ 
+   OTHERWISE                                                            
+      DO                                                                
+         SET &STORCLAS EQ ''    
+         EXIT CODE(0)           
+      END                       
+   END                          
+END                             
+
+
+    ACSNS.DFSMS.DCUF.ACS(STORGRP) - 01.11                   Columns 000
+ ===>                                                          Scroll =
+********************************* Top of Data *************************
+PROC &STORGRP                                                          
+/*-------------------------------------------------------------------*/
+/*                  S T O R A G E   G R O U P                        */
+/*                  =========================                        */
+/*    SELECTION ROUTINE FOR NEW DATA SET ALLOCATIONS                 */
+/*                                                                   */
+/*                  S T O R A G E   G R O U P                        */
+/*                  =========================                        */
+/*  DATE   RESP  DESCRIPTION OF CHANGE                      REQUEST  */
+/* ------  ----  ------------------------------------------ -------- */
+/*-------------------------------------------------------------------*/
+                                                                       
+SELECT                                                                 
+                                                                       
+/*===================================================================*/
+/* STORAGE GROUP ALLOCATION FOR TSO DATASETS                         */
+/*-------------------------------------------------------------------*/
+                                                                       
+    WHEN (&STORCLAS EQ 'TSO') DO                                       
+      WRITE ' TSO STORGROUP ASSIGNED'                                  
+      SET &STORGRP  = 'TSO'                                            
+      EXIT CODE(0)                                                     
+      END                                                              
+                                                                       
+/*===================================================================*/
+/* STORAGE GROUP ALLOCATION FOR TEMPORARY DATASETS                   */
+/*-------------------------------------------------------------------*/
+                                                                       
+    WHEN (&STORCLAS EQ 'TMPORARY') DO                                  
+      WRITE ' TEMPORARY DATASETS'                                      
+      SET &STORGRP  = 'TMPORARY'                                       
+      EXIT CODE(0)                                                     
+      END                                                              
+                                                                       
+/*===================================================================*/
+/* DEFAULT TO STRG SG                                                */
+/*-------------------------------------------------------------------*/
+    OTHERWISE                  
+         DO                    
+       SET &STORGRP EQ 'DEFLT' 
+       EXIT CODE(0)            
+    END                        
+ END                           
+END                            
+
+
+
