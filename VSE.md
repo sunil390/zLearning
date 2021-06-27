@@ -292,14 +292,12 @@ Entries on reader queue free and running.
  D RDR,FREE 
 
  MSG F2,DATA=CEMT P SHUT
-
  171 SHUT
-
  Z NET
 
  PEND - VSE/POWER Shutdown
 
- 1 ROD - Record On Demand
+ 0 ROD - Record On Demand
 
  1 Y
 
@@ -408,6 +406,30 @@ v net,inact,id=xxxx
 v net,act,id=xxx
 define telnetd,id=xxx
 
+
+
+
+
+
+
+
+zVSE 4.1
+----------
+
+ipl from zvseen.aws
+
+follow steps 4.2 onwards in Hands-On Lab: z/VSE Tape-less Installation 
+
+DB2 Install question.
+
+detach 581
+attach 0581    3480    D:\Z\ZVSE\zvsexbase.aws
+
+follow steps 5.1 onwards in Hands-On Lab: z/VSE Tape-less Installation
+
+Signon with POST and password as BASE
+
+follow steps 5.2 onwards in Hands-On Lab: z/VSE Tape-less Installation
 
 
 
