@@ -174,8 +174,8 @@ SYSDEF TD,RESETCNT
 SIR SMF=ON
 SIR SMF=OFF
 
-InterSkill Training
--------------------------
+InterSkill Training - z/VSE Infrastructure and System Operation
+---------------------------------------------------------------
 
 System Initialization
 
@@ -462,7 +462,6 @@ PGMPRDOS  LICENSED
 
 0100    3390    D:\Z\ZVSE\zvse1.cckd
 0101    3390    D:\Z\ZVSE\zvse2.cckd
-0102	3390	D:\Z\ZVSE\zvse41.cckd
 
 0581    3480    D:\Z\ZVSE\zvseen.aws
 0582    3480    D:\Z\ZVSE\zvsecobol.aws
@@ -473,7 +472,7 @@ PGMPRDOS  LICENSED
 
 ipl from zvseen.aws
 
-follow steps 4.2 onwards in Hands-On Lab: z/VSE Tape-less Installation 
+follow steps 4.2 onwards in Hands-On Lab: z/VSE Tape-less Installation  http://www.vmworkshop.org/docs/2016/vseinst.PDF
 
 DB2 Install question.
 
