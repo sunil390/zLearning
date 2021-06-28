@@ -1,8 +1,11 @@
 
 
-Hercules Setup
------------------
+VSE and z/VSE From Scratch
+--------------------------
 
+Internet Archive https://archive.org/details/VMESA240ADCDCD1 
+
+VSE ADCD
 https://www.betaarchive.com/forum/viewtopic.php?t=39613
 
 ```
@@ -29,8 +32,6 @@ PGMPRDOS  LICENSED
 0151    3390    SYSWK1.cckd sf=shadow/SYSWK1_*.shadow
 ```
 The readme file on the disc gave me some idea of how to boot everything up. The "Messages during VSE IPL" section goes over everything, and it says to enter "0 DELETE" to fix the "overlap on unexpired file" message. After that, the VTAM logon screen will appear. Also, the 2.4.0 ADCD images do not have TCP/IP.
-
-https://fsck.technology/software/IBM/z%20Install%20Media/IBM%20zVM%204.4.0%20%28ADCD%29/
 
 
 At first IPL on a new processor "OVERLAP ON UNEXPIRED FILE"
@@ -71,7 +72,7 @@ Default JCL Proc = $$JCL
 ```
 
 This system contains the following program products:
----------------------------------------------------
+
 ```
         PRODUCT                              NUMBER    VERSION
 ========================                    ========   =======
@@ -120,12 +121,12 @@ VSE/ESA 2.4 Installed Optional Products:
 ```
 
 MISSING PROGRAMS:
------------------
+
 TCP/IP for VSE/ESA  5686-A04 V1.3.0
 
 
 PREDEFINITIONS:
----------------
+
 Two ICCF Administrator ID's have been created in addition to the SYSA
 userid. They are SIE1 and P390. All administrator password's are the same
 as the userid. It is recommended that you change these passwords immediately
@@ -173,9 +174,11 @@ SYSDEF TD,RESETCNT
 SIR SMF=ON
 SIR SMF=OFF
 
+InterSkill Training
+-------------------------
 
 System Initialization
----------------------
+
 ```
 IJSYSRES.SYSLIB 
     -   $ASIPROC.PROC - Paremeters , JCL Procedures
@@ -310,11 +313,13 @@ Operator
 ```
 PRTY - Query and set partition priorities
 
+```
 When issued with no parameters, the PRTY command will return a message with the current priority order for static partitions and 
 dynamic partition classes. When issued with parameters, the PRTY command enables the operator to alter the priority order for one, some, or all partitions or classes.
 
 The partition priorities are listed in the order of lowest priority first and highest priority last. In this example, the VSE/POWER partition F1 has the highest priority, while the dynamic class Z partitions have the lowest priority.
 
+```
  PRTY F9,ABOVE,F4                                                              
  AR 0015 1Y63I  INVALID KEYWORD: ABOVE                                         
  AR 0015 1I40I  READY                                                           
@@ -336,11 +341,13 @@ PDISPLAY DYNC / D DYNC - display the currently active VSE/POWER dynamic class ta
 
 AUTOIPL
 
+```
 PDISPLAY A,PART, short form D A,PART, will display the current VSE/POWER active tasks associated with static or active dynamic partitions.
 
 PDISPLAY QP, short form D QP, will display the current status of the VSE/POWER queue, data, and account files. It is important to know when they may be close to full.
 
 The D BIGGEST command will display the largest entries on the VSE/POWER spool queues. By default, this command will display the sixteen largest spool entries
+```
 
 L LST,OPJOB2,43448 to purge your first chosen spool entry
 
@@ -416,6 +423,53 @@ define telnetd,id=xxx
 
 zVSE 4.1
 ----------
+
+https://fsck.technology/software/IBM/z%20Install%20Media/IBM%20zVSE%204.1.1/
+
+```
+#------------------------------------------------------------------- 
+# Configuration file for Hercules ESA/390 emulator
+#-------------------------------------------------------------------
+
+CPUSERIAL 071060
+CPUMODEL  7060
+MAINSIZE  512
+XPNDSIZE  0
+CNSLPORT  3270
+NUMCPU    1
+ARCHMODE  ESAME
+LOADPARM  É.T
+SYSEPOCH  1900
+TZOFFSET  -0000
+OSTAILOR  VSE
+DEVTMAX   0
+PGMPRDOS  LICENSED
+
+# ------------------------------------------------------------------ 
+#  Consoles
+# ------------------------------------------------------------------ 
+0200	3270
+0201	3270          
+0202	3270          
+0203	3270
+
+# ------------------------------------------------------------------
+# 0400.2 LCS -n 192.168.2.81 -m 02:00:5E:A8:02:11  192.168.2.44
+
+0400.2 LCS -n 192.168.2.22 -m 02:00:5E:A8:02:11  192.168.2.44
+
+# ------------------------------------------------------------------
+
+0100    3390    D:\Z\ZVSE\zvse1.cckd
+0101    3390    D:\Z\ZVSE\zvse2.cckd
+0102	3390	D:\Z\ZVSE\zvse41.cckd
+
+0581    3480    D:\Z\ZVSE\zvseen.aws
+0582    3480    D:\Z\ZVSE\zvsecobol.aws
+0583    3480    D:\Z\ZVSE\zvsexbase.aws
+0584    3480    D:\Z\ZVSE\zvsedb2.aws
+
+```
 
 ipl from zvseen.aws
 
