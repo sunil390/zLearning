@@ -5,6 +5,7 @@ Hercules Setup
 
 https://www.betaarchive.com/forum/viewtopic.php?t=39613
 
+'''
 CPUSERIAL 000111
 CPUMODEL  2064
 MAINSIZE  256
@@ -26,7 +27,7 @@ PGMPRDOS  LICENSED
 
 0150    3390    DOSRES.cckd sf=shadow/DOSRES_*.shadow
 0151    3390    SYSWK1.cckd sf=shadow/SYSWK1_*.shadow
-
+'''
 The readme file on the disc gave me some idea of how to boot everything up. The "Messages during VSE IPL" section goes over everything, and it says to enter "0 DELETE" to fix the "overlap on unexpired file" message. After that, the VTAM logon screen will appear. Also, the 2.4.0 ADCD images do not have TCP/IP.
 
 https://fsck.technology/software/IBM/z%20Install%20Media/IBM%20zVM%204.4.0%20%28ADCD%29/
@@ -45,7 +46,7 @@ This VSE/ESA system was built following the installation process defined
 in the VSE/ESA Version 2 Installation Manual (SC33-6704).
 
 The following replies have been made to the VSE/ESA installation process:
-
+'''
    Addr DOSRES     = 140 for FBA, 150 for CKD
    Addr SYSWK1     = 141 for FBA, 151 for CKD
    Environment     = B
@@ -55,11 +56,11 @@ The following replies have been made to the VSE/ESA installation process:
    Local 3270 Addr = 201
    Local 3270 Addr = 202
    FCB/UCB         = default
-
+'''
 
 The system uses the predefined environment B which includes:
 
-
+'''
 VSIZE = 250M
 No of Address Spaces = 12
 No of Static Partitions = 12
@@ -67,11 +68,11 @@ No of Dynamic Partition Classes = 4
 Supervisor Mode = ESA ($$A$SUPX)
 Default IPL Proc = $IPLESA
 Default JCL Proc = $$JCL
-
+'''
 
 This system contains the following program products:
 ---------------------------------------------------
-
+'''
         PRODUCT                              NUMBER    VERSION
 ========================                    ========   =======
 VSE/ESA Version 2.4                         5690-VSE
@@ -116,7 +117,7 @@ VSE/ESA 2.4 Installed Optional Products:
    QMF/VSE                                  5648-061     3.3.0
    VisualGen Host Services                  5648-078     1.1.0
    VisualLift for MVS, VM & VSE             5648-109     1.1.2
-
+'''
 
 MISSING PROGRAMS:
 -----------------
@@ -175,7 +176,7 @@ SIR SMF=OFF
 
 System Initialization
 ---------------------
-
+'''
 IJSYSRES.SYSLIB 
     -   $ASIPROC.PROC - Paremeters , JCL Procedures
     -   $IPLxxx.PROC - I/O Device, Page Datasets, Lock communication file, Supervisor parameters, Shared virtual area definitions
@@ -277,13 +278,14 @@ Loadparm
  ASSGN SYS002,DISK,VOL=SYSWK1,SHR           SYSTEM WORK FILE 2          
  ASSGN SYS003,DISK,VOL=SYSWK1,SHR           SYSTEM WORK FILE 3          
  ASSGN SYS004,DISK,VOL=SYSWK1,SHR           SYSTEM WORK FILE 4 
+'''
 
-
+'''
  r rdr,tcpip00 
 
  PRELEASE RDR,VTAMSTRT
  PRELEASE RDR,CICSICCF
-
+'''
 
  Shutdown
  -----------
@@ -305,6 +307,7 @@ Entries on reader queue free and running.
 Operator
 -------------
 
+'''
 PRTY - Query and set partition priorities
 
 When issued with no parameters, the PRTY command will return a message with the current priority order for static partitions and 
@@ -373,7 +376,7 @@ d pun,full=yes
  F1 0001        DUETIME=22:30 DUEDAY=(FRI) RERUN=YES                           
  F1 0001        SECN=AAAA QNUM=01771 T=04:45:22 TKN=00000299                   
  F1 0001        DE=01/07/2019 TE=04:45:22  
-
+'''
 
 The PDISPLAY command, short form D, can also be used with wildcards to display many VSE/POWER objects. For example, to display all jobs in the RDR queue whose jobname begins with PAUSE you would issue D RDR,PAUSE*, as shown here.
 
@@ -385,6 +388,7 @@ The PALTER command, short form A, can be used to alter attributes of a VSE/POWER
 CICS
 ------------
 
+'''
 MSG F2,DATA=CEMT I TAS command to display the currently active CICS tasks.
 
  to inquire on data sets whose name starts with I and that also have F as part of the file name. CEMT I FILE(I*F*) will be the CICS command to be issued.
@@ -392,12 +396,14 @@ MSG F2,DATA=CEMT I TAS command to display the currently active CICS tasks.
 MSG F2,DATA=CEMT I FILE(I*F*) 
 
 MSG F2,DATA=CEMT P SHUT
+'''
 
 VTAM/TCPIP
 -------------
 
 VTAM DISPLAY NET command, short form D, will be used to display VTAM status information, followed by the TCP/IP QUERY TELNETDS command, short form Q, to display TCP/IP status information.
 
+'''
 QUERY ACTIVE,TYPE=TELNETD
 
 delete telnetd,id=xxx
@@ -405,11 +411,7 @@ v net,inact,id=xxxx
 
 v net,act,id=xxx
 define telnetd,id=xxx
-
-
-
-
-
+'''
 
 
 
@@ -422,14 +424,13 @@ follow steps 4.2 onwards in Hands-On Lab: z/VSE Tape-less Installation
 
 DB2 Install question.
 
+'''
 detach 581
 attach 0581    3480    D:\Z\ZVSE\zvsexbase.aws
-
+'''
 follow steps 5.1 onwards in Hands-On Lab: z/VSE Tape-less Installation
 
 Signon with POST and password as BASE
 
 follow steps 5.2 onwards in Hands-On Lab: z/VSE Tape-less Installation
-
-
 
