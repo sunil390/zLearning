@@ -1,5 +1,4 @@
 
-
 VSE and z/VSE From Scratch
 --------------------------
 
@@ -494,7 +493,7 @@ Roger Bowler’s VSE survival guide for z/OS systems programmers
 http://www.rogerbowler.fr/vseguide.htm
 
 
-VSE console commands
+**VSE console commands**
 D A   Display active jobs
 MAP   Display partitions
 VOLUME Display disk and tape units
@@ -508,7 +507,7 @@ R RDR,jobname Release held job
 R RDR,PAUSEBG Obtain a command prompt
 L RDR,jobname[,nnnn] Delete job from reader queue where nnnn is job number (take care not to enter L RDR,ALL)
 
--ICCF Editor 
+**ICCF Editor** 
 
 F6    Find 
 F7    Scroll back
@@ -524,7 +523,7 @@ N n Scroll forward n lines
 U n Scroll back n lines
 To recall the last command, You can't. But you can prefix a command by & to make it stay in the entry area.
 
-Line commands
+**Line commands**
 
 An    Insert n blank lines
 Dn    Delete n lines
@@ -533,7 +532,7 @@ Mn    Move n lines to scratchpad
 I     Insert scratchpad after this line
 "n    Duplicate this line n times
 
-VSE JCL statements
+**VSE JCL statements**
 
 POWER job card
 
@@ -555,7 +554,7 @@ Issue a POWER command from JCL
 POWER end of job card
 * $$ EOJ
 
-Clearing the account file
+**Clearing the account file**
 
 When the account file is full, the system will grind to a halt with one or more of the following messages on the console or the user's terminal:
 
@@ -566,7 +565,7 @@ Issuing the PACCOUNT command at the system console will delete the account file 
 J DEL
 Clears the account file (J is the abbreviation for PACCOUNT)
 
-VSE timezone settings for Central European Summer Time
+**VSE timezone settings for Central European Summer Time**
 
 To have VSE automatically select the correct timezone at IPL, include the following statements in member $IPLESA.PROC of library IJSYSRS.SYSLIB and remove the SET ZONE statement (if any) from your IPL procedure.
 
@@ -581,27 +580,14 @@ SET ZONEBDY,DATE=10/30/2011,CLOCK=03/00/00,CET
 SET ZONEBDY,DATE=03/25/2012,CLOCK=02/00/00,CES   
 SET ZONEBDY,DATE=10/28/2012,CLOCK=03/00/00,CET
 
-z/VM timezone settings for Central European Summer Time
-Code these statements in SYSTEM CONFIG on the MAINT CF1 minidisk to have z/VM automatically adjust to European Summer Time:
 
-   Timezone_Definition CET East 01.00.00  
-   Timezone_Definition CES East 02.00.00  
-   Timezone_boundary on 2009-03-29 at 02:00:00 to CES                  
-   Timezone_boundary on 2009-10-25 at 03:00:00 to CET                  
-   Timezone_boundary on 2010-03-28 at 02:00:00 to CES                  
-   Timezone_boundary on 2010-10-31 at 03:00:00 to CET                  
-   Timezone_boundary on 2011-03-27 at 02:00:00 to CES                  
-   Timezone_boundary on 2011-10-30 at 03:00:00 to CET                  
-   Timezone_boundary on 2012-03-25 at 02:00:00 to CES                  
-   Timezone_boundary on 2012-10-28 at 03:00:00 to CET  
-
-Starting jobs automatically at IPL
+**Starting jobs automatically at IPL**
 
 Submit the job with DISP=L on the POWER job card
 Edit member SKUSERBG in ICCF library 59, adding the following statement just before the /+ card: // PWR PRELEASE RDR,jobname
 Run the job COPYUBG from member SKPREPC2 in ICCF library 59 to copy SKUSERBG to USERBG.PROC in library IJSYSRS.SYSLIB
 
-VSE catalogs
+**VSE catalogs**
 
 Catalogs have two names: a 7-character name called the "catalog name", and a 44-character name called the "catalog id". The "catalog name" is the name you specify on the CAT= parameter of the DLBL statement when you refer to a file cataloged in that catalog.
 
@@ -614,18 +600,18 @@ By defining a DLBL with name IJSYSUC, you can do the equivalent of a JOBCAT stat
 
 // DLBL IJSYSUC,'VSESP.USER.CATALOG',,VSAM
 
-VSE VTAM mode tables
+**VSE VTAM mode tables**
 ISTINCLM.Z and ISTINCLM.PHASE in library PRD1.BASE
 IESINCLM.A and IESINCLM.PHASE in library IJSYSRS.SYSLIB
 
-VSE VTAM USS tables
+**VSE VTAM USS tables**
 The VTAM USS table is built from source members VTMUSSCD.A, VTMUSSTZ.A, VTMUSSTX.A in PRD2.CONFIG. The load modules are VTMUSSTR.PHASE (for SNA terminals) and VTMUSSTB.PHASE (for non-SNA terminals) in PRD2.CONFIG. The default tables are in IJSYSRS.SYSLIB.
 To rebuild the tables see member SKVTMUSS in ICCF library 59.
 To reload the new table:
 F NET,TABLE,OPTION=LOAD,NEWTAB=VTMUSSTB
 (note: unlike MVS, it's always F NET, regardless of the VTAM jobname)
 
-VSE VTAM buffer trace
+**VSE VTAM buffer trace**
 F NET,TRACE,TYPE=BUF,ID=luname (note: unlike MVS, it's always F NET, regardless of the VTAM jobname)
 Run test
 F NET,NOTRACE,TYPE=BUF,ID=luname
@@ -641,12 +627,12 @@ VTAM.TRACE.FILE
 120 delete
 The VTAM SYSLST output can be viewed using ICCF administrator option 326 (Operations - Manage Batch Queues - In-Creation Queue)
 
-VSE CICS message log
+**VSE CICS message log**
 The CICS message log (MSGUSR) is written to queue CSMT, which is redirected to queue IESL, and processed by transaction IESX which writes the messages into the CICS SYSLST. You can view the messages while CICS is running using ICCF administrator option 326 (Operations - Manage Batch Queues - In-Creation Queue).
 
 Alternatively you can use CEMT I TDQ(IESL) and reset the trigger level to prevent the messages being written to SYSLST, then use the CEMS transaction to create a report from the messages which have accumulated on queue IESL. The report will be written to the LST queue under jobname IESL (note: you must enter a title, or the report will not be written).
 
-VSE PC File Transfer
+**VSE PC File Transfer**
 If the PC Host Transfer File does not yet exist, run the job IWSTRFL (in ICCF library 59 member SKIWSTF) to define the VSAM file PC.HOST.TRANSFER.FILE and to define it as file INWFILE in the standard labels. Then use this CEDA command to define the file to CICS:
      DEF FILE(INWFILE) GROUP(FCTSP)
          DESC(PC HOST TRANSFER FILE)
