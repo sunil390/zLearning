@@ -486,3 +486,188 @@ Signon with POST and password as BASE
 
 follow steps 5.2 onwards in Hands-On Lab: z/VSE Tape-less Installation
 
+
+
+Roger Bowler’s VSE survival guide for z/OS systems programmers
+--------------------------------------------------------------
+
+http://www.rogerbowler.fr/vseguide.htm
+
+
+VSE console commands
+D A   Display active jobs
+MAP   Display partitions
+VOLUME Display disk and tape units
+D RDR Display jobs in reader queue
+D LST Display jobs in print queue
+D PUN Display jobs in print queue
+D xxx,prefix* (xxx=RDR/LST/PUN) Display jobs beginning with prefix
+A RDR,jobname,DISP=H  Hold job in reader queue
+A RDR,jobname,CLASS=A Change class of job in reader queue
+R RDR,jobname Release held job
+R RDR,PAUSEBG Obtain a command prompt
+L RDR,jobname[,nnnn] Delete job from reader queue where nnnn is job number (take care not to enter L RDR,ALL)
+
+-ICCF Editor 
+
+F6    Find 
+F7    Scroll back
+F8    Scroll forward
+F9    Top of file
+F10   Scroll left
+F11   Scroll right
+F12   End of file
+L string  Find next
+LU string Find previous
+C/old/new/* G Global change
+N n Scroll forward n lines
+U n Scroll back n lines
+To recall the last command, You can't. But you can prefix a command by & to make it stay in the entry area.
+
+Line commands
+
+An    Insert n blank lines
+Dn    Delete n lines
+Cn    Copy n lines to scratchpad
+Mn    Move n lines to scratchpad
+I     Insert scratchpad after this line
+"n    Duplicate this line n times
+
+VSE JCL statements
+
+POWER job card
+
+* $$ JOB JNM=jobname,CLASS=0,DISP=L
+DISP=D means run and then delete from reader queue
+DISP=H means hold in reader queue without running
+DISP=K means run and then keep in reader queue for rerun
+DISP=L means leave in reader queue until released, then keep for rerun
+
+POWER list card
+* $$ LST DISP=D,CLASS=A,DEST=(,vmuserid)
+
+LIBDEF card is analogous to MVS STEPLIB
+// LIBDEF *,SEARCH=(PRD1.BASE,PRD2.CONFIG)
+
+Issue a POWER command from JCL
+// PWR PRELEASE RDR,jobname
+
+POWER end of job card
+* $$ EOJ
+
+Clearing the account file
+
+When the account file is full, the system will grind to a halt with one or more of the following messages on the console or the user's terminal:
+
+1Q32A NO MORE ACCOUNT FILE (IJAFILE) SPACE FOR SAS ,GSP
+UNABLE TO CONTINUE - SPOOLING SYSTEM IS SHORT ON SPOOL OR ACCOUNT FILE SPACE.
+Issuing the PACCOUNT command at the system console will delete the account file data and allow the system to continue:
+
+J DEL
+Clears the account file (J is the abbreviation for PACCOUNT)
+
+VSE timezone settings for Central European Summer Time
+
+To have VSE automatically select the correct timezone at IPL, include the following statements in member $IPLESA.PROC of library IJSYSRS.SYSLIB and remove the SET ZONE statement (if any) from your IPL procedure.
+
+SET ZONEDEF,ZONE=EAST/01/00,CET
+SET ZONEDEF,ZONE=EAST/02/00,CES                  
+SET ZONEBDY,DATE=03/29/2009,CLOCK=02/00/00,CES   
+SET ZONEBDY,DATE=10/25/2009,CLOCK=03/00/00,CET   
+SET ZONEBDY,DATE=03/28/2010,CLOCK=02/00/00,CES   
+SET ZONEBDY,DATE=10/31/2010,CLOCK=03/00/00,CET   
+SET ZONEBDY,DATE=03/27/2011,CLOCK=02/00/00,CES   
+SET ZONEBDY,DATE=10/30/2011,CLOCK=03/00/00,CET   
+SET ZONEBDY,DATE=03/25/2012,CLOCK=02/00/00,CES   
+SET ZONEBDY,DATE=10/28/2012,CLOCK=03/00/00,CET
+
+z/VM timezone settings for Central European Summer Time
+Code these statements in SYSTEM CONFIG on the MAINT CF1 minidisk to have z/VM automatically adjust to European Summer Time:
+
+   Timezone_Definition CET East 01.00.00  
+   Timezone_Definition CES East 02.00.00  
+   Timezone_boundary on 2009-03-29 at 02:00:00 to CES                  
+   Timezone_boundary on 2009-10-25 at 03:00:00 to CET                  
+   Timezone_boundary on 2010-03-28 at 02:00:00 to CES                  
+   Timezone_boundary on 2010-10-31 at 03:00:00 to CET                  
+   Timezone_boundary on 2011-03-27 at 02:00:00 to CES                  
+   Timezone_boundary on 2011-10-30 at 03:00:00 to CET                  
+   Timezone_boundary on 2012-03-25 at 02:00:00 to CES                  
+   Timezone_boundary on 2012-10-28 at 03:00:00 to CET  
+
+Starting jobs automatically at IPL
+
+Submit the job with DISP=L on the POWER job card
+Edit member SKUSERBG in ICCF library 59, adding the following statement just before the /+ card: // PWR PRELEASE RDR,jobname
+Run the job COPYUBG from member SKPREPC2 in ICCF library 59 to copy SKUSERBG to USERBG.PROC in library IJSYSRS.SYSLIB
+
+VSE catalogs
+
+Catalogs have two names: a 7-character name called the "catalog name", and a 44-character name called the "catalog id". The "catalog name" is the name you specify on the CAT= parameter of the DLBL statement when you refer to a file cataloged in that catalog.
+
+ICCF path 225 (Resource Definition - File and Catalog Management - Display or Process a Catalog, Space) will give you a list of the catalogs defined on your system, which typically might look like this:
+
+CATALOG ID                                       CATALOG NAME
+VSAM.MASTER.CATALOG                                IJSYSCT   
+VSESP.USER.CATALOG                                 VSESPUC   
+By defining a DLBL with name IJSYSUC, you can do the equivalent of a JOBCAT statement in OS/390:
+
+// DLBL IJSYSUC,'VSESP.USER.CATALOG',,VSAM
+
+VSE VTAM mode tables
+ISTINCLM.Z and ISTINCLM.PHASE in library PRD1.BASE
+IESINCLM.A and IESINCLM.PHASE in library IJSYSRS.SYSLIB
+
+VSE VTAM USS tables
+The VTAM USS table is built from source members VTMUSSCD.A, VTMUSSTZ.A, VTMUSSTX.A in PRD2.CONFIG. The load modules are VTMUSSTR.PHASE (for SNA terminals) and VTMUSSTB.PHASE (for non-SNA terminals) in PRD2.CONFIG. The default tables are in IJSYSRS.SYSLIB.
+To rebuild the tables see member SKVTMUSS in ICCF library 59.
+To reload the new table:
+F NET,TABLE,OPTION=LOAD,NEWTAB=VTMUSSTB
+(note: unlike MVS, it's always F NET, regardless of the VTAM jobname)
+
+VSE VTAM buffer trace
+F NET,TRACE,TYPE=BUF,ID=luname (note: unlike MVS, it's always F NET, regardless of the VTAM jobname)
+Run test
+F NET,NOTRACE,TYPE=BUF,ID=luname
+F NET,SUBTASK,ID=TPRINT,FUNCTION=ATTACH
+F3 0120 IST907A SNAPSHOT MODE TPRINT? ENTER Y OR N
+120 n
+F3 0120 IST905A ENTER TRACE PRINT OPTIONS OR 'CANCEL'
+120 print buf=telnlu03
+Default options are: BUF=ALL,CLEAR=NO,IO=ALL,LINE=ALL,TNST=ALL,VIT,FORMAT=YES
+You can also specify: INTERVAL=(hh:mm:ss,hh:mm:ss)
+F3 0120 4933D EQUAL FILE ID IN VTOC TRFILE SYS001=261 VSEWK1
+VTAM.TRACE.FILE
+120 delete
+The VTAM SYSLST output can be viewed using ICCF administrator option 326 (Operations - Manage Batch Queues - In-Creation Queue)
+
+VSE CICS message log
+The CICS message log (MSGUSR) is written to queue CSMT, which is redirected to queue IESL, and processed by transaction IESX which writes the messages into the CICS SYSLST. You can view the messages while CICS is running using ICCF administrator option 326 (Operations - Manage Batch Queues - In-Creation Queue).
+
+Alternatively you can use CEMT I TDQ(IESL) and reset the trigger level to prevent the messages being written to SYSLST, then use the CEMS transaction to create a report from the messages which have accumulated on queue IESL. The report will be written to the LST queue under jobname IESL (note: you must enter a title, or the report will not be written).
+
+VSE PC File Transfer
+If the PC Host Transfer File does not yet exist, run the job IWSTRFL (in ICCF library 59 member SKIWSTF) to define the VSAM file PC.HOST.TRANSFER.FILE and to define it as file INWFILE in the standard labels. Then use this CEDA command to define the file to CICS:
+     DEF FILE(INWFILE) GROUP(FCTSP)
+         DESC(PC HOST TRANSFER FILE)
+         STATUS(ENABLED) OPENTIME(STARTUP) RECORDFORMAT(V)
+         ADD(YES) BROWSE(YES) DELETE(YES) READ(YES) UPDATE(YES)
+     
+Make sure your terminal is using a logmode with the 3270 Query bit set. If using TCP/IP, the logmode is specified in the DEFINE TELNETD statement. This is what worked for me:
+     DEFINE TEL,ID=LU,MENU=SYSPMENU,TERM=TELNLU,CO=8,PORT=23, -            
+     LOGMODE=NSX32702,LOGMODE3=NSX32703,LOGMODE4=NSX32704,LOGMODE5=NSX32705
+     
+You also need to get CICS to use a TYPETERM which contains the EXTENDEDDS(YES) parameter. I used TYPETERM(VSE3278Q) in GROUP(VSETYPE). TYPETERM(VSE3278Q) is referenced by the autoinstall definition TERM(D910) in GROUP(VSETERM). It won't work if CICS autoinstall chooses the definition TERM(D901) which references TYPETERM(VSE32782).
+Use the CICS transaction INWQ to determine whether you have correctly picked up the logmode with the query bit. INWQ will respond with the message xxxx=DFT if the query bit is set, or xxxx=CUT if not (where xxxx is your terminal id).
+Make sure the DFT setting is enabled in your 3270 emulator's file transfer options.
+These are the options I used to upload an EBCDIC jobstream from the PC into the host transfer file:
+     send jclfile.bin sysajob ( file=htf lrecl=80 binary )
+     
+The transferred file is then accessible using ICCF option 3 (Operations) then 8 (Personal Computer Move Utilities) which gives you the option of moving the file into an ICCF library.
+Alternatively, you can submit the job directly into the POWER reader queue. These are the options I used:
+     send jclfile.bin ( file=rdr lrecl=80 binary nouc )
+     
+You can also transfer files to and from VSE libraries, VSAM files, CICS TS queues, or the POWER LST or PUN queue. See the manual "VSE/ESA Programming and Workstation Guide" for details.
+Note: Even successful transfers seem to end with the message:
+     INW0002I  Transmission error. Module=INWPGET1 RC=0200
+     
