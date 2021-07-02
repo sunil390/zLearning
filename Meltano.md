@@ -1,5 +1,4 @@
-
-** Local installation **
+*** Local installation ***
 
 If you're running Linux or macOS and have Python 3.6, 3.7 or 3.8 installed, we recommend installing Meltano into a dedicated Python virtual environment inside the directory that will hold your Meltano projects.
 
