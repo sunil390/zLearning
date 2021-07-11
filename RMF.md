@@ -41,7 +41,7 @@ MAXSESSIONS_HTTP(20)
 HTTP_PORT(8803)           
 HTTP_ALLOW(*)             
 HTTP_NOAUTH(*)            
-
+HTTPS(NO)
 ```
 
 
