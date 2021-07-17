@@ -42,6 +42,11 @@ HTTP_PORT(8803)
 HTTP_ALLOW(*)             
 HTTP_NOAUTH(*)            
 HTTPS(NO)
+
+http://192.168.2.44:8803/
+
+ PERMIT *.*     CLASS(FACILITY) ID(GPMSERVE) ACC(READ)    
+ SETROPTS RACLIST(FACILITY) REFRESH                       
 ```
 
 

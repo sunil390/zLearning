@@ -6,6 +6,13 @@
 		{
 			"name": "zOS-Client-Web-Enablement-Toolkit",
 			"path": "..\\..\\Github\\zOS-Client-Web-Enablement-Toolkit"
+		},
+		{
+			"name": "zgitops",
+			"path": "..\\zgitops"
+		},
+		{
+			"path": "..\\z_ansible_collections_samples"
 		}
 	],
 	"settings": {}
