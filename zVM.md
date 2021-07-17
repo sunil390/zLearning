@@ -1,0 +1,18 @@
+
+**zVSE Directory**
+-----------------
+
+XEDIT ZVSE1 DIRECT
+
+USER ZVSE1 ZVSE1 512 8G G     
+OPTION MAINTCCW QUICKDSP      
+MACHINE ESA 1                 
+CPU 0 CPUID 0 NODEDICATE      
+IPL 24A0 PARM AUTOLOG         
+ACCOUNT 123 SYSPROG           
+  DEDICATE 100 100            
+  DEDICATE 101 101            
+  CONSOLE 200 3270 T OPERATOR 
+  SPECIAL 201 3270            
+
+
