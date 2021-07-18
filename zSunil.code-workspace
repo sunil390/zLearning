@@ -13,6 +13,10 @@
 		},
 		{
 			"path": "..\\z_ansible_collections_samples"
+		},
+		{
+			"name": "zansible",
+			"path": "..\\zansible"
 		}
 	],
 	"settings": {}
