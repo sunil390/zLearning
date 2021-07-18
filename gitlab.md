@@ -1,4 +1,3 @@
-
 `````
 1. The gitlab project zgitlab was created
 
@@ -46,8 +45,15 @@ deploy1:
   script:
     - echo "Do your deploy here"
 
-5. Upon commit, pipeline starts, clones the repo to gitlab-runner@zgitlab:~/builds/pfz1t9M5/0/sunil390/zansible 
+5. Upon commit, pipeline starts, clones the repo to gitlab-runner@zgitlab:~/builds/pfz1t9M5/0/sunil390/zansible , 
+      - pfz1t9M5 is the Name of the Runner.
+      - sunil390 is the Gitlab User
+      - zansible is the project name
+      - builds is the default folder in gitlab-runner home folder.
+      - 0 ? 
 
-6. the ansible-playbook command is executed from the repo home location.
+6. the ansible-playbook command is executed from the repo home location. This is awesome! no cloning or cd required...
+
+
 
 `````
