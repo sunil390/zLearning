@@ -10,7 +10,8 @@ sudo passwd gitlab-runner
 
 sudo gitlab-runner register
 
-Ansible User Install
+
+Ansible User Install ( Currently Ansible 2.9.6 installed through "sudo apt install ansible" alone is working )
 --------------------
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py --user
@@ -24,7 +25,10 @@ Ansible Global Install from sunil390
 sudo python3 get-pip.py
 sudo python3 -m pip install ansible
 
-From gitlab-runner id
+Further testing required to see why ansible installed using pip is not working ...
+----------------------------------------------------
+
+After installing ansible 2.9.6 From gitlab-runner id install the IBM Collections.
 ansible-galaxy collection install ibm.ibm_zos_core
 
 ansible-galaxy collection install ibm.ibm_zosmf
@@ -38,15 +42,6 @@ gitlab-runner@zgitlab:~$ git clone http://oauth2:PCrB672urixrzwXJy62c@gitlab.ace
 ssh issue
  PERMIT BPX.POE CLASS(FACILITY) ID(IBMUSER) ACCESS(UPDATE)   
  SETROPTS RACLIST(FACILITY) REFRESH                          
-
-gitlab-runner@zgitlab:~$ ssh sysprg1@znitro.hercules.com
-The authenticity of host 'znitro.hercules.com (192.168.2.44)' can't be established.
-ECDSA key fingerprint is SHA256:1kdaY40VIRR9rHI3aTj5B30AX36mHrxsX2iTdRF3ohU.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added 'znitro.hercules.com,192.168.2.44' (ECDSA) to the list of known hosts.
-sysprg1@znitro.hercules.com's password:
-$ pwd
-/home/SYSPRG1
 
 1. Generate the Key
 
@@ -96,24 +91,10 @@ and check to make sure that only the key(s) you wanted were added.
 
 3. Run the Playbook.
 
+/home/gitlab-runner/zansible> ansible-playbook -i "znitro.hercules.com," host_setup.yaml -u sysprg1 -vvv
+/home/gitlab-runner/zansible> ansible-playbook -i inventory.yml console_command.yaml
 
-SDSF Access.
 
-RDEFINE SDSF *.*     UACC(NONE) OWNER(SYS1)           
-PERMIT *.*     CLASS(SDSF) ID(SYSPRG1) ACCESS(READ)   
-SETROPTS RACLIST(SDSF) REFRESH                        
-
-ZOAU
-
-pcon -r
-opercmd "d a,l"
-jls
-ddls
-pjdd
-mls
-dls
-
-pip install jmespath
 
 
 

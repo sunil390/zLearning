@@ -14,12 +14,12 @@ export ZOAU_HOME=/usr/lpp/IBM/zoautil
 export PATH=${ZOAU_HOME}/bin:$PATH
 export LIBPATH=${ZOAU_HOME}/lib:${LIBPATH}
 
-2. Create a virtual environment by using the following command:
+2. Create a virtual environment by using the following command: This did not work! 
 
-python3 -m venv env  --> Worked 
+python3 -m venv env  --> Worked , Deleted the env folder.
 source env/bin/activate  --> Not found ?
 
-3. Set the .profile
+3. Set the .profile (Root file system must be in R/W mode else .profile will open in view mode)
 
     /home/SYSPRG1/.profile                                             
 ******************************************************* Top of Data ***
@@ -42,9 +42,28 @@ export LIBPATH=${ZOAU_HOME}/lib:${LIBPATH}
 
 logout and login to set the .profile
 
+SDSF Access.
+
+RDEFINE SDSF *.*     UACC(NONE) OWNER(SYS1)           
+PERMIT *.*     CLASS(SDSF) ID(SYSPRG1) ACCESS(READ)   
+SETROPTS RACLIST(SDSF) REFRESH                        
+
+ZOAU
+
+pcon -r
+opercmd "d a,l"
+jls
+ddls
+pjdd
+mls
+dls
+
+pip install jmespath
+
+
 4. from home pip3 install /usr/lpp/IBM/zoautil/zoautil_py-1.1.0.tar.gz
 
-failed for CEE.SCEEBND2
+failed for 3 Datasets, Created Aliases.
 
 //IDCAMSJ JOB  CLASS=A,MSGCLASS=A,MSGLEVEL=(1,1), 
 //        NOTIFY=&SYSUID                          
