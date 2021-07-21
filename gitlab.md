@@ -58,4 +58,9 @@ If you already has a repository and just changed the way you do authentication t
 
 git remote set-url origin http://oauth2:iGNMAymWeNqhztnqbLeT@gitlab.acer.com/sunil390/zansible.git
 
+Ansible git clone
+https://opensource.com/article/19/11/how-host-github-gitlab-ansible
+
+
+
 `````
