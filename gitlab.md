@@ -54,6 +54,8 @@ deploy1:
 
 6. the ansible-playbook command is executed from the repo home location. This is awesome! no cloning or cd required...
 
+If you already has a repository and just changed the way you do authentication to MFA, u can change your remote origin HTTP URI to use your new api token as follows:
 
+git remote set-url origin http://oauth2:iGNMAymWeNqhztnqbLeT@gitlab.acer.com/sunil390/zansible.git
 
 `````
