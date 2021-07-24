@@ -5,9 +5,9 @@
 1. Run REXX in a JCL and pass the Messages as SYSTSIN
 2. REXX receives the multiline arguments and calls an http node in node-red
 3. The message arrival triggers 3 actions in node-red
-    3.1 Send the message to Alexa
-    3.2 Play an Audio in the Laptop
-    3.3 Post the message in a MS Teams channel using a webhook 
+    - 3.1 Send the message to Alexa
+    - 3.2 Play an Audio in the Laptop
+    - 3.3 Post the message in a MS Teams channel using a webhook 
 
 ### JCL
 
