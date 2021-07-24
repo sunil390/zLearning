@@ -50,4 +50,13 @@ deploy1:
 
 6. the ansible-playbook command is executed from the repo home location.
 
+Pushing Existing repo
+
+cd C:\Users\zsuni\GitLab\zansible>
+git remote rename origin old-origin
+git remote add origin http://gitlab.znitro.com/mainframe/zansible.git
+git push -u origin --all
+git push -u origin --tags
+
+
 `````
