@@ -30,7 +30,7 @@
 
 ### REXX Code NODEREDB to be stored in the SYSEXEC Library.
 
-```rexx
+```c++
 /* REXX */                                                             
 arg Messages                                                           
 /* Server URI (just protocol and host really) */                       
