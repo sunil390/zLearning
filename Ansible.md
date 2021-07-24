@@ -35,9 +35,11 @@ ansible-galaxy collection install ibm.ibm_zosmf
 
 ansible-galaxy collection install ibm.ibm_zos_zosmf
 
-Created  api token 'PCrB672urixrzwXJy62c' in gitlab  
+Created  api token 'PCrB672urixrzwXJy62c' in zgitlab 
+jJrK13zf_RMwBGTRKqPk - gitlab 
 
-gitlab-runner@zgitlab:~$ git clone http://oauth2:PCrB672urixrzwXJy62c@gitlab.acer.com/sunil390/zansible.git
+gitlab-runner@zgitlab:~$ git clone http://oauth2:jJrK13zf_RMwBGTRKqPk@gitlab.znitro.com/mainframe/zansible.git
+
 
 ssh issue
  PERMIT BPX.POE CLASS(FACILITY) ID(IBMUSER) ACCESS(UPDATE)   
