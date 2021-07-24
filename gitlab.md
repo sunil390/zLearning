@@ -1,4 +1,3 @@
-
 `````
 1. The gitlab project zgitlab was created
 
@@ -46,9 +45,21 @@ deploy1:
   script:
     - echo "Do your deploy here"
 
-5. Upon commit, pipeline starts, clones the repo to gitlab-runner@zgitlab:~/builds/pfz1t9M5/0/sunil390/zansible 
+5. Upon commit, pipeline starts, clones the repo to gitlab-runner@zgitlab:~/builds/pfz1t9M5/0/sunil390/zansible , 
+      - pfz1t9M5 is the Name of the Runner.
+      - sunil390 is the Gitlab User
+      - zansible is the project name
+      - builds is the default folder in gitlab-runner home folder.
+      - 0 ? 
 
-6. the ansible-playbook command is executed from the repo home location.
+6. the ansible-playbook command is executed from the repo home location. This is awesome! no cloning or cd required...
+
+If you already has a repository and just changed the way you do authentication to MFA, u can change your remote origin HTTP URI to use your new api token as follows:
+
+git remote set-url origin http://oauth2:iGNMAymWeNqhztnqbLeT@gitlab.acer.com/sunil390/zansible.git
+
+Ansible git clone
+https://opensource.com/article/19/11/how-host-github-gitlab-ansible
 
 Pushing Existing repo
 
@@ -57,6 +68,9 @@ git remote rename origin old-origin
 git remote add origin http://gitlab.znitro.com/mainframe/zansible.git
 git push -u origin --all
 git push -u origin --tags
+
+
+`````
 
 
 `````
