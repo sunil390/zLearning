@@ -76,6 +76,14 @@ npm install -g @zowe/cli@zowe-v1-lts
 
 zowe plugins install @zowe/secure-credential-store-for-zowe-cli@zowe-v1-lts
 
+zowe plugins install @zowe/cics-for-zowe-cli@zowe-v1-lts @zowe/db2-for-zowe-cli@zowe-v1-lts @zowe/ims-for-zowe-cli@zowe-v1-lts @zowe/mq-for-zowe-cli@zowe-v1-lts @zowe/zos-ftp-for-zowe-cli@zowe-v1-lts
+
+cics-success
+db2-error
+ims-success
+mq-success
+ftp-success
+
 zowe --help
 ```
 
