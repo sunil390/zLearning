@@ -97,6 +97,9 @@ Will do above later...
 ```shell
 zowe  profiles create zosmf-profile zNitro --host 192.168.2.44 --port 443 --user sysprg1 --password sysprg1 --reject-unauthorized false
 
-zowe  zos-jobs list jobs --zosmf-profile znitro
+zowe  zos-jobs list jobs --zosmf-profile zNitro  (zowe profiles are case sensitive)
 
 ```
+### Gitlab Ansible
+
+zowe commandline scripts can be directly called from gitlab-ci.yml
