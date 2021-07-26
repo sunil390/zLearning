@@ -24,3 +24,33 @@ TSU03099            SYSPRG1 ACTIVE
 TSU03095            SYSPRG1 ACTIVE
 
 ```
+
+## zowe setup in Ubuntu 20.04.2
+
+<https://docs.zowe.org/stable/user-guide/cli-installcli/#installing-zowe-cli-from-an-online-registry>
+
+### setup nodejs and npm
+
+```shell
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+sunil390@gitlab:~$ node --version
+v14.17.2
+
+sunil390@gitlab:~$ npm --version
+6.14.13
+```
+
+### zowe install
+Secure credential store is pending...
+<https://github.com/zowe/zowe-cli-scs-plugin/blob/master/README.md#software-requirements>
+
+```
+npm install -g @zowe/cli@zowe-v1-lts
+
+EACCESS Errors
+
+<https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally>
+
+...
