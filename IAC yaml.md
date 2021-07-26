@@ -1,4 +1,3 @@
-
 # Infrastructure as a Code - Design thoughts 
 
 ## Using yaml as the Declarive infrastruture Staring point.
@@ -8,7 +7,7 @@
 
 2. Review this reference structurte created for DCUF SID
 
-
+<https://gitlab.com/mainframe-services/zlearning/-/blob/main/Config.yaml>
 
 
 ## Validating the Code
