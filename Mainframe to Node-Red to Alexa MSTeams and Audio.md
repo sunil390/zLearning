@@ -242,3 +242,17 @@ node-red admin install node-red-contrib-alexa-remote2-applestrudel
 3. Configure the Alexa Node by logging on to the url suggested during initialization.
 
 4. Replace the webhook url in http node to point to your channel.
+
+### BBC Micro:bit Integration
+
+<https://funprojects.blog/2020/02/03/microbits-and-node-red/>
+
+1. add node-red-node-serialport to node-red
+2. Locate Ports(COM and LPT) in device Manager and get the USB serial device name.
+3. Add Serial Out node-  select the USB port name, say com3
+4. BaudRate 115200, DataBits 8, Parity none and StopBit 1
+5. Add a function node 
+``json
+msg.payload =  "$";
+return msg;
+``
