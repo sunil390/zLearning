@@ -8,7 +8,41 @@
 ## Software
 
 1. Nodered 2.0.5
-2. Installed sudo pip3 install bluezero  https://ukbaz.github.io/howto/ubit_workshop.html  
+2. MakeCode - to be downloaded to Microbit
+```py
+def on_bluetooth_connected():
+    basic.show_leds("""
+        . # # # .
+                # . . . .
+                # . . . .
+                # . . . .
+                . # # # .
+    """)
+bluetooth.on_bluetooth_connected(on_bluetooth_connected)
+
+def on_bluetooth_disconnected():
+    basic.show_leds("""
+        # # # . .
+                # . . # .
+                # . . # .
+                # . . # .
+                # # # . .
+    """)
+bluetooth.on_bluetooth_disconnected(on_bluetooth_disconnected)
+
+basic.show_leds("""
+    # . . # #
+        # . . # #
+        # # # . .
+        # . # . .
+        # # # . .
+""")
+bluetooth.start_accelerometer_service()
+bluetooth.start_button_service()
+bluetooth.start_led_service()
+bluetooth.start_temperature_service()
+``` 
+3. Installed sudo pip3 install bluezero  https://ukbaz.github.io/howto/ubit_workshop.html  
 
 ``` shell
 pi@raspberrypi:~ $ bluetoothctl
