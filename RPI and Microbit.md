@@ -292,15 +292,14 @@ import sys
 from bluezero import microbit
 ubit = microbit.Microbit(adapter_addr='DC:A6:32:87:01:10',
                          device_addr='C2:DB:C7:80:B7:14')
-if len(sys.argv) != 2:
-    raise ValueError('Argument Missing')
-my_text = sys.argv[1]
+
+my_text = sys.argv[2]+' '+sys.argv[4]+' '+sys.argv[5]+' '+sys.argv[6]
 
 ubit.connect()
 
 while ubit.button_a < 1:
     ubit.text = my_text
-    time.sleep(5)
+    time.sleep(10)
 
 ubit.disconnect()
 ```
