@@ -150,3 +150,97 @@ Device C2:DB:C7:80:B7:14 BBC micro:bit [puzot]
 [bluetooth]# 
 ```
 
+## Download the makecode script to ubit
+
+https://ukbaz.github.io/howto/ubit_workshop.html
+
+### Run the Code in Python IDE in RPI
+
+
+### Sending a message to the micro:bit
+This first Python exercise is to send text to display on the micro:bit.
+
+```py
+from bluezero import microbit
+ubit = microbit.Microbit(adapter_addr='DC:A6:32:87:01:10',
+                         device_addr='C2:DB:C7:80:B7:14')
+my_text = 'Hello, world'
+ubit.connect()
+
+while my_text is not '':
+    ubit.text = my_text
+    my_text = input('Enter message: ')
+
+ubit.disconnect()
+```
+
+### Reading a button press
+Display an image of which button needs pressing to break out of the loop
+
+```py
+import time
+from bluezero import microbit
+ubit = microbit.Microbit(adapter_addr='DC:A6:32:87:01:10',
+                         device_addr='C2:DB:C7:80:B7:14')
+ubit.connect()
+while ubit.button_a < 1:
+    ubit.pixels = [0b00000, 0b01000, 0b11111, 0b01000, 0b00000]
+    time.sleep(0.5)
+    ubit.clear_display()
+
+while ubit.button_b < 1:
+    ubit.pixels = [0b00000, 0b00010, 0b11111, 0b00010, 0b00000]
+    time.sleep(0.5)
+    ubit.clear_display()
+
+ubit.disconnect()
+```
+    
+### Reading values from the micro:bit
+This last exercise uses information from the micro:bit sensors to be displayed ont he Raspberry Pi.
+
+Pressing Button A prints if the micro:bit is face-up or face-down
+Pressing Button B print the temperature from the micro:bit
+Pressing Button A & B exits the code
+
+```py
+import time
+from bluezero import microbit
+
+ubit = microbit.Microbit(adapter_addr='DC:A6:32:87:01:10',
+                         device_addr='C2:DB:C7:80:B7:14')
+looping = True
+ubit.connect()
+print('Connected... Press a button to select mode')
+mode = 0
+while looping:
+    if ubit.button_a > 0 and ubit.button_b > 0:
+        mode = 3
+        ubit.pixels = [0b10001, 0b01010, 0b00100, 0b01010, 0b10001]
+        time.sleep(1)
+    elif ubit.button_b > 0:
+        mode = 2
+        ubit.pixels = [0b11111, 0b00100, 0b00100, 0b00100, 0b00100]
+
+        time.sleep(0.25)
+    elif ubit.button_a > 0:
+        mode = 1
+        ubit.pixels = [0b11110, 0b10000, 0b11100, 0b10000, 0b10000]
+        time.sleep(0.25)
+
+    if mode == 1:
+        x, y, z = ubit.accelerometer
+        if z < 0:
+            print('Face up')
+        else:
+            print('Face down')
+        time.sleep(0.5)
+    elif mode == 2:
+        print('Temperature:', ubit.temperature)
+        time.sleep(0.5)
+    elif mode == 3:
+        looping = False
+        print('Exiting')
+
+ubit.disconnect()
+```
