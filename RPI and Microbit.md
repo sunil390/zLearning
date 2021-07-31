@@ -253,6 +253,7 @@ ubit.disconnect()
 sys is used to pass argument
 when button A is pressed for 5 seconds the alert message sent to ubit will stop displaying
 
+ubitmsg.py code...
 ```py
 import time
 import sys
@@ -535,3 +536,7 @@ Flow export from Node-RED
     }
 ]
 ```
+
+### RPI in Headless Mode
+
+prefix the command with sudo in the exec node,   sudo python3  ubitmsg.py 
