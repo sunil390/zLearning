@@ -1,16 +1,14 @@
-# Raspberry Pi Integration with Microbit over Bluetooth Low Enery
+# Raspberry Pi Integration with Microbit over Bluetooth Low Enery - Send Messages to ubit over BLE from RPI
 
 ## Hardware
 
-1. Raspberry pi 4
+1. Raspberry pi 4 with Raspberry pi OS 32 bit .. https://www.raspberrypi.org/software/
 2. Microbit v2
 
 ## Software
 
 1. Nodered 2.0.5
-2. BLE https://ukbaz.github.io/howto/ubit_workshop.html 
-
-Installed sudo pip3 install bluezero
+2. Installed sudo pip3 install bluezero  https://ukbaz.github.io/howto/ubit_workshop.html  
 
 ``` shell
 pi@raspberrypi:~ $ bluetoothctl
