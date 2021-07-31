@@ -12,7 +12,7 @@
 
 Installed sudo pip3 install bluezero
 
-````` shell
+``` shell
 pi@raspberrypi:~ $ bluetoothctl
 Agent registered
 [bluetooth]# show
@@ -48,9 +48,9 @@ Discovery started
 [NEW] Device 7C:74:19:35:40:FA 7C-74-19-35-40-FA
 [bluetooth]# scan off 
 
-`````
+```
 
-`````
+```
 [bluetooth]# pair C2:DB:C7:80:B7:14
 Attempting to pair with C2:DB:C7:80:B7:14
 [CHG] Device C2:DB:C7:80:B7:14 Connected: yes
@@ -143,12 +143,13 @@ Attempting to pair with C2:DB:C7:80:B7:14
 	00002902-0000-1000-8000-00805f9b34fb
 	Client Characteristic Configuration
 Pairing successful
-```
-```
+
 [bluetooth]# devices
 Device C2:DB:C7:80:B7:14 BBC micro:bit [puzot]
 [bluetooth]# 
+
 ```
+
 
 ## Download the makecode script to ubit
 
