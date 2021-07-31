@@ -280,3 +280,258 @@ export PYTHONPATH=".:/usr/local/lib/python3.7"
 
 3. Added an exec node in Node-RED with command as python3  ubitmsg.py and enabled append msg.payload option.
 
+Flow export from Node-RED
+
+```json
+[
+    {
+        "id": "524fe5c0.a70e5c",
+        "type": "tab",
+        "label": "zIOT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "c7dc0a18.2c9288",
+        "type": "template",
+        "z": "524fe5c0.a70e5c",
+        "name": "TeamsMessageBuild",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n  \"@context\": \"https://schema.org/extensions\",\n  \"@type\": \"MessageCard\",\n  \"themeColor\": \"0072C6\",\n  \"title\": \"Node-RED to Teams\",\n  \"text\": \" {{payload}} \"\n}",
+        "output": "str",
+        "x": 640,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bc1662fd.9545e",
+        "type": "http request",
+        "z": "524fe5c0.a70e5c",
+        "name": "WebHook to MS Teams",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://atos365.webhook.office.com/webhookb2/e6ac63b9-669b-4f26-bba5-4b0a37fa8ff3@33440fc6-b7c7-412c-bb73-0e70b0198d5a/IncomingWebhook/f3923ae196ad4bdfb2f5451a2248950a/788daa90-58da-4246-b1ab-7de9e262496d",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 890,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5b199649.a8ad08",
+        "type": "http in",
+        "z": "524fe5c0.a70e5c",
+        "name": "zListener",
+        "url": "/zEntry",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 160,
+        "wires": [
+            [
+                "4ef25165.b2dc2",
+                "63a752a9.7bdd0c",
+                "1eaccced9bc5756c"
+            ]
+        ]
+    },
+    {
+        "id": "4ef25165.b2dc2",
+        "type": "template",
+        "z": "524fe5c0.a70e5c",
+        "name": "ResponceMsg",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Sweets from Node-RED: {{payload}} !",
+        "output": "str",
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "795d3737.d353e8"
+            ]
+        ]
+    },
+    {
+        "id": "795d3737.d353e8",
+        "type": "http response",
+        "z": "524fe5c0.a70e5c",
+        "name": "Responce",
+        "statusCode": "",
+        "headers": {},
+        "x": 580,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "63a752a9.7bdd0c",
+        "type": "http request",
+        "z": "524fe5c0.a70e5c",
+        "name": "Download mp3",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "https://quz1yp-a.akamaihd.net/downloads/ringtones/files/dl/mp3/kannodu-kannodu-kannoram-49034-51958-53676.mp3",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "2539fbce.cb39a4"
+            ]
+        ],
+        "info": "https://quz1yp-a.akamaihd.net/downloads/ringtones/files/dl/mp3/kannodu-kannodu-kannoram-49034-51958-53676.mp3\n\n"
+    },
+    {
+        "id": "2539fbce.cb39a4",
+        "type": "play audio",
+        "z": "524fe5c0.a70e5c",
+        "name": "",
+        "voice": "21",
+        "x": 610,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "1eaccced9bc5756c",
+        "type": "split",
+        "z": "524fe5c0.a70e5c",
+        "name": "Array to Message",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 350,
+        "y": 220,
+        "wires": [
+            [
+                "c7dc0a18.2c9288",
+                "be15d2f960bd4334",
+                "4955728690484afa"
+            ]
+        ]
+    },
+    {
+        "id": "be15d2f960bd4334",
+        "type": "alexa-remote-routine",
+        "z": "524fe5c0.a70e5c",
+        "name": "",
+        "account": "2be4ecceb4fdbc89",
+        "routineNode": {
+            "type": "speak",
+            "payload": {
+                "type": "announcement",
+                "text": {
+                    "type": "msg",
+                    "value": "payload"
+                },
+                "devices": [
+                    "G090XG0793742RWP"
+                ]
+            }
+        },
+        "x": 620,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "90ed2c4405b2637b",
+        "type": "inject",
+        "z": "524fe5c0.a70e5c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 130,
+        "y": 380,
+        "wires": [
+            [
+                "4955728690484afa"
+            ]
+        ]
+    },
+    {
+        "id": "4955728690484afa",
+        "type": "exec",
+        "z": "524fe5c0.a70e5c",
+        "command": "python3 ubitmsg.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Send Message",
+        "x": 600,
+        "y": 380,
+        "wires": [
+            [],
+            [
+                "37d148a93ed040e6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "37d148a93ed040e6",
+        "type": "debug",
+        "z": "524fe5c0.a70e5c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "2be4ecceb4fdbc89",
+        "type": "alexa-remote-account",
+        "name": "",
+        "authMethod": "proxy",
+        "proxyOwnIp": "192.168.2.252",
+        "proxyPort": "3456",
+        "cookieFile": "/home/pi/Alexa",
+        "refreshInterval": "3",
+        "alexaServiceHost": "pitangui.amazon.com",
+        "amazonPage": "amazon.com",
+        "acceptLanguage": "en-US",
+        "userAgent": "",
+        "useWsMqtt": "on",
+        "autoInit": "on"
+    }
+]
+```
