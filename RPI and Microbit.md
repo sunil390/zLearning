@@ -245,3 +245,38 @@ while looping:
 
 ubit.disconnect()
 ```
+
+
+## Integrating with Node-RED
+
+1. Python code to Send the message to ubit over ble
+sys is used to pass argument
+when button A is pressed for 5 seconds the alert message sent to ubit will stop displaying
+
+```py
+import time
+import sys
+from bluezero import microbit
+ubit = microbit.Microbit(adapter_addr='DC:A6:32:87:01:10',
+                         device_addr='C2:DB:C7:80:B7:14')
+if len(sys.argv) != 2:
+    raise ValueError('Argument Missing')
+my_text = sys.argv[1]
+
+ubit.connect()
+
+while ubit.button_a < 1:
+    ubit.text = my_text
+    time.sleep(5)
+
+ubit.disconnect()
+```
+
+2. in the .profile of RPI pi user added the PYTHONPATH entry
+
+```shell
+export PYTHONPATH=".:/usr/local/lib/python3.7"
+```
+
+3. Added an exec node in Node-RED with command as python3  ubitmsg.py and enabled append msg.payload option.
+
