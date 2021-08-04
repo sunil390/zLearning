@@ -3,7 +3,7 @@
 ## Hardware
 
 1. Raspberry pi 4 with Raspberry pi OS 32 bit .. https://www.raspberrypi.org/software/
-2. Microbit v2
+2. Microbit v2 https://microbit.org/  https://makecode.microbit.org/
 
 ## Software
 
