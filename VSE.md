@@ -1,4 +1,3 @@
-
 VSE and z/VSE From Scratch
 --------------------------
 
@@ -673,4 +672,89 @@ Alternatively, you can submit the job directly into the POWER reader queue. Thes
 You can also transfer files to and from VSE libraries, VSAM files, CICS TS queues, or the POWER LST or PUN queue. See the manual "VSE/ESA Programming and Workstation Guide" for details.
 Note: Even successful transfers seem to end with the message:
      INW0002I  Transmission error. Module=INWPGET1 RC=0200
-     
+
+## z/VSE Basics
+
+```
+query TD                                                        
+AR 0015  CPU   STATUS    SPIN_TIME    NP_TIME TOTAL_TIME NP/TOT 
+AR 0015   00   ACTIVE            0      17866      26568  0.672 
+AR 0015   01   INACTIVE                                         
+AR 0015   02   INACTIVE                                         
+AR 0015   03   INACTIVE                                         
+AR 0015   04   INACTIVE                                         
+AR 0015   05   INACTIVE                                         
+AR 0015   06   INACTIVE                                         
+AR 0015   07   INACTIVE                                         
+AR 0015                 ----------------------------------------
+AR 0015 TOTAL                    0      17866      26568  0.672 
+AR 0015                                                         
+AR 0015               NP/TOT: 0.672      SPIN/(SPIN+TOT): 0.000 
+AR 0015  OVERALL UTILIZATION:   0%        NP UTILIZATION:   0%  
+AR 0015                                                         
+AR 0015  ELAPSED TIME SINCE LAST RESET:      8454462            
+AR 0015 1I40I  READY                                            
+
+volume                                                                        
+AR 0015 CUU  CODE DEV.-TYP   VOLID  USAGE   SHARED    STATUS    CAPACITY      
+AR 0015 100  6E   3390-006  DOSRES  USED                             2226 CYL 
+AR 0015 101  6E   3390-006  SYSWK1  USED                             2226 CYL 
+AR 0015 581  5400 3480-D31  *NONE*  UNUSED              SYNC            0 BLK 
+AR 0015 582  5400 3480-D31  *NONE*  UNUSED              SYNC            0 BLK 
+AR 0015 583  5400 3480-D31  *NONE*  UNUSED              SYNC            0 BLK 
+AR 0015 584  5400 3480-D31  NLSVSE  UNUSED              SYNC            0 BLK 
+AR 0015 FDF  90   FBA0-00   VDIDLA  USED                             2880 BLK 
+AR 0015 1I40I  READY                                                          
+status 100                                                                    
+AR 0015 SCHIB DEV  INT-PARM ISC FLG LP PNO LPU PI MBI  PO PA CHPID0-3 CHPID4-7
+AR 0015 0006  0100 000053B8   3  81 80  00  80 80 0000 80 80 01000000 00000000
+AR 0015 1I40I  READY                                                          
+
+sir                                                                       
+AR 0015 CPUID     = FD01106070600000                                      
+AR 0015 PROCESSOR = HRC 7060-EMULZZ (71060ZZ)  LPAR = HERCULES  No. = 0001
+AR 0015 VM-SYSTEM =                 (0000)   USERID =          VMCF = OFF 
+AR 0015      CPUs = 0000                       Cap. =  00%                
+AR 0015 PROC-MODE = z/Arch          IPL(100)    14:21:10      08/07/2021  
+AR 0015 SYSTEM    = z/VSE           4.1.1                     10/15/2007  
+AR 0015             VSE/AF          8.1.0       DY46717       09/12/2007  
+AR 0015             VSE/POWER       8.1.0       DY46782       07/31/2007  
+AR 0015 IPL-PROC  = $IPLESA         JCL-PROC  = $$JCL                     
+AR 0015 SUPVR     = $$A$SUPI        TURBO-DISPATCHER (51) ACTIVE          
+AR 0015                             HARDWARE COMPRESSION ENABLED          
+AR 0015 SEC. MGR. = BASIC           SECURITY  = ONLINE                    
+AR 0015 CPU-ADDR. = 0000(IPL)   ACTIVE                                    
+AR 0015   ACTIVE  = 0000:00:00.166   WAIT = 0000:01:32.077                
+AR 0015   PARALLEL= 0000:00:00.035   SPIN = 0000:00:00.000                
+AR 0015 CPU-ADDR. = 0001        CPU INACTIVE NOT PREFIXED                 
+AR 0015 CPU-ADDR. = 0002        CPU INACTIVE NOT PREFIXED                 
+AR 0015 CPU-ADDR. = 0003        CPU INACTIVE NOT PREFIXED                 
+AR 0015 CPU-ADDR. = 0004        CPU INACTIVE NOT PREFIXED                 
+AR 0015 CPU-ADDR. = 0005        CPU INACTIVE NOT PREFIXED                 
+AR 0015 CPU-ADDR. = 0006        CPU INACTIVE NOT PREFIXED                 
+AR 0015 CPU-ADDR. = 0007        CPU INACTIVE NOT PREFIXED                 
+AR 0015 CPU timings MEASUREMENT INTERVAL    0000:01:33.292                
+AR 0015 TASKS ATT.= 00015           HIGH-MARK = 00015    MAX = 00164      
+AR 0015 DYN.PARTS = 00000           HIGH-MARK = 00001    MAX = 00048      
+AR 0015                                                                   
+AR 0015 COPY-BLKS = 00013           HIGH-MARK = 00035    MAX = 01522      
+AR 0015 CHANQ USED= 00003           HIGH-MARK = 00007    MAX = 00069      
+AR 0015 LBL.-SEGM.= 00007           HIGH-MARK = 00007    MAX = 00717      
+AR 0015 PGIN  TOT.= 0000000001      EXP.AVRGE.= 0000000000/SEC            
+AR 0015 PGOUT TOT.= 0000000001                                            
+AR 0015       UNC.= 0000000001      EXP.AVRGE.= 0000000000/SEC            
+AR 0015       PRE = 0000000000      EXP.AVRGE.= 0000000000/SEC            
+AR 0015 LOCKS EXT.= 0000000674      LOCKS INT.= 0000005922                
+AR 0015      FAIL = 0000000022           FAIL = 0000000025                
+AR 0015 LOCK I/O  = 0000000000      LOCK WRITE= 0000000000                
+AR 0015 1I40I  READY                                                      
+
+sir chpid                                                     
+AR 0015 CHPID CHLA SWLA LSN  CHPP     CHANNEL-PATH-DESCRIPTION
+AR 0015  01                       EMULATED-I/O CHANNEL (EIO)  
+AR 0015  02                       EMULATED-I/O CHANNEL (EIO)  
+AR 0015  04                       EMULATED-I/O CHANNEL (EIO)  
+AR 0015  05                       EMULATED-I/O CHANNEL (EIO)  
+AR 0015 1I40I  READY                                          
+
+```
