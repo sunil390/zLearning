@@ -71,6 +71,33 @@ git push -u origin --tags
 
 
 `````
+for https setup  https://docs.bitnami.com/bch/apps/gitlab/administration/create-ssl-certificate-nginx/
 
+sudo mkdir /etc/gitlab/ssl/
+sudo openssl genrsa -out /etc/gitlab/ssl/server.key 2048
+sudo openssl req -new -key /etc/gitlab/ssl/server.key -out  /etc/gitlab/ssl/cert.csr
+sudo openssl x509 -in  /etc/gitlab/ssl/cert.csr -out  /etc/gitlab/ssl/server.crt -req -signkey  /etc/gitlab/ssl/server.key  
+sudo openssl rsa -des3 -in  /etc/gitlab/ssl/server.key -out privkey.pem
+
+sudo openssl rsa -in privkey.pem -out  /etc/gitlab/ssl/server.key
+
+
+update /etc/gitlab/gitlab.rb
+
+# note the 'https' below
+external_url "https://gitlab.example.com"
+
+letsencrypt['enable'] = false
+
+nginx['redirect_http_to_https'] = true
+# For GitLab
+nginx['ssl_certificate'] = "/etc/gitlab/ssl/server.crt"
+nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/server.key"
+
+sudo cp /home/sathya/gitlab.rb /etc/gitlab/
+
+
+
+sudo gitlab-ctl reconfigure
 
 `````
