@@ -1,6 +1,6 @@
 # Prereqs
 
-```
+```bash
 Runner Install
 --------------
 curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
@@ -97,7 +97,4 @@ and check to make sure that only the key(s) you wanted were added.
 /home/gitlab-runner/zansible> ansible-playbook -i inventory.yml console_command.yaml
 
 
-
-
-
-````
+```
