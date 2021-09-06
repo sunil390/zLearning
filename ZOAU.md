@@ -112,3 +112,4 @@ git push -u origin main
 
 https://github.com/IBM/zoau.git
 
+https://medium.com/theropod/the-journey-from-jcl-to-python-so-easy-even-an-old-mainframer-can-do-it-f088cc49366a
