@@ -1,6 +1,7 @@
 
 # Startup
 
+```shell
 S CSFDF
 S SSHD
 F RMF,START III
@@ -8,5 +9,5 @@ S GPMSERVE
 S CFZCIM
 S IZUANG1
 S IZUSVR1
-
+```
 
