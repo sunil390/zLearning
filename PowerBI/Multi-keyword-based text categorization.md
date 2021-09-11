@@ -1,4 +1,26 @@
-
+# Reference
 <https://community.powerbi.com/t5/Desktop/Text-Categorization-based-on-multiple-Keywords/m-p/1442262>
 
-<https://qiuyunus-my.sharepoint.com/:u:/g/personal/tongzhou_qiuyunus_onmicrosoft_com/EZUj5kUvCglCmsxeF3zraVsBXlI9jcJGoPUYLgpVrAapuA?e=6SkrS8>
+# Menthod1
+
+Table - Details
+| Column1 | Text | Calculated Column |
+| ------ | ------ | ------- |
+| cell1 | 111 category | 111 
+| cell2 | 222 category | 111
+
+Table - Products
+| Products | 
+| ------ | 
+| 111 | 
+| 111 | 
+
+
+```pbx
+Calculated Column =
+CONCATENATEX (
+    FILTER ( Products, SEARCH ( Products[Products], Details[Text],, 0 ) > 0 ),
+    Products[Products],
+    ", "
+)
+```
