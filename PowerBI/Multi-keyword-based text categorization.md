@@ -1,7 +1,7 @@
 # Reference
 <https://community.powerbi.com/t5/Desktop/Text-Categorization-based-on-multiple-Keywords/m-p/1442262>
 
-# Menthod1
+# Method1
 
 Table - Details
 | Column1 | Text | Calculated Column |
