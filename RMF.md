@@ -1,4 +1,3 @@
-
 # RMF
 
 ```jcl
@@ -49,4 +48,10 @@ http://192.168.2.44:8803/
  SETROPTS RACLIST(FACILITY) REFRESH                       
 ```
 
+### Program Control
 
+```jcl
+  RALT PROGRAM * ADDMEM('SYS1.SERBLINK'/'******'/NOPADCHK) +  
+                        UACC(READ)                            
+  SETROPTS WHEN(PROGRAM) REFRESH                              
+```
