@@ -7,13 +7,13 @@ Table - Details
 | Column1 | Text | Calculated Column |
 | ------ | ------ | ------- |
 | cell1 | 111 category | 111 
-| cell2 | 222 category | 111
+| cell2 | 222 category | 222
 
 Table - Products
 | Products | 
 | ------ | 
 | 111 | 
-| 111 | 
+| 222 | 
 
 
 ```pbx
