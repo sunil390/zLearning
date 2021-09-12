@@ -108,8 +108,11 @@ git push -u origin main
 
 ```
 
-## ZOaU Samples
+## ZOaU Samples 1.2 Announced
 
 https://github.com/IBM/zoau.git
 
 https://medium.com/theropod/the-journey-from-jcl-to-python-so-easy-even-an-old-mainframer-can-do-it-f088cc49366a
+
+https://www.ibm.com/docs/en/zoau/1.2.0?topic=whats-new-noteworthy#version-1-2-0
+
