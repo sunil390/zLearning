@@ -1,4 +1,28 @@
-# Prereqs
+
+#18th Sept 2021
+
+1. Removed ansible 2.9.6
+
+sudo apt-get remove ansible
+
+2. Install PIP
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+
+3. Installed Ansible Globally
+
+$ sudo python3 get-pip.py
+$ sudo python3 -m pip install ansible
+
+4. removed galaxy from gitlab-runner 
+
+rm -r .ansible
+
+ansible-galaxy collection install ibm.ibm_zos_core
+ansible-galaxy collection install ibm.ibm_zosmf
+
+
+
+# August 2021
 
 ```bash
 Runner Install
@@ -32,8 +56,6 @@ After installing ansible 2.9.6 From gitlab-runner id install the IBM Collections
 ansible-galaxy collection install ibm.ibm_zos_core
 
 ansible-galaxy collection install ibm.ibm_zosmf
-
-ansible-galaxy collection install ibm.ibm_zos_zosmf
 
 Created  api token 'PCrB672urixrzwXJy62c' in zgitlab 
 jJrK13zf_RMwBGTRKqPk - gitlab 
@@ -98,3 +120,4 @@ and check to make sure that only the key(s) you wanted were added.
 
 
 ```
+
