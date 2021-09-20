@@ -1,4 +1,3 @@
-
 # September 2021
 
 <https://www.ibm.com/docs/en/zoau/1.2.0?topic=installing-configuring-zoa-utilities#authorized-components>
@@ -11,23 +10,44 @@ Unmounted 1.1.3 filesystem and mounted a new filesystem for 1.2
 //ALLOCZ   EXEC PGM=IDCAMS                                  
 //SYSPRINT DD SYSOUT=*                                      
 //SYSIN    DD *                                             
-   DEFINE CLUSTER(NAME(SYS1.OMVS.ZOAU.ZOAU12) -             
+   DEFINE CLUSTER(NAME(SYS1.OMVS.ZOAU12.X24OA1) -             
    LINEAR TRACKS(1600 10) SHAREOPTIONS(3) VOLUMES(X24OA1))  
 //RCCHCK   IF ALLOCZ.RC=0 THEN                              
 //FORMAT   EXEC PGM=IOEAGFMT,REGION=0M,                     
-// PARM=('-aggregate SYS1.OMVS.ZOAU.ZOAU12 -compat')        
+// PARM=('-aggregate SYS1.OMVS.ZOAU12.X24OA1 -compat')        
 //SYSPRINT DD SYSOUT=*                                      
 //MOUNT    EXEC PGM=IKJEFT01                                
 //SYSTSPRT DD SYSOUT=*                                      
 //SYSPRINT DD SYSOUT=*                                      
 //SYSTSIN  DD *                                             
-  MOUNT FILESYSTEM('SYS1.OMVS.ZOAU.ZOAU12') +               
+  MOUNT FILESYSTEM('SYS1.OMVS.ZOAU12.X24OA1') +               
      TYPE(ZFS) MODE(RDWR) PARM('AGGRGROW') +                
      MOUNTPOINT('/usr/lpp/IBM/zoautil')                     
 ```
+```shell
+ftp'ed the pax file to /usr/lpp/IBM/zoautil
 
+from IBMUSER login
+#cd /usr/lpp/IBM/zoautil
+#pax -p e -rf zoau-1.2.0.pax
 
+from SYSPRG1 login
 
+$ pip3 install /usr/lpp/IBM/zoautil/zoautil_py-1.2.0.tar.gz                                                               
+Defaulting to user installation because normal site-packages is not writeable                                             
+Processing /usr/lpp/IBM/zoautil/zoautil_py-1.2.0.tar.gz                                                                   
+Using legacy 'setup.py install' for zoautil-py, since package 'wheel' is not installed.                                   
+Installing collected packages: zoautil-py                                                                                 
+  Attempting uninstall: zoautil-py                                                                                        
+    Found existing installation: zoautil-py 1.1.0                                                                         
+    Uninstalling zoautil-py-1.1.0:                                                                                        
+      Successfully uninstalled zoautil-py-1.1.0                                                                           
+    Running setup.py install for zoautil-py ... -Ý?25ldone                                                                
+-Ý?25hSuccessfully installed zoautil-py-1.2.0                                                                             
+-Ý33mWARNING: You are using pip version 21.0.1; however, version 21.2.4 is available.                                     
+You should consider upgrading via the '/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3.8 -m pip install --upgrade pip' command.-Ý0m 
+$                                                                                                                              
+```
 
 
 # August 2021
