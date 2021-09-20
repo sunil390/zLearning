@@ -46,7 +46,23 @@ Installing collected packages: zoautil-py
 -Ý?25hSuccessfully installed zoautil-py-1.2.0                                                                             
 -Ý33mWARNING: You are using pip version 21.0.1; however, version 21.2.4 is available.                                     
 You should consider upgrading via the '/usr/lpp/IBM/cyp/v3r8/pyz/bin/python3.8 -m pip install --upgrade pip' command.-Ý0m 
-$                                                                                                                              
+$ 
+
+$ /usr/lpp/IBM/cyp/v3r8/pyz/bin/python3.8 -m pip install --upgrade pip                                                              
+Defaulting to user installation because normal site-packages is not writeable                                                       
+Requirement already satisfied: pip in /usr/lpp/IBM/cyp/v3r8/pyz/lib/python3.8/site-packages (21.0.1)                                
+Collecting pip                                                                                                                      
+  Downloading pip-21.2.4-py3-none-any.whl (1.6 MB)                                                                                  
+-ÝK     |â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--| 1.5 MB 230 kB/s eta 0:00:
+-ÝK     |â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--| 1.5 MB 230 kB/s eta 0:00:
+-ÝK     |â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--| 1.5 MB 230 kB/s eta 0:00:
+-ÝK     |â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--| 1.5 MB 230 kB/s eta 0:00:
+-ÝK     |â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--â--| 1.6 MB 230 kB/s          
+-Ý?25hInstalling collected packages: pip                                                                                            
+-Ý33m  WARNING: The scripts pip, pip3 and pip3.8 are installed in '/home/SYSPRG1/.local/bin' which is not on PATH.                  
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.-Ý0m             
+Successfully installed pip-21.2.4                                                                                                   
+$                                                                                                                                   
 ```
 
 
