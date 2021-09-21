@@ -1,0 +1,11 @@
+added 2 volume IMS001.z and X24OA2.z
+IMS001 contains IMS V15 datasets
+X24OA2 contains MINICONDA OMVS Dataset which needs to be mounted on /usr/lpp/miniconda 
+
+Added auto shutdown of lpar using CBT on IMS001 you can find XMI and REXX
+
+Changed TELNET USSTAB 
+
+Installed ZOWE and started STC. It takes more time than zOSMF to initilaize
+
+
