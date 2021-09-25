@@ -1,4 +1,47 @@
+# Sept 2021
 
+```jcl
+
+1. Automated Reply setup
+
+SYS1.PARMLIB(CLOCKCS)
+OPERATOR NOPROMPT   
+TIMEZONE W.06.00.00 
+ETRMODE  NO         
+ETRZONE  NO         
+STPMODE  NO         
+STPZONE  NO         
+TIMEDELTA 10        
+
+SYS1.PARMLIB(AUTOR00)
+   Msgid(IEA793A)    Delay(01S) Reply(D)                    /* @02A */
+   Msgid(?HASP426)   Delay(01S) Reply('WARM,NOREQ')         /* @02A */
+   Msgid($HASP454)   Delay(01S) Reply(Y)                    /* @02A */
+   Msgid($HASP441)   Delay(01S) Reply(Y)                    /* @02A */
+   Msgid(IKT003D)    Delay(10S) Reply(RETRY)                /* @02A */
+
+2. VTAM and TCPIP DataSet cleanup from COM001
+
+Copied below datasets from COM001 to X24DTD
+ACSNS.NET.DCUF.VTAMLST 
+ACSNS.NET.VTAMLIB      
+ACSNS.NET.VTAMLST      
+ACSNS.TCPIP.DCUF.PARMLIB
+to
+SYS1.NET.DCUF.VTAMLST 
+SYS1.NET.VTAMLIB      
+SYS1.NET.VTAMLST      
+SYS1.TCPIP.DCUF.PARMLIB
+
+Updated NET, TCPIP and TN3270 in SYS2.PROCLIB
+
+Updated PROGDF to update APF 
+
+```
+
+# July 2021 
+
+```jcl
 Standardise the z/OS 2.4 Setup
 
 //REFVTOC  JOB  CLASS=A,MSGLEVEL=(1,1),MSGCLASS=A,
@@ -368,5 +411,5 @@ SELECT
  END                           
 END                            
 
-
+```
 
