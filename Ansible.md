@@ -1,25 +1,25 @@
-
 #18th Sept 2021
 
 1. Removed ansible 2.9.6
-
+```bash
 sudo apt-get remove ansible
-
+```
 2. Install PIP
+```bash
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-
+```
 3. Installed Ansible Globally
-
+```bash
 $ sudo python3 get-pip.py
 $ sudo python3 -m pip install ansible
-
+```
 4. removed galaxy from gitlab-runner 
-
+```bash
 rm -r .ansible
 
 ansible-galaxy collection install ibm.ibm_zos_core
 ansible-galaxy collection install ibm.ibm_zosmf
-
+```
 
 
 # August 2021
