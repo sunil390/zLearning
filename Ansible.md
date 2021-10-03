@@ -1,3 +1,14 @@
+# 3rd Oct 2021
+
+Installed 1.4.0 beta1 tarball after downloading from <https://galaxy.ansible.com/ibm/ibm_zos_core>
+
+```bash
+from gitlab-runner login 
+ansible-galaxy collection install ibm-ibm_zos_core-1.4.0-beta.1.tar.gz
+```
+Commented "#  connection: ibm.ibm_zos_core.zos_ssh" from the playbooks as it was causing "the connection plugin 'ibm.ibm_zos_core.zos_ssh' was not found" error as described in <https://github.com/ansible-collections/ibm_zos_core/releases>
+
+
 #18th Sept 2021
 
 1. Removed ansible 2.9.6
