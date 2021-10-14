@@ -37,6 +37,7 @@ Receiving objects: 100% (254/254), 42.61 KiB | 14.20 MiB/s, done.
 Resolving deltas: 100% (133/133), done.
 rundeck@gitlab:~$
 
+```
 
 
 ## RunDeck Community Edition
