@@ -4,9 +4,9 @@
 
 ```bash
 sudo passwd rundeck
-
 This account is currently not available.
 /usr/sbin/nologin
+This is a nologin account...
 
 sunil390@gitlab:~$ sudo su -l rundeck -s /bin/bash
 [sudo] password for sunil390:
