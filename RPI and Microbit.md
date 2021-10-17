@@ -1,11 +1,12 @@
 # Oct 2021
 
-1. headinstall using rpi imager
+1. Headless install using rpi imager
 
 64GB SDXC Config <https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html>
 
 2. create an empty file ssh at the root of the filesystem for headless ssh access to rpi.
 3. Create file wpa_supplicant.conf
+```bash
 country=IN
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -18,6 +19,7 @@ key_mgmt=WPA-PSK
 }
 4. passwd to change pi's password and install latest updates
 ```
+```bash
 sudo apt update
 sudo apt upgrade
 sudo apt install git
@@ -31,11 +33,11 @@ sudo apt install git
 11. Python3.9 with Openssl
 <https://rolandsdev.blog/how-to-install-openssl-1-1-1/>
 <https://github.com/actions/setup-python/issues/93>
-```
-sudo apt-get -y install build-essential checkinstall git zlib1g-dev
+```bash
+sudo apt-get -y install build-essential checkinstall git zlib1g-dev libffi-dev libssl-dev python3-dev cargo
 git clone --depth 1 --branch OpenSSL_1_1_1g https://github.com/openssl/openssl.git
 cd openssl
-./config zlib '-Wl,-rpath,$(LIBRPATH)'
+./config zlib '-Wl,-rpath,$(LIBRPATH)' -Bsymbolic-functions -fPIC shared
 make
 make test
 sudo make install
@@ -59,8 +61,11 @@ python --version
 python -m ssl
 ```
 12. Ansible
-```
+```bash
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+sudo python3 get-pip.py
+pip install cryptography --no-binary cryptography
+sudo python3 -m pip install ansible
 
 ```
 # August 2021 
