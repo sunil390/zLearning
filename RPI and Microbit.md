@@ -1,8 +1,34 @@
 # Oct 2021
 
+1. headinstall using rpi imager
+
 64GB SDXC Config <https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html>
 
-1. create an empty file ssh at the root of the filesystem for headless ssh access to rpi.
+2. create an empty file ssh at the root of the filesystem for headless ssh access to rpi.
+3. Create file wpa_supplicant.conf
+country=IN
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+scan_ssid=1
+ssid="your_wifi_ssid"
+psk="your_wifi_password"
+key_mgmt=WPA-PSK
+}
+4. passwd to change pi's password and install latest updates
+```
+sudo apt update
+sudo apt upgrade
+sudo apt install git
+```
+5. Install Node Red -> bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+6. enable projects in ~/.node-red/settings.js
+7. node-red-start
+8. Access node-red and clone repository https://gitlab.com/Sunil390/znodered.git
+9. Install node-red-contrib-alexa-remote2-applestrudel and node-red-dshboard from pallette 
+10. added dependencies to project, committed local changes and pushed to gitlab repo.
+
 
 # Raspberry Pi Integration with Microbit over Bluetooth Low Enery - Send Messages to ubit over BLE from RPI
 
