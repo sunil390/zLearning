@@ -28,7 +28,42 @@ sudo apt install git
 8. Access node-red and clone repository https://gitlab.com/Sunil390/znodered.git
 9. Install node-red-contrib-alexa-remote2-applestrudel and node-red-dshboard from pallette 
 10. added dependencies to project, committed local changes and pushed to gitlab repo.
+11. Python3.9 with Openssl
+<https://rolandsdev.blog/how-to-install-openssl-1-1-1/>
+<https://github.com/actions/setup-python/issues/93>
+```
+sudo apt-get -y install build-essential checkinstall git zlib1g-dev
+git clone --depth 1 --branch OpenSSL_1_1_1g https://github.com/openssl/openssl.git
+cd openssl
+./config zlib '-Wl,-rpath,$(LIBRPATH)'
+make
+make test
+sudo make install
+sudo ldconfig -v
+openssl version
 
+export PATH=$HOME/openssl/bin:$PATH
+export LD_LIBRARY_PATH=/home/pi/openssl/lib
+export LDFLAGS="-L/home/pi/openssl/lib -Wl,-rpath,/home/pi/openssl/lib"
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/pi/openssl/lib/
+
+wget https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tgz
+tar -zxvf Python-3.9.5.tgz
+cd Python-3.9.5
+./configure --enable-optimizations --with-openssl=/home/pi/openssl
+sudo make altinstall
+cd /usr/bin
+sudo rm python
+sudo ln -s /usr/local/bin/python3.9 python
+python --version
+python -m ssl
+```
+12. Ansible
+```
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+
+```
+# August 2021 
 
 # Raspberry Pi Integration with Microbit over Bluetooth Low Enery - Send Messages to ubit over BLE from RPI
 
