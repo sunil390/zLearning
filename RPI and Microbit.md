@@ -1,3 +1,9 @@
+# Oct 2021
+
+64GB SDXC Config <https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html>
+
+1. create an empty file ssh at the root of the filesystem for headless ssh access to rpi.
+
 # Raspberry Pi Integration with Microbit over Bluetooth Low Enery - Send Messages to ubit over BLE from RPI
 
 ## Hardware
