@@ -29,8 +29,8 @@
 ## Test Ansible from zansible foler
 15. ansible-playbook -i inventory.yml console_command.yaml
 ## Install Gitlab Runner
-16. curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
-17. sudo dpkg -i gitlab-runner_amd64.deb
+16. curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+17. sudo apt-get install gitlab-runner
 18. sudo passwd gitlab-runner
 19. sudo gitlab-runner register
 ## Install Rundeck  
