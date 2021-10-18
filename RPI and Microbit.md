@@ -15,7 +15,7 @@
 ## Install Node-Red
 4. Install Node Red -> bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
 5. enable projects in ~/.node-red/settings.js
-6. node-red-start
+6. node-red-start / sudo systemctl enable nodered.service (For Auto Start)
 7. Access node-red and clone repository https://gitlab.com/Sunil390/znodered.git 
 ## Install Ansible as Global
 8. curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -50,7 +50,24 @@
 32. scan on
 33. scan off
 34. pair mac..
-35. run the python program
+35. ubitmsg.py code.
+```py
+import time
+import sys
+from bluezero import microbit
+ubit = microbit.Microbit(adapter_addr='DC:A6:32:87:01:10',
+                         device_addr='C2:DB:C7:80:B7:14')
+
+my_text = sys.argv[2]+' '+sys.argv[4]+' '+sys.argv[5]+' '+sys.argv[6]
+
+ubit.connect()
+
+while ubit.button_a < 1:
+    ubit.text = my_text
+    time.sleep(10)
+
+ubit.disconnect()
+```
 
 # Oct 17 2021
 
