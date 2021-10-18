@@ -41,6 +41,16 @@
 24. Update localhost with ip address of server in /etc/rundeck/rundeck-config.properties and /etc/rundeck/framework.properties 
 25. sudo service rundeckd start
 26. tail -f /var/log/rundeck/service.log  
+## Bluetooth LE and Microbit
+27. sudo apt install pi-bluetooth
+28. sudo reboot
+29. sudo pip3 install bluezero  ( This may not be required -> sudo hciattach /dev/ttyAMA0 bcm43xx)
+30. bluetoothctl
+31. show
+32. scan on
+33. scan off
+34. pair mac..
+35. run the python program
 
 # Oct 17 2021
 
@@ -198,7 +208,7 @@ Discovery started
 
 ```
 
-```
+```bash
 [bluetooth]# pair C2:DB:C7:80:B7:14
 Attempting to pair with C2:DB:C7:80:B7:14
 [CHG] Device C2:DB:C7:80:B7:14 Connected: yes
