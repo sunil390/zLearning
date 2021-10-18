@@ -1,6 +1,46 @@
-# Oct 2021
+# Oct 18 2021
+## Install Ubuntu Server in RPI
+1. Headless ubuntu 64 bit server 20.04.03 LTS using pi imager.
+2. sudo nano /etc/netplan/50-cloud-init.yaml
+    wifis:
+        wlan0:
+            optional: true
+            access-points:
+                "AX55":
+                   password: "passwd"
+            dhcp4: true
 
-1. Headless install using rpi imager
+3. sudo update followed by sudo upgrade
+## Install Node-Red
+4. Install Node Red -> bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+5. enable projects in ~/.node-red/settings.js
+6. node-red-start
+7. Access node-red and clone repository https://gitlab.com/Sunil390/znodered.git 
+## Install Ansible as Global
+8. curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+9. sudo python3 get-pip.py
+10. sudo python3 -m pip install ansible
+11. ansible-galaxy collection install ibm-ibm_zos_core-1.4.0-beta.1.tar.gz
+12. git clone http://192.168.2.195/mainframe/zansible.git
+## ssh setup between rpi and herc
+13. ssh-keygen
+14. ssh-copy-id sysprg1@192.168.2.44
+## Test Ansible from zansible foler
+15. ansible-playbook -i inventory.yml console_command.yaml
+## Install Gitlab Runner
+16. curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
+17. sudo dpkg -i gitlab-runner_amd64.deb
+18. sudo passwd gitlab-runner
+19. sudo gitlab-runner register
+## Install Rundeck  
+20. sudo apt-get install openjdk-11-jre-headless
+21. curl https://raw.githubusercontent.com/rundeck/packaging/main/scripts/deb-setup.sh 2> /dev/null | sudo bash -s rundeck
+22. sudo service rundeckd start
+23. tail -f /var/log/rundeck/service.log  
+
+# Oct 17 2021
+
+1. Headless pi OS install using rpi imager
 
 64GB SDXC Config <https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html>
 
