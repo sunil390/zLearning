@@ -36,8 +36,11 @@
 ## Install Rundeck  
 20. sudo apt-get install openjdk-11-jre-headless
 21. curl https://raw.githubusercontent.com/rundeck/packaging/main/scripts/deb-setup.sh 2> /dev/null | sudo bash -s rundeck
-22. sudo service rundeckd start
-23. tail -f /var/log/rundeck/service.log  
+22. sudo apt-get update
+23. sudo apt-get install rundeck
+24. Update localhost with ip address of server in /etc/rundeck/rundeck-config.properties and /etc/rundeck/framework.properties 
+25. sudo service rundeckd start
+26. tail -f /var/log/rundeck/service.log  
 
 # Oct 17 2021
 
