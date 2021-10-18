@@ -2,6 +2,7 @@
 ## Install Ubuntu Server in RPI
 1. Headless ubuntu 64 bit server 20.04.03 LTS using pi imager.
 2. sudo nano /etc/netplan/50-cloud-init.yaml
+```bash
     wifis:
         wlan0:
             optional: true
@@ -9,7 +10,7 @@
                 "AX55":
                    password: "passwd"
             dhcp4: true
-
+```
 3. sudo update followed by sudo upgrade
 ## Install Node-Red
 4. Install Node Red -> bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
