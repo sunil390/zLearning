@@ -1,3 +1,22 @@
+# Oct 23 2021
+
+## PostGresql config for rundeck
+1. change password of postgres
+2. su postgres
+3. psql
+4. create database rundeck;
+5. create user rundeckuser with password 'rundeckpassword';
+6. grant ALL privileges on database rundeck to rundeckuser;
+7. cd etc/rundeck/rundeck-config.properties
+dataSource.driverClassName = org.postgresql.Driver
+dataSource.dbCreate = update
+dataSource.url = jdbc:postgresql://127.0.0.1/rundeck
+dataSource.username = rundeckuser
+dataSource.password = rundeckpassword
+8. sudo service rundeckd start
+9. tail -f /var/log/rundeck/service.log
+10. http://192.168.2.251:4440
+
 # Oct 21 2021
 
 ## Postgresql
