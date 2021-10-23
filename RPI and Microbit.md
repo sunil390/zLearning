@@ -1,3 +1,15 @@
+# Oct 24 2021
+## pi gpio enablement on Ubuntu
+1. sudo apt-get install python3-pip python3-dev
+2. sudo pip install RPi.GPIO
+3. sudo addgroup gpio
+4. sudo chown root:gpio /dev/gpiomem
+5. sudo adduser $USER gpio
+6. echo 'KERNEL=="gpiomem", NAME="%k", GROUP="gpio", MODE="0660"' | sudo tee /etc/udev/rules.d/45-gpio.rules
+7. sudo udevadm control --reload-rules && sudo udevadm trigger
+8. sudo apt install python3-gpiozero
+9. reboot
+
 # Oct 23 2021
 
 ## PostGresql config for rundeck
