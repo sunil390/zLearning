@@ -33,11 +33,11 @@ dataSource.password = rundeckpassword
 
 ## Postgresql
 ```bash
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-sudo apt-get update
-sudo apt-get -y install postgresql
-
+1. sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+2. wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+3. sudo apt-get update
+4. sudo apt-get -y install postgresql
+5. set listen_addresses = '*'  in /etc/postgresql/14/main/postgresql.conf
 ```
 
 # Oct 18 2021
