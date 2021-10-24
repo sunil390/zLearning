@@ -38,6 +38,9 @@ dataSource.password = rundeckpassword
 3. sudo apt-get update
 4. sudo apt-get -y install postgresql
 5. set listen_addresses = '*'  in /etc/postgresql/14/main/postgresql.conf
+6. add line host    all all 0.0.0.0/0   md5 in /etc/postgresql/14/main/pg_hba.conf
+7. sudo systemstl stop postgresql
+8. sudo systemstl start postgresql
 ```
 
 # Oct 18 2021
