@@ -20,11 +20,13 @@
 5. create user rundeckuser with password 'rundeckpassword';
 6. grant ALL privileges on database rundeck to rundeckuser;
 7. cd etc/rundeck/rundeck-config.properties
+```bash
 dataSource.driverClassName = org.postgresql.Driver
 dataSource.dbCreate = update
 dataSource.url = jdbc:postgresql://127.0.0.1/rundeck
 dataSource.username = rundeckuser
 dataSource.password = rundeckpassword
+```
 8. sudo service rundeckd start
 9. tail -f /var/log/rundeck/service.log
 10. http://192.168.2.251:4440
