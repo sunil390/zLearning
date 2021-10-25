@@ -23,7 +23,7 @@
 ```bash
 dataSource.driverClassName = org.postgresql.Driver
 dataSource.dbCreate = update
-dataSource.url = jdbc:postgresql://127.0.0.1/rundeck
+dataSource.url = jdbc:postgresql://127.0.0.1:5433/rundeck
 dataSource.username = rundeckuser
 dataSource.password = rundeckpassword
 ```
@@ -39,14 +39,14 @@ dataSource.password = rundeckpassword
 2. wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 3. sudo apt-get update
 4. sudo apt-get -y install postgresql
-5. set listen_addresses = '*'  in /etc/postgresql/14/main/postgresql.conf
+5. set listen_addresses = '*' and port = 5433 in /etc/postgresql/14/main/postgresql.conf ( 5432 is used by gitlab postgresql)
 6. add line host    all all 0.0.0.0/0   md5 in /etc/postgresql/14/main/pg_hba.conf
-7. sudo systemstl stop postgresql
-8. sudo systemstl start postgresql
-9. passwd postgres ( Change password)
+7. sudo systemctl stop postgresql
+8. sudo systemctl start postgresql
+9. passwd postgres ( Change password - This is to access psql prompt to define rundeck database)
 10. su postgres
 11. psql
-12. \password (Change database admin user postgres password here)
+12. \password (Change database admin user postgres password here for administration using pgadmin GUI)
 ```
 
 # Oct 18 2021
