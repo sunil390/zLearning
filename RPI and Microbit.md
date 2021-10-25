@@ -13,7 +13,7 @@
 # Oct 23 2021
 
 ## PostGresql config for rundeck
-1. change password of postgres
+1. If not already done change password of postgres, passwd postgres
 2. su postgres
 3. psql
 4. create database rundeck;
@@ -41,6 +41,10 @@ dataSource.password = rundeckpassword
 6. add line host    all all 0.0.0.0/0   md5 in /etc/postgresql/14/main/pg_hba.conf
 7. sudo systemstl stop postgresql
 8. sudo systemstl start postgresql
+9. passwd postgres ( Change password)
+10. su postgres
+11. psql
+12. \password (Change database admin user postgres password here)
 ```
 
 # Oct 18 2021
