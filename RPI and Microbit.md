@@ -3,6 +3,13 @@
 ## Rundeck Ansible Integration
 1. Created /usr/share/ansible and /usr/share/ansible/collections folders and chmod 755 
 2. sudo ansible-galaxy collection install ibm-ibm_zos_core-1.4.0-beta.1.tar.gz -p /usr/share/ansible/collections
+3. ansible-galaxy collection list ( ~/.ansible/collections:/usr/share/ansible/collections <- default value for COLLECTIONS_PATHS in ansible.cfg)
+4. sudo usermod -aG sudo rundeck 
+5. /etc/sudoers.d/ added sudoers file and made this entry-> rundeck  ALL=(ALL) NOPASSWD:ALL
+6. chsh -s /bin/bash rundeck
+7. Login as rundeck
+13. ssh-keygen
+14. ssh-copy-id sysprg1@192.168.2.44
 
 
 # Oct 24 2021
