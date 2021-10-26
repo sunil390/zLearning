@@ -1,3 +1,10 @@
+# Oct 27 2021
+
+## Rundeck Ansible Integration
+1. Created /usr/share/ansible and /usr/share/ansible/collections folders and chmod 755 
+2. sudo ansible-galaxy collection install ibm-ibm_zos_core-1.4.0-beta.1.tar.gz -p /usr/share/ansible/collections
+
+
 # Oct 24 2021
 ## pi gpio enablement on Ubuntu
 1. sudo apt-get install python3-pip python3-dev
