@@ -8,6 +8,29 @@
 ```bash
 cd /var/lib/rundeck/zansible
 ansible-playbook -i inventory.yml console_command.yaml -e arg1=$1
+
+Playbook in zansible folder
+
+---
+- hosts: zos_host
+  collections:
+    - ibm.ibm_zos_core
+  gather_facts: no
+  vars:
+  environment: "{{ environment_vars }}"
+  tasks:
+
+    - name: Execute an operator command to show active jobs
+      zos_operator:
+            cmd: 'C U={{ arg1 }}'
+            wait_time_s: 5
+            wait: false
+      register : result
+
+    - name: Response for Console Command
+      debug:
+        msg: "{{ result }}"
+
 ```
                     -> Workflow -> Argumens : ${option.User}
 4. Webhook -> Handler configuration -> run job -> select Job -> Options -> -User ${data.User}
