@@ -1,3 +1,19 @@
+# Oct 28 2021
+
+## Rundeck Customization for WebHook integration with SNOW.
+1. Project Settings -> Edit Configuration -> Default node executor -> Ansible ad-hoc Node executor, executable : bin/bash , ansible config file path : /home/gitlab-runner/zansible/ansible.cfg , check generate inventory,  (This is not in use)
+2. Project Settings -> Add a new node source -> local
+3. Jobs -> New Job -> Nodes -> Execute Locally
+4.                 -> Workflow -> Add a Step -> script
+```bash
+cd /var/lib/rundeck/zansible
+ansible-playbook -i inventory.yml console_command.yaml -e arg1=$1
+```
+                    -> Workflow -> Argumens : ${option.User}
+4. Webhook -> Handler configuration -> run job -> select Job -> Options -> -User ${data.User}
+5. Node Red -> Inject Node -> msg.payload : {"User":"IBMUSER"}
+6. http-request -> POST -> webhook url
+
 # Oct 27 2021
 
 ## Rundeck Ansible Integration
