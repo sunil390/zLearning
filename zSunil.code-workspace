@@ -13,6 +13,15 @@
 		{
 			"name": "zansible",
 			"path": "..\\zansible"
+		},
+		{
+			"path": "..\\devsecops"
+		},
+		{
+			"path": "..\\moms"
+		},
+		{
+			"path": "..\\operations"
 		}
 	],
 	"settings": {}
