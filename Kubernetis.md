@@ -14,6 +14,18 @@ pause
 ```
 2. Reboot Windows11
 3. Configure Minikube https://minikube.sigs.k8s.io/docs/start/
+4. minikube start
+5. minikube dashboard
+
+## zowe container
+
+1. From dashboard click cluster and click on + sight on right top corner.
+2. Upload common/zowe-ns.yaml
+3. Upload common/zowe-sa.yaml
+4. edit samples/workspace-pvc replace hostpath with standard ( minikube kubectl get sc will list the current storage class name)
+5. minikube kubectl -- apply -f samples/workspace-pvc.yaml
+6. updated config-cm.yaml and certificates-secret.yaml per https://docs.zowe.org/stable/user-guide/k8s-config
+7.   
 
 ## 5th November 2021 Microk8s
 
