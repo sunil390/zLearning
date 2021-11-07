@@ -2,8 +2,10 @@
 
 ## passwordless ssh from powershell.
 
+```bash
+ssh-keygen
 type $env:USERPROFILE\.ssh\id_rsa.pub | ssh sunil390@192.168.2.195 "cat >> .ssh/authorized_keys"
-
+```
 
 ## To check if the ports are free on a Unix host, run:
 
