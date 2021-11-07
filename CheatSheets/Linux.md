@@ -1,4 +1,11 @@
-# To check if the ports are free on a Unix host, run:
+# Linux Snippets
+
+## passwordless ssh from powershell.
+
+type $env:USERPROFILE\.ssh\id_rsa.pub | ssh sunil390@192.168.2.195 "cat >> .ssh/authorized_keys"
+
+
+## To check if the ports are free on a Unix host, run:
 
 $ netstat -an | egrep '4440|4443'
 
@@ -6,7 +13,7 @@ If the ports are in use on the server, you will see output similar to below:
 
 tcp46      0      0  *.4440                 *.*                    LISTEN
 
-# Resizing Ubuntu filesystem
+## Resizing Ubuntu filesystem
 
 <https://www.techrepublic.com/blog/smb-technologist/extending-partitions-on-linux-vmware-virtual-machines/>
 
