@@ -1,6 +1,13 @@
-# Oct 28 2021
+# Nov 13th 2021
 
-## Rundeck Customization for WebHook integration with SNOW.
+1. Convert /var/lib/rundeck/id_rsa to new format  ssh-keygen -p -m PEM -f id_rsa
+2. rundeck project settings -> key storage -> add upload key -> Provate Key
+3. add rundeck public key to gitlab
+4. rundeck -> Jobs -> Job actions -> Commit
+
+## Oct 28 2021
+
+### Rundeck Customization for WebHook integration with SNOW.
 1. Project Settings -> Edit Configuration -> Default node executor -> Ansible ad-hoc Node executor, executable : bin/bash , ansible config file path : /home/gitlab-runner/zansible/ansible.cfg , check generate inventory,  (This is not in use)
 2. Project Settings -> Add a new node source -> local
 3. Jobs -> New Job -> Nodes -> Execute Locally
@@ -37,9 +44,9 @@ Playbook in zansible folder
 5. Node Red -> Inject Node -> msg.payload : {"User":"IBMUSER"}
 6. http-request -> POST -> webhook url
 
-# Oct 27 2021
+## Oct 27 2021
 
-## Rundeck Ansible Integration
+### Rundeck Ansible Integration
 1. Created /usr/share/ansible and /usr/share/ansible/collections folders and chmod 755 
 2. sudo ansible-galaxy collection install ibm-ibm_zos_core-1.4.0-beta.1.tar.gz -p /usr/share/ansible/collections
 3. ansible-galaxy collection list ( ~/.ansible/collections:/usr/share/ansible/collections <- default value for COLLECTIONS_PATHS in ansible.cfg)
@@ -51,8 +58,8 @@ Playbook in zansible folder
 14. ssh-copy-id sysprg1@192.168.2.44
 
 
-# Oct 24 2021
-## pi gpio enablement on Ubuntu
+## Oct 24 2021
+### pi gpio enablement on Ubuntu
 1. sudo apt-get install python3-pip python3-dev
 2. sudo pip install RPi.GPIO
 3. sudo addgroup gpio
@@ -63,9 +70,9 @@ Playbook in zansible folder
 8. sudo apt install python3-gpiozero
 9. reboot
 
-# Oct 23 2021
+## Oct 23 2021
 
-## PostGresql config for rundeck
+### PostGresql config for rundeck
 1. If not already done change password of postgres, passwd postgres
 2. su postgres
 3. psql
@@ -84,9 +91,9 @@ dataSource.password = rundeckpassword
 9. tail -f /var/log/rundeck/service.log
 10. http://192.168.2.251:4440
 
-# Oct 21 2021
+## Oct 21 2021
 
-## Postgresql
+### Postgresql
 ```bash
 1. sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 2. wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -102,8 +109,8 @@ dataSource.password = rundeckpassword
 12. \password (Change database admin user postgres password here for administration using pgadmin GUI)
 ```
 
-# Oct 18 2021
-## Install Ubuntu Server in RPI
+## Oct 18 2021
+### Install Ubuntu Server in RPI
 1. Headless ubuntu 64 bit server 20.04.03 LTS using pi imager.
 2. sudo nano /etc/netplan/50-cloud-init.yaml
 ```bash
@@ -116,28 +123,28 @@ dataSource.password = rundeckpassword
             dhcp4: true
 ```
 3. sudo update followed by sudo upgrade
-## Install Node-Red
+### Install Node-Red
 4. Install Node Red -> bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
 5. enable projects in ~/.node-red/settings.js
 6. node-red-start / sudo systemctl enable nodered.service (For Auto Start)
 7. Access node-red and clone repository https://gitlab.com/Sunil390/znodered.git 
-## Install Ansible as Global
+### Install Ansible as Global
 8. curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 9. sudo python3 get-pip.py
 10. sudo python3 -m pip install ansible
 11. ansible-galaxy collection install ibm-ibm_zos_core-1.4.0-beta.1.tar.gz
 12. git clone http://192.168.2.195/mainframe/zansible.git
-## ssh setup between rpi and herc
+### ssh setup between rpi and herc
 13. ssh-keygen
 14. ssh-copy-id sysprg1@192.168.2.44
-## Test Ansible from zansible foler
+### Test Ansible from zansible foler
 15. ansible-playbook -i inventory.yml console_command.yaml
-## Install Gitlab Runner
+### Install Gitlab Runner
 16. curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
 17. sudo apt-get install gitlab-runner
 18. sudo passwd gitlab-runner
 19. sudo gitlab-runner register
-## Install Rundeck  
+### Install Rundeck  
 20. sudo apt-get install openjdk-11-jre-headless
 21. curl https://raw.githubusercontent.com/rundeck/packaging/main/scripts/deb-setup.sh 2> /dev/null | sudo bash -s rundeck
 22. sudo apt-get update
@@ -145,7 +152,7 @@ dataSource.password = rundeckpassword
 24. Update localhost with ip address of server in /etc/rundeck/rundeck-config.properties and /etc/rundeck/framework.properties 
 25. sudo service rundeckd start
 26. tail -f /var/log/rundeck/service.log  
-## Bluetooth LE and Microbit
+### Bluetooth LE and Microbit
 27. sudo apt install pi-bluetooth
 28. sudo reboot
 29. sudo pip3 install bluezero  ( This may not be required -> sudo hciattach /dev/ttyAMA0 bcm43xx)
@@ -173,7 +180,7 @@ while ubit.button_a < 1:
 ubit.disconnect()
 ```
 
-# Oct 17 2021
+## Oct 17 2021
 
 1. Headless pi OS install using rpi imager
 
@@ -243,16 +250,16 @@ pip install cryptography --no-binary cryptography
 sudo python3 -m pip install ansible
 
 ```
-# August 2021 
+## August 2021 
 
-# Raspberry Pi Integration with Microbit over Bluetooth Low Enery - Send Messages to ubit over BLE from RPI
+### Raspberry Pi Integration with Microbit over Bluetooth Low Enery - Send Messages to ubit over BLE from RPI
 
-## Hardware
+### Hardware
 
 1. Raspberry pi 4 with Raspberry pi OS 32 bit .. https://www.raspberrypi.org/software/
 2. Microbit v2 https://microbit.org/  https://makecode.microbit.org/
 
-## Software
+### Software
 
 1. Nodered 2.0.5
 2. MakeCode - to be downloaded to Microbit
@@ -331,96 +338,7 @@ Discovery started
 
 ```bash
 [bluetooth]# pair C2:DB:C7:80:B7:14
-Attempting to pair with C2:DB:C7:80:B7:14
-[CHG] Device C2:DB:C7:80:B7:14 Connected: yes
-[CHG] Device C2:DB:C7:80:B7:14 UUIDs: 00001800-0000-1000-8000-00805f9b34fb
-[CHG] Device C2:DB:C7:80:B7:14 UUIDs: 00001801-0000-1000-8000-00805f9b34fb
-[CHG] Device C2:DB:C7:80:B7:14 UUIDs: 0000180a-0000-1000-8000-00805f9b34fb
-[CHG] Device C2:DB:C7:80:B7:14 UUIDs: 0000fe59-0000-1000-8000-00805f9b34fb
-[CHG] Device C2:DB:C7:80:B7:14 UUIDs: e95d93af-251d-470a-a062-fa1922dfa9a8
-[CHG] Device C2:DB:C7:80:B7:14 UUIDs: e97dd91d-251d-470a-a062-fa1922dfa9a8
-[CHG] Device C2:DB:C7:80:B7:14 ServicesResolved: yes
-[CHG] Device C2:DB:C7:80:B7:14 Paired: yes
-[NEW] Primary Service
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service000a
-	00001801-0000-1000-8000-00805f9b34fb
-	Generic Attribute Profile
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service000a/char000b
-	00002a05-0000-1000-8000-00805f9b34fb
-	Service Changed
-[NEW] Descriptor
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service000a/char000b/desc000d
-	00002902-0000-1000-8000-00805f9b34fb
-	Client Characteristic Configuration
-[NEW] Primary Service
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service000e
-	0000fe59-0000-1000-8000-00805f9b34fb
-	Nordic Semiconductor ASA
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service000e/char000f
-	8ec90004-f315-4f60-9fb8-838830daea50
-	Vendor specific
-[NEW] Descriptor
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service000e/char000f/desc0011
-	00002902-0000-1000-8000-00805f9b34fb
-	Client Characteristic Configuration
-[NEW] Primary Service
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service0012
-	e97dd91d-251d-470a-a062-fa1922dfa9a8
-	Vendor specific
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service0012/char0013
-	e97d3b10-251d-470a-a062-fa1922dfa9a8
-	Vendor specific
-[NEW] Descriptor
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service0012/char0013/desc0015
-	00002902-0000-1000-8000-00805f9b34fb
-	Client Characteristic Configuration
-[NEW] Primary Service
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service0016
-	0000180a-0000-1000-8000-00805f9b34fb
-	Device Information
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service0016/char0017
-	00002a24-0000-1000-8000-00805f9b34fb
-	Model Number String
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service0016/char0019
-	00002a25-0000-1000-8000-00805f9b34fb
-	Serial Number String
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service0016/char001b
-	00002a26-0000-1000-8000-00805f9b34fb
-	Firmware Revision String
-[NEW] Primary Service
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service001d
-	e95d93af-251d-470a-a062-fa1922dfa9a8
-	MicroBit Event Service
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service001d/char001e
-	e95d9775-251d-470a-a062-fa1922dfa9a8
-	MicroBit Event Data
-[NEW] Descriptor
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service001d/char001e/desc0020
-	00002902-0000-1000-8000-00805f9b34fb
-	Client Characteristic Configuration
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service001d/char0021
-	e95d5404-251d-470a-a062-fa1922dfa9a8
-	MicroBit Client Events
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service001d/char0023
-	e95d23c4-251d-470a-a062-fa1922dfa9a8
-	MicroBit Client Requirements
-[NEW] Characteristic
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service001d/char0025
-	e95db84c-251d-470a-a062-fa1922dfa9a8
-	MicroBit Requirements
-[NEW] Descriptor
-	/org/bluez/hci0/dev_C2_DB_C7_80_B7_14/service001d/char0025/desc0027
-	00002902-0000-1000-8000-00805f9b34fb
-	Client Characteristic Configuration
+
 Pairing successful
 
 [bluetooth]# devices
@@ -430,7 +348,7 @@ Device C2:DB:C7:80:B7:14 BBC micro:bit [puzot]
 ```
 
 
-## Download the makecode script to ubit
+### Download the makecode script to ubit
 
 https://ukbaz.github.io/howto/ubit_workshop.html
 
@@ -558,263 +476,5 @@ export PYTHONPATH=".:/usr/local/lib/python3.7"
 ```
 
 3. Added an exec node in Node-RED with command as python3  ubitmsg.py and enabled append msg.payload option.
-
-Flow export from Node-RED
-
-```json
-[
-    {
-        "id": "524fe5c0.a70e5c",
-        "type": "tab",
-        "label": "zIOT",
-        "disabled": false,
-        "info": ""
-    },
-    {
-        "id": "c7dc0a18.2c9288",
-        "type": "template",
-        "z": "524fe5c0.a70e5c",
-        "name": "TeamsMessageBuild",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{\n  \"@context\": \"https://schema.org/extensions\",\n  \"@type\": \"MessageCard\",\n  \"themeColor\": \"0072C6\",\n  \"title\": \"Node-RED to Teams\",\n  \"text\": \" {{payload}} \"\n}",
-        "output": "str",
-        "x": 640,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "bc1662fd.9545e",
-        "type": "http request",
-        "z": "524fe5c0.a70e5c",
-        "name": "WebHook to MS Teams",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://atos365.webhook.office.com/webhookb2/e6ac63b9-669b-4f26-bba5-4b0a37fa8ff3@33440fc6-b7c7-412c-bb73-0e70b0198d5a/IncomingWebhook/f3923ae196ad4bdfb2f5451a2248950a/788daa90-58da-4246-b1ab-7de9e262496d",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 890,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "5b199649.a8ad08",
-        "type": "http in",
-        "z": "524fe5c0.a70e5c",
-        "name": "zListener",
-        "url": "/zEntry",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 100,
-        "y": 160,
-        "wires": [
-            [
-                "4ef25165.b2dc2",
-                "63a752a9.7bdd0c",
-                "1eaccced9bc5756c"
-            ]
-        ]
-    },
-    {
-        "id": "4ef25165.b2dc2",
-        "type": "template",
-        "z": "524fe5c0.a70e5c",
-        "name": "ResponceMsg",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "Sweets from Node-RED: {{payload}} !",
-        "output": "str",
-        "x": 340,
-        "y": 100,
-        "wires": [
-            [
-                "795d3737.d353e8"
-            ]
-        ]
-    },
-    {
-        "id": "795d3737.d353e8",
-        "type": "http response",
-        "z": "524fe5c0.a70e5c",
-        "name": "Responce",
-        "statusCode": "",
-        "headers": {},
-        "x": 580,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "63a752a9.7bdd0c",
-        "type": "http request",
-        "z": "524fe5c0.a70e5c",
-        "name": "Download mp3",
-        "method": "GET",
-        "ret": "bin",
-        "paytoqs": "ignore",
-        "url": "https://quz1yp-a.akamaihd.net/downloads/ringtones/files/dl/mp3/kannodu-kannodu-kannoram-49034-51958-53676.mp3",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 340,
-        "y": 160,
-        "wires": [
-            [
-                "2539fbce.cb39a4"
-            ]
-        ],
-        "info": "https://quz1yp-a.akamaihd.net/downloads/ringtones/files/dl/mp3/kannodu-kannodu-kannoram-49034-51958-53676.mp3\n\n"
-    },
-    {
-        "id": "2539fbce.cb39a4",
-        "type": "play audio",
-        "z": "524fe5c0.a70e5c",
-        "name": "",
-        "voice": "21",
-        "x": 610,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "1eaccced9bc5756c",
-        "type": "split",
-        "z": "524fe5c0.a70e5c",
-        "name": "Array to Message",
-        "splt": "\\n",
-        "spltType": "str",
-        "arraySplt": 1,
-        "arraySpltType": "len",
-        "stream": false,
-        "addname": "",
-        "x": 350,
-        "y": 220,
-        "wires": [
-            [
-                "c7dc0a18.2c9288",
-                "be15d2f960bd4334",
-                "4955728690484afa"
-            ]
-        ]
-    },
-    {
-        "id": "be15d2f960bd4334",
-        "type": "alexa-remote-routine",
-        "z": "524fe5c0.a70e5c",
-        "name": "",
-        "account": "2be4ecceb4fdbc89",
-        "routineNode": {
-            "type": "speak",
-            "payload": {
-                "type": "announcement",
-                "text": {
-                    "type": "msg",
-                    "value": "payload"
-                },
-                "devices": [
-                    "G090XG0793742RWP"
-                ]
-            }
-        },
-        "x": 620,
-        "y": 220,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "90ed2c4405b2637b",
-        "type": "inject",
-        "z": "524fe5c0.a70e5c",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "test",
-        "payloadType": "str",
-        "x": 130,
-        "y": 380,
-        "wires": [
-            [
-                "4955728690484afa"
-            ]
-        ]
-    },
-    {
-        "id": "4955728690484afa",
-        "type": "exec",
-        "z": "524fe5c0.a70e5c",
-        "command": "python3 ubitmsg.py",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "Send Message",
-        "x": 600,
-        "y": 380,
-        "wires": [
-            [],
-            [
-                "37d148a93ed040e6"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "37d148a93ed040e6",
-        "type": "debug",
-        "z": "524fe5c0.a70e5c",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 850,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "2be4ecceb4fdbc89",
-        "type": "alexa-remote-account",
-        "name": "",
-        "authMethod": "proxy",
-        "proxyOwnIp": "192.168.2.252",
-        "proxyPort": "3456",
-        "cookieFile": "/home/pi/Alexa",
-        "refreshInterval": "3",
-        "alexaServiceHost": "pitangui.amazon.com",
-        "amazonPage": "amazon.com",
-        "acceptLanguage": "en-US",
-        "userAgent": "",
-        "useWsMqtt": "on",
-        "autoInit": "on"
-    }
-]
-```
-
-### RPI in Headless Mode
 
 prefix the command with sudo in the exec node,   sudo python3  ubitmsg.py 
