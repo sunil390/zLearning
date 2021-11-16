@@ -284,3 +284,60 @@ zos_host                   : ok=2    changed=1    unreachable=0    failed=0    s
 
 rundeck@gitlab:~/zansible$
 ```
+
+## rundeck webpage customization
+1. open project settings
+then select everything on User Interface
+then from default node executor drop down change ssh to ansible adhoc node executor and executable as /bin/bash
+
+2. click on Jobs and create a job
+click workflow and scrip inline executor and add the copied
+```
+cd /var/lib/rundeck/zansible
+
+if /usr/bin/git pull git@192.168.2.195:mainframe/zansible.git; then
+    echo "Git Pull Successful"
+else
+    echo "Git Pull Failed"
+    exit 1
+fi
+
+ansible-playbook -i inventory.yml Cancel_User.yaml -e "arg1=$1 arg2=$2"
+```
+Arugments as 
+```
+${option.System} ${option.User}
+```
+
+3. click on webhook
+give name canceluserhook
+and give user as administrator
+then click no Handler configuration
+Select the job as canceluser
+
+options -System ${data.System}  -User ${data.User}
+
+
+4. go to node-red  
+http://127.0.0.1:1880/#flow/b0b9109d78837be3
+
+drag and put inject , http request and debug node on single line
+
+on inject/timestap, edit and name as serivce now and msg.payload as JSON and paste below 
+{
+    "System": "zos1",
+    "User": "IBMUSER"
+}
+
+on the http-request icon edit method as POST and paste the http put rundeck webhook postURL and return Parsed JSON objects
+
+5. on gitlab inventory changed zos_hosts to zos1
+and created zos1.yml on host__vars directory on gitlab
+
+
+
+
+
+
+
+
