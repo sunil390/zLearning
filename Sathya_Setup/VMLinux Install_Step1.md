@@ -350,7 +350,7 @@ dataSource.password = rundeckpassword
 ```
 # change hostname here
 grails.serverURL=http://192.168.1.24:4440
-dataSource.dirverClassName = org.postgresql.Driver
+dataSource.driverClassName = org.postgresql.Driver
 dataSource.dbCreate = update
 #dataSource.url = jdbc:h2:file:/var/lib/rundeck/data/rundeckdb;DB_CLOSE_ON_EXIT=FALSE
 dataSource.url = jdbc:postgresql://127.0.0.1:5433/rundeck
@@ -359,9 +359,64 @@ dataSource.password = rundeckpassword
 grails.plugin.databasemigration.updateOnStart=true
 ```
 
-5. Update localhost with ip address of server in /etc/rundeck/rundeck-config.properties and /etc/rundeck/framework.properties
-6. sudo service rundeckd start
-7. tail -f /var/log/rundeck/service.log
+5. Edit file  /etc/rundeck/framework.properties
+sudo nano /etc/rundeck/framework.properties
+change all localhost to ip address
+
+framework.server.name = localhost
+framework.server.hostname = localhost
+framework.server.port = 4440
+framework.server.url = http://localhost:4440
+```
+# ----------------------------------------------------------------
+# Rundeck server connection information
+# ----------------------------------------------------------------
+
+framework.server.name = 192.168.1.24
+framework.server.hostname = 192.168.1.24
+framework.server.port = 4440
+framework.server.url = http://192.168.1.24:4440
+```
+
+6. create postgres database and userid and grant access
+su postgres
+password gitlab
+psql
+create database rundeck;
+create user rundeckuser with password 'rundeckpassword';
+grant ALL privileges on database rundeck to rundeckuser;
+
+```
+sathya@gitlab:~$ su postgres
+Password:
+postgres@gitlab:/home/sathya$ psql
+psql (14.1 (Ubuntu 14.1-1.pgdg20.04+1))
+Type "help" for help.
+
+postgres=# create database rundeck;
+CREATE DATABASE
+postgres=# create user rundeckuser with password 'rundeckpassword';
+CREATE ROLE
+postgres=# grant ALL privileges on database rundeck to rundeckuser;
+GRANT
+postgres=# \q
+postgres@gitlab:/home/sathya$
+
+```
+
+7. sudo service rundeckd start
+8. sudo tail -f /var/log/rundeck/service.log
+some abend, so perform restart of linux and then verify
+
+```
+[2021-11-16T14:38:04,775] INFO  rundeckapp.BootStrap - workflowConfigFix973: No fix was needed. Storing fix application state.
+[2021-11-16T14:38:04,991] INFO  rundeckapp.BootStrap - Rundeck startup finished in 704ms
+[2021-11-16T14:38:05,121] INFO  rundeckapp.Application - Started Application in 37.151 seconds (JVM running for 38.779)
+Grails application running at http://localhost:4440 in environment: production
+```
+9. open web browse http://192.168.1.24:4440/user/login
+use id admin pwd admin
+
 
 
 
