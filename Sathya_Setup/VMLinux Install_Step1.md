@@ -1,4 +1,5 @@
-# VM Linux Install setup
+# Devops
+## Install linux on VM
 1. Download ubuntu-20.04.3-live-server-amd64 from Ubuntu Site
 2. Download and Install Vmware vsphere Workstation player latest version from Vmware Site
 3. Open Vmware Vsphere Workstation player and new image and select location of downloaded ubuntu-20.04.3-live-server-amd64.iso image
@@ -12,7 +13,7 @@
 11. once linux installed and rebooted.
 12. open windows terminal and use ssh connection for your newly installed linux sathya@192.168.1.24
 13. issue sudo apt update followed by sudo apt upgrade
-## Install Install Node-Red setup
+## Install Node-Red setup
 https://nodered.org/docs/getting-started/windows
 1. pre-req is node.js https://nodejs.org/en/ install on window node-v16.13.0-x64
 2. open cmd prompt and issue npm install -g --unsafe-perm node-red to install node-red on windows
@@ -141,6 +142,65 @@ ibm.ibm_zos_core:1.4.0-beta.1 was installed successfully
 sathya@gitlab:~$
 ```
 
+## Install gitlab
+use site https://about.gitlab.com/install/?version=ce#ubuntu
+
+1. sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
+2. sudo apt-get install -y postfix
+3. change below command as follows before issuing
+
+sudo EXTERNAL_URL="https://gitlab.example.com" apt-get install gitlab-ce
+
+to
+
+sudo EXTERNAL_URL="http://192.168.1.24" apt-get install gitlab-ce
+
+```
+sathya@gitlab:~$ sudo EXTERNAL_URL="http://192.168.1.24" apt-get install gitlab-ce
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following NEW packages will be installed:
+  gitlab-ce
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 967 MB of archives.
+After this operation, 2,660 MB of additional disk space will be used.
+Get:1 https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu focal/main amd64 gitlab-ce amd64 14.4.2-ce.0 [967 MB]
+Fetched 967 MB in 2min 42s (5,967 kB/s)
+Selecting previously unselected package gitlab-ce.
+(Reading database ... 71791 files and directories currently installed.)
+Preparing to unpack .../gitlab-ce_14.4.2-ce.0_amd64.deb ...
+Unpacking gitlab-ce (14.4.2-ce.0) ...
+Setting up gitlab-ce (14.4.2-ce.0) ...
+```
+
+4. password of root as stored as follow, make a note of it
+
+Notes:
+Default admin account has been configured with following details:
+Username: root
+Password: You didn't opt-in to print initial root password to STDOUT.
+Password stored to /etc/gitlab/initial_root_password. This file will be cleaned up in first reconfigure run after 24 hours.
+```
+sathya@gitlab:~$ sudo cat /etc/gitlab/initial_root_password
+# WARNING: This value is valid only in the following conditions
+#          1. If provided manually (either via `GITLAB_ROOT_PASSWORD` environment variable or via `gitlab_rails['initial_root_password']` setting in `gitlab.rb`, it was provided before database was seeded for the first time (usually, the first reconfigure run).
+#          2. Password hasn't been changed manually, either via UI or via command line.
+#
+#          If the password shown here doesn't work, you must reset the admin password following https://docs.gitlab.com/ee/security/reset_user_password.html#reset-your-root-password.
+
+Password: GjL1ZBWxPieag36kboUqu+Lo/6sWx82TtSixUneNqbM=
+
+# NOTE: This file will be automatically deleted in the first reconfigure run after 24 hours.
+sathya@gitlab:~$
+```
+
+5. open web browser type http://192.168.1.24/
+  to access gitlab user id root and password of earlier step.
+
+6. using root create new admin id as sathya and pwd gitlab55. 
+
+
 ## Install Gitlab Runner
 Install gitlab runner on linux vm image using below steps
 
@@ -192,40 +252,121 @@ Runtime platform                                    arch=amd64 os=linux pid=1880
 INFO: Docker installation not found, skipping clear-docker-cache
 sathya@gitlab:~$
 ```
-3. sudo passwd gitlab-runner  new passwor is gitlab
-4. sudo gitlab-runner register -- which we will do later
-
-## install gitlab
-use site https://about.gitlab.com/install/?version=ce#ubuntu
-
-sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
-sudo apt-get install -y postfix
-change below command as follows before issuing
-
-sudo EXTERNAL_URL="https://gitlab.example.com" apt-get install gitlab-ce
-
-to
-
-sudo EXTERNAL_URL="http://192.168.1.24" apt-get install gitlab-ce
+3. sudo passwd gitlab-runner  new password is gitlab
+4. sudo gitlab-runner register 
+you need gitlab details give ip address of gitlab and registration token from site admin area and then click runners on right side you will see token details.
 
 ```
-sathya@gitlab:~$ sudo EXTERNAL_URL="http://192.168.1.24" apt-get install gitlab-ce
-Reading package lists... Done
-Building dependency tree
-Reading state information... Done
-The following NEW packages will be installed:
-  gitlab-ce
-0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
-Need to get 967 MB of archives.
-After this operation, 2,660 MB of additional disk space will be used.
-Get:1 https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu focal/main amd64 gitlab-ce amd64 14.4.2-ce.0 [967 MB]
-Fetched 967 MB in 2min 42s (5,967 kB/s)
-Selecting previously unselected package gitlab-ce.
-(Reading database ... 71791 files and directories currently installed.)
-Preparing to unpack .../gitlab-ce_14.4.2-ce.0_amd64.deb ...
-Unpacking gitlab-ce (14.4.2-ce.0) ...
-Setting up gitlab-ce (14.4.2-ce.0) ...
+sathya@gitlab:~$ sudo gitlab-runner register
+Runtime platform                                    arch=amd64 os=linux pid=34170 revision=4b9e985a version=14.4.0
+Running in system-mode.
+
+Enter the GitLab instance URL (for example, https://gitlab.com/):
+http://192.168.1.24
+Enter the registration token:
+Pu6yxqznk2shsu97uz55
+Enter a description for the runner:
+[gitlab]:
+Enter tags for the runner (comma-separated):
+
+Registering runner... succeeded                     runner=Pu6yxqzn
+Enter an executor: docker, shell, virtualbox, custom, docker-ssh, parallels, ssh, docker+machine, docker-ssh+machine, kubernetes:
+shell
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+sathya@gitlab:~$
 ```
+## Install Postgresql
+1. sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+2. wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+3. sudo apt-get update
+4. sudo apt-get -y install postgresql
+5. edit /etc/postgresql/14/main/postgresql.conf and change
+sudo nano /etc/postgresql/14/main/postgresql.conf
+
+change port 5432 to 5433  ( Since 5432 is used by gitlab postgresql)
+
+Save CTRL+X and then Y and then enter
+
+6. sudo nano /etc/postgresql/14/main/pg_hba.conf
+host    all all 0.0.0.0/0   md5  
+
+```
+# "local" is for Unix domain socket connections only
+local   all             all                                     peer
+host    all             all             0.0.0.0/0               md5
+```
+Save CTRL+X and then Y and then enter
+7. sudo systemctl stop postgresql
+8. sudo systemctl start postgresql
+9. sudo passwd postgres ( Change password - This is to access psql prompt to define rundeck database)
+```
+sathya@gitlab:~$ sudo passwd postgres
+New password: gitlab
+Retype new password:
+passwd: password updated successfully
+sathya@gitlab:~$
+```
+10. su postgres
+11. psql
+```
+sathya@gitlab:~$ su postgres
+Password:
+postgres@gitlab:/home/sathya$ psql
+psql (14.1 (Ubuntu 14.1-1.pgdg20.04+1))
+Type "help" for help.
+
+postgres=# \password
+Enter new password: gitlab
+Enter it again:
+postgres=#
+```
+12. \password (Change database admin user postgres password here for administration using pgadmin GUI)
+13. to come out use \q and enter
+## Install Rundeck
+1. sudo apt-get install openjdk-11-jre-headless
+2. curl https://raw.githubusercontent.com/rundeck/packaging/main/scripts/deb-setup.sh 2> /dev/null | sudo bash -s rundeck
+3. sudo apt-get update
+4. sudo apt-get install rundeck
+5. edit below files
+sudo nano /etc/rundeck/rundeck-config.properties
+ 
+grails.serverURL=http://localhost:4440
+to grails.serverURL=http://192.168.1.24:4440
+
+added new line dataSource.dirverClassName = org.postgresql.Driver
+
+dataSource.dbCreate = none
+to 
+dataSource.dbCreate = update
+ 
+dataSource.url = jdbc:h2:file:/var/lib/rundeck/data/rundeckdb;DB_CLOSE_ON_EXIT=FALSE
+to 
+dataSource.url = jdbc:postgresql://127.0.0.1:5433/rundeck 
+
+added below lines
+dataSource.username = rundeckuser
+dataSource.password = rundeckpassword
+
+```
+# change hostname here
+grails.serverURL=http://192.168.1.24:4440
+dataSource.dirverClassName = org.postgresql.Driver
+dataSource.dbCreate = update
+#dataSource.url = jdbc:h2:file:/var/lib/rundeck/data/rundeckdb;DB_CLOSE_ON_EXIT=FALSE
+dataSource.url = jdbc:postgresql://127.0.0.1:5433/rundeck
+dataSource.username = rundeckuser
+dataSource.password = rundeckpassword
+grails.plugin.databasemigration.updateOnStart=true
+```
+
+5. Update localhost with ip address of server in /etc/rundeck/rundeck-config.properties and /etc/rundeck/framework.properties
+6. sudo service rundeckd start
+7. tail -f /var/log/rundeck/service.log
+
+
+
+
+
 
 
 
