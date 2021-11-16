@@ -150,3 +150,44 @@ and check to make sure that only the key(s) you wanted were added.
 rundeck@gitlab:~$
 
 ```
+for sysprg1 ssh didn' work, since some other configuration was done. create new userid sathya
+
+```
+rundeck@gitlab:~$ ssh-copy-id sathya@192.168.1.44
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/var/lib/rundeck/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+**********************************************************
+ALERT! ALERT! ALERT! ALERT! ALERT! ALERT! ALERT! ALERT!
+**********************************************************
+You are entering into a ATOS Secured Area!
+Your IP, Login Time,  Username has been noted and
+as been sent to the server administrator!
+This service is restricted to authorized users only.
+All activities on this system are logged.
+**********************************************************
+sathya@192.168.1.44's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'sathya@192.168.1.44'"
+and check to make sure that only the key(s) you wanted were added.
+
+rundeck@gitlab:~$ ssh sathya@192.168.1.44
+**********************************************************
+ALERT! ALERT! ALERT! ALERT! ALERT! ALERT! ALERT! ALERT!
+**********************************************************
+You are entering into a ATOS Secured Area!
+Your IP, Login Time,  Username has been noted and
+as been sent to the server administrator!
+This service is restricted to authorized users only.
+All activities on this system are logged.
+**********************************************************
+$ ls -la
+total 50
+drwxr-xr-x   3 SATHYA   1           8192 Nov 16 16:35 .
+drwxr-xr-x   5 0        1           8192 Nov 16 16:29 ..
+-rw-------   1 SATHYA   1              9 Nov 16 16:35 .sh_history
+drwx------   2 SATHYA   1           8192 Nov 16 16:34 .ssh
+$
+```
