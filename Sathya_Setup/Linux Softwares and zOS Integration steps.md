@@ -285,7 +285,7 @@ zos_host                   : ok=2    changed=1    unreachable=0    failed=0    s
 rundeck@gitlab:~/zansible$
 ```
 
-## rundeck webpage customization
+## rundeck and node-red webpage intergration
 1. open project settings
 then select everything on User Interface
 then from default node executor drop down change ssh to ansible adhoc node executor and executable as /bin/bash
