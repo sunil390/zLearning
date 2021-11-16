@@ -335,7 +335,7 @@ on the http-request icon edit method as POST and paste the http put rundeck webh
 and created zos1.yml on host__vars directory on gitlab
 
 
-
+6. run using node-red click on service now and then go to verify rundeck webpage jobs and check its status.
 
 
 
