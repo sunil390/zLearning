@@ -89,3 +89,64 @@ Total 37 (delta 6), reused 0 (delta 0), pack-reused 0
 To 192.168.1.24:mainframe/zansible.git
    5938b37..7f9f1c1  main -> main
 ```
+## Rundeck Ansible Integration
+
+1. from sathya logon : sudo chsh -s /bin/bash rundeck
+2. change password of rundeck
+3. exit and  Login as rundeck pwd as gitlab
+4. ssh-keygen
+rundeck@gitlab:~$ ssh-keygen
+
+
+5. ssh-copy-id sysprg1@192.168.1.44
+
+```
+rundeck@gitlab:~$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/var/lib/rundeck/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /var/lib/rundeck/.ssh/id_rsa
+Your public key has been saved in /var/lib/rundeck/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:TemVbLvGFlN22uNoJkci15ZxJ5dniLMCqYjaxZvYa34 rundeck@gitlab
+The key's randomart image is:
++---[RSA 3072]----+
+|                 |
+|         . o o ..|
+|        o o B.=o*|
+|   o . . = o.*+Bo|
+|  . + . S.+o==...|
+| o + o    oo++o .|
+|. o +      .== . |
+|    ..E    o=    |
+|   oo.           |
++----[SHA256]-----+
+rundeck@gitlab:~$ ssh-copy-id sysprg1@192.168.1.44
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/var/lib/rundeck/.ssh/id_rsa.pub"
+The authenticity of host '192.168.1.44 (192.168.1.44)' can't be established.
+ECDSA key fingerprint is SHA256:/hRt6nIQt3uibLOhjtxVfKANn8W5AG/SPJ5q79mi9MA.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+Please type 'yes', 'no' or the fingerprint: yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+**********************************************************
+ALERT! ALERT! ALERT! ALERT! ALERT! ALERT! ALERT! ALERT!
+**********************************************************
+You are entering into a ATOS Secured Area!
+Your IP, Login Time,  Username has been noted and
+as been sent to the server administrator!
+This service is restricted to authorized users only.
+All activities on this system are logged.
+**********************************************************
+sysprg1@192.168.1.44's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'sysprg1@192.168.1.44'"
+and check to make sure that only the key(s) you wanted were added.
+
+rundeck@gitlab:~$
+
+```
