@@ -7,7 +7,7 @@ c. rundeck
 d. psql
 e. ansible
 f. your zOS lpar is up and avilable
-2. on zOS make sure SSH and CSF are running
+2. on zOS make sure SSH and CSF are running and ZOAU and Python are installed.
 3. open your gitlab webbrowser
 create new group called Mainframe under that create new project called zansible (blank project)
 4. Click add ssh key
@@ -190,4 +190,97 @@ drwxr-xr-x   5 0        1           8192 Nov 16 16:29 ..
 -rw-------   1 SATHYA   1              9 Nov 16 16:35 .sh_history
 drwx------   2 SATHYA   1           8192 Nov 16 16:34 .ssh
 $
+
+```
+
+update zos userid .profile with below details.
+
+export PYTHON_HOME=/usr/lpp/IBM/cyp/v3r8/pyz                                
+export PATH=$PATH:$PYTHON_HOME/bin                                          
+export LIBPATH=$LIBPATH:$PYTHON_HOME/lib                                    
+# ZOAU REQUIREMENTS                                                         
+export _BPXK_AUTOCVT=ON                                                     
+export ZOAU_HOME=/usr/lpp/IBM/zoautil                                       
+export PATH=${ZOAU_HOME}/bin:$PATH                                          
+# ZOAU MAN PAGE REQS (OPTIONAL)                                             
+export MANPATH=${ZOAU_HOME}/docs/%L:$MANPATH                                
+# ZOAU JAVA REQS (OPTIONAL)                                                 
+export JAVA_HOME=/usr/lpp/java/J8.0_64 # Root directory for Java 64-bit     
+export CLASSPATH=${ZOAU_HOME}/lib:${CLASSPATH}                              
+# ZOAU PYTHON REQS (OPTIONAL)                                               
+export ZOAU_HOME=/usr/lpp/IBM/zoautil                                       
+export PATH=${ZOAU_HOME}/bin:$PATH                                          
+export LIBPATH=${ZOAU_HOME}/lib:${LIBPATH}                                  
+
+
+issue pcon -r to verify
+
+
+
+rundeck@gitlab:~$ cat /var/lib/rundeck/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCJ2Vr9dmwML0EjF9Kc6d2kYyzLlgK1uWsaxJTXuDTNnKhBVempC8VduUIQaCoycVOzD6BHljMWwyhSwGAwKnzokVRJTPaFMl45HrLkG1zBVyuL+TWHUnSUyMpPcFGT+zicHXWTHoH5Kr6CTfi2UsTEJFlv5B97SxRwoYCDctVI0m0vdaK9w/oDYI+Zk790JUDL3O7lIYehSV2O6RaebC76sTg7aPHSrBjJSNWpVpfnr3NthnpWQ3CEiV0o4BoQQeWtLMe9nrEvONJkzQgNWcoP2IoePUQ8wD3WyOQFuopmNbkOcuny3lvJJUtEBdWW4085P0zTggWrcW9msjzUxl3eAaCHU335fn7qxmhgam3i90YAXHd9WVk+wcF/MclI+iBUsWkqX0BvEcwRI99vQi58ZgrHRuZZmvd/uE1ai5aeqm/WiXCpCOZaCrSkF8N749lckmHa3Qa+zxtM86+F9IXX2GdUFZywJMm1pBC+ruaFm6FmWWIzKpt4h3d3fyLmNU= rundeck@gitlab
+rundeck@gitlab:~$
+
+
+add above key on gitlab ssh addkeys.
+
+rundeck@gitlab:~$ git clone git@192.168.1.24:mainframe/zansible.git
+Cloning into 'zansible'...
+remote: Enumerating objects: 40, done.
+remote: Counting objects: 100% (40/40), done.
+remote: Compressing objects: 100% (34/34), done.
+remote: Total 40 (delta 6), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100% (40/40), 21.96 KiB | 21.96 MiB/s, done.
+Resolving deltas: 100% (6/6), done.
+rundeck@gitlab:~$
+
+```
+rundeck@gitlab:~/zansible$ git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 285 bytes | 285.00 KiB/s, done.
+From 192.168.1.24:mainframe/zansible
+   3e63610..fc3fe57  main       -> origin/main
+Updating 3e63610..fc3fe57
+Fast-forward
+ inventory.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+rundeck@gitlab:~/zansible$ ansible-playbook -i inventory.yml console_command.yaml
+
+PLAY [zos_host] **********************************************************************************************************************
+
+TASK [Execute an operator command to show active jobs] *******************************************************************************
+changed: [zos_host]
+
+TASK [Response for Console Command] **************************************************************************************************
+ok: [zos_host] => {
+    "msg": {
+        "changed": true,
+        "content": [
+            "DCUF      2021320  16:32:21.81             ISF031I CONSOLE SATHYA ACTIVATED",
+            "DCUF      2021320  16:32:21.81            -D IPLINFO",
+            "DCUF      2021320  16:32:21.84             IEE254I  16.32.21 IPLINFO DISPLAY 026",
+            "                                            SYSTEM IPLED AT 14.14.17 ON 11/16/2021",
+            "                                            RELEASE z/OS 02.04.00    LICENSE = z/OS",
+            "                                            USED LOAD25 IN SYS1.IPLPARM ON 02027",
+            "                                            ARCHLVL = 2   MTLSHARE = N",
+            "                                            IEASYM LIST = (99,L)",
+            "                                            IEASYS LIST = (DF) (OP)",
+            "                                            IODF DEVICE: ORIGINAL(02027) CURRENT(02027)",
+            "                                            IPL DEVICE: ORIGINAL(02011) CURRENT(02011) VOLUME(X24RA1)",
+            "",
+            "",
+            "Ran 5 \"D IPLINFO\" QUIET NOWAIT"
+        ],
+        "failed": false,
+        "rc": 0
+    }
+}
+
+PLAY RECAP ***************************************************************************************************************************
+zos_host                   : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+rundeck@gitlab:~/zansible$
 ```
