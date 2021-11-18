@@ -30,6 +30,8 @@
 23. Buttons
 24. Button action -> Bookmark
 25. Send Alert from Visual....
+26. Include in App
+
 
 
 
