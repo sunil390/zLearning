@@ -1,5 +1,56 @@
 # Kubernetis
 
+## 17th Nov 
+
+minikube kubectl -- apply -f https://raw.githubusercontent.com/ansible/awx-operator/0.13.0/deploy/awx-operator.yaml
+
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-znitro
+spec:
+  service_type: nodeport
+  ingress_type: none
+  hostname: awx-znitro.com
+
+notepad awx-znitro.yml
+
+minikube kubectl -- apply -f awx-znitro.yml
+
+minikube kubectl -- get pods -l "app.kubernetes.io/managed-by=awx-operator"
+
+minikube kubectl -- get svc -l "app.kubernetes.io/managed-by=awx-operator"
+
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-nginx
+spec:
+  service_type: clusterip
+  ingress_type: ingress
+  hostname: my-awx.znitro.com
+
+notepad awx-nginx-ingress.yml
+
+minikube kubectl -- apply -f awx-nginx-ingress.yml
+
+minikube kubectl -- get awx
+
+minikube kubectl -- get pods -l "app.kubernetes.io/managed-by=awx-operator"
+
+minikube kubectl -- get svc -l "app.kubernetes.io/managed-by=awx-operator"
+
+minikube service list
+
+minikube service awx-znitro-service --url
+
+minikube delete
+
+minikube start --addons=ingress --cpus=3 --cni=flannel --install-addons=true --kubernetes-version=stable --memory=5g --vm-driver=hyperv
+
+
 ## 5th November MiniKube
 
 1. Enable HyperV https://www.xda-developers.com/how-to-install-hyper-v-windows-11-home/
