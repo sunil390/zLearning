@@ -1,5 +1,54 @@
 # Kubernetis
 
+## 18th Nov
+
+### Install Docker on Ubuntu 20.04.3
+
+1. https://docs.docker.com/engine/install/ubuntu/
+2. sudo apt-get update
+3. sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+4. curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+5. echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+6. sudo apt-get update
+7. sudo apt-get install docker-ce docker-ce-cli containerd.io
+8. sudo docker run hello-world
+
+### Install Minikube
+
+1. https://minikube.sigs.k8s.io/docs/start/
+2. curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+3. sudo install minikube-linux-amd64 /usr/local/bin/minikube
+4. minikube start --cpus=3 --memory=3g --addons=ingress
+5. sudo usermod -aG docker $USER && newgrp docker
+6. alias kubectl="minikube kubectl --"
+
+### AWX
+
+1. git clone https://github.com/ansible/awx-operator.git --branch 0.14.0
+2. cd awx-operator
+3. git checkout
+4. export NAMESPACE=my-namespace
+5. sudo apt install make
+6. cd /usr/local/bin 
+8. sudo nano kubectl
+```bash
+#!/bin/bash
+args="$@"
+minikube kubectl -- $args 
+```
+9. sudo chmod 755 kubectl
+10. cd ~/awx-operator
+11. kubectl get pods -n $NAMESPACE
+12. kubectl config set-context --current --namespace=$NAMESPACE
+13. kubectl apply -f awx-demo.yml
+
+
 ## 17th Nov 
 
 minikube kubectl -- apply -f https://raw.githubusercontent.com/ansible/awx-operator/0.13.0/deploy/awx-operator.yaml
