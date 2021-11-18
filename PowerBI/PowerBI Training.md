@@ -15,5 +15,22 @@
 13. Filters on all pages - Drag and drop
 14. Top N Filtering
 15. New Group - Folter - three dots - 
+16. Add Modelling Data table -> link -> Date hierarchy is created.
+17. Create heirarchy at column level and add more columns to it
+18. New Measure - > Any column from Any Table - Doesn't take any space.
+    a. Calculate - expression - filter  ex PY Sales = CALCULATE(SUM(Sales[Revenue]), SAMEPERIODLASTYEAR('DATE'[Date]))  another % Growth = DIVIDE(SUM(Sales[Revenue])-[PY Sales],[PY Sales])
+    b. 
+19. Format -> Background
+    a. change transparency to remove white color in text boxes.
+    b. remove background to remove white space around charts
+
+20. Mouse over - Smart narrative
+21. Play axis Dynamic Slicer.
+22. Bookmark
+23. Buttons
+24. Button action -> Bookmark
+25. Send Alert from Visual....
+
+
 
 
