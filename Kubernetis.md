@@ -9,17 +9,16 @@
 5. kubectl get pods -n $NAMESPACE
 6. kubectl config set-context --current --namespace=$NAMESPACE
 7. kubectl apply -f awx-demo.yml
-8. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager (no outputs seen)
-error: container awx-manager is not valid for pod awx-operator-controller-manager-68d787cfbd-p4tll ???
+8. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager (no outputs seen error: container awx-manager is not valid for pod awx-operator-controller-manager-68d787cfbd-p4tll )
 9. kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
+```bash
 NAME                    READY   STATUS    RESTARTS   AGE
 awx-demo-d46576-b6qsc   4/4     Running   0          2m9s
 awx-demo-postgres-0     1/1     Running   0          2m14s
-10. minikube service awx-demo-service --url -n $NAMESPACE ( copy url and access the page from ubuntu desktop firefox)
-http://192.168.49.2:30737
-11. kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode (this is the password for admin)
-h12Z3DLReTqrHSBxtVJoGeo63BUutZcw
-20. login with admin and password as above.
+```
+10. minikube service awx-demo-service --url -n $NAMESPACE ( copy url and access the page from ubuntu desktop firefox  http://192.168.49.2:30737 )
+11. kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode (this is the password for admin )
+12. login with admin and password as above.
 
 ## 18th Nov
 
