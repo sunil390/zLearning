@@ -1,4 +1,4 @@
-# Kubernetis
+# AWX intsall in MiniKube
 
 ## 18th Nov
 
@@ -19,13 +19,20 @@
 7. sudo apt-get install docker-ce docker-ce-cli containerd.io
 8. sudo docker run hello-world
 
+```
+sudo vgdisplay ubuntu-vg | grep "Free"
+sudo lvextend  -L+xxG /dev/ubuntu-vg/ubuntu-lv
+sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
+sudo df -h
+```
+
 ### Install Minikube
 
 1. https://minikube.sigs.k8s.io/docs/start/
 2. curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 3. sudo install minikube-linux-amd64 /usr/local/bin/minikube
-4. minikube start --cpus=3 --memory=3g --addons=ingress
-5. sudo usermod -aG docker $USER && newgrp docker
+4. sudo usermod -aG docker $USER && newgrp docker
+5. minikube start --cpus=4 --memory=5.5g --addons=ingress
 6. alias kubectl="minikube kubectl --"
 
 ### AWX
@@ -44,9 +51,17 @@ minikube kubectl -- $args
 ```
 9. sudo chmod 755 kubectl
 10. cd ~/awx-operator
+11. make deploy
 11. kubectl get pods -n $NAMESPACE
 12. kubectl config set-context --current --namespace=$NAMESPACE
 13. kubectl apply -f awx-demo.yml
+14. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager (no outputs seen)
+15. kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
+16. sudo apt-get install ubuntu-desktop
+17. sudo apt install xrdp
+18. minikube service awx-demo-service --url -n $NAMESPACE ( copy url and access the page from ubuntu desktop firefox)
+19. kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode (this is the password for admin)
+20. login with admin
 
 
 ## 17th Nov 
