@@ -174,26 +174,31 @@ pause
 
 ## 5th November 2021 Microk8s
 
-1. Installed ubuntu 20.04.3 , select microk8s , default network options (NAT)
-2. Reboot ubutu after changing network option to bridge
-3. Join the group  https://microk8s.io/docs
+1. setp VM with bridged network, 5 GB memory and 25 GB disk 
+2. Install ubuntu 20.04.3 select microk8s 
+3. sudo usermod -a -G microk8s sunil390
+4. sudo chown -f -R sunil390 ~/.kube
+5. sudo apt update
+6. sudo apt upgrade
+7. reboot 
+8. microk8s status --wait-ready
+9. microk8s kubectl get all --all-namespaces
+10. nano ~/.bash_aliases - add this line -> alias kubectl='microk8s kubectl'
+11. kubectl get nodes
+12. microk8s stop
+13. microk8s start
+14. sudo apt install net-tools
+15. sudo ufw allow in on cni0 && sudo ufw allow out on cni0
+16. sudo ufw default allow routed
+17. microk8s enable dns dashboard storage ingress
+18. microk8s kubectl create deployment microbot --image=dontrebootme/microbot:v1
+19. microk8s kubectl scale deployment microbot --replicas=2
+20. microk8s kubectl expose deployment microbot --type=NodePort --port=80 --name=microbot-service
+21. kubectl get services
 ```bash
-microk8s status --wait-ready
-microk8s enable dashboard dns registry istio
-microk8s kubectl get all --all-namespaces
-
-sudo usermod -a -G microk8s $USER
-sudo chown -f -R $USER ~/.kube
-echo - $USER
-
-nano ~/.bash_aliases - add below line 
-alias kubectl='microk8s kubectl'
-
-kubectl get nodes
-
-microk8s stop
-microk8s start
-``` 
-4. sudo microk8s dashboard-proxy
-5. https://192.168.2.96:10443 <-- This is the Ubuntu ip
-
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP        54m
+microbot-service   NodePort    10.152.183.198   <none>        80:30734/TCP   15m
+```
+22. microk8s microbot-service Forward localhost port 30734 -> 80
+23. kubectl port-forward service/microbot-service 30734:80
