@@ -1,6 +1,145 @@
 # AWX intsall in MiniKube
 
-## 19th Nov - AWX ReInstall
+
+## 20th Nov Microk8s Reinstall
+
+1. microk8s disable dashboard dns storage ingress
+2. sudo snap remove microk8s
+3. sudo snap install microk8s --classic
+4. microk8s enable dns dashboard storage ingress
+18. microk8s kubectl create deployment microbot --image=dontrebootme/microbot:v1
+19. microk8s kubectl scale deployment microbot --replicas=2
+20. microk8s kubectl expose deployment microbot --type=NodePort --port=80 --name=microbot-service
+21. kubectl get services
+```bash
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP        54m
+microbot-service   NodePort    10.152.183.198   <none>        80:30263/TCP   15m
+```
+
+## 20th Nov Microk8s Reloaded 
+
+### Gold Disc Creation
+
+1. setp VM with bridged network, 5 GB memory and 25 GB disk 3 cpus
+2. Install ubuntu 20.04.3 select microk8s 
+3. sudo apt update
+4. sudo apt upgrade
+5. sudo usermod -a -G microk8s $USER && sudo chown -f -R $USER ~/.kube
+6. echo "alias kubectl='microk8s kubectl'" >> ~/.bash_aliases && source ~/.bash_aliases
+7. sudo nano /usr/local/bin/kubectl 
+```bash
+#!/bin/bash
+args="$@"
+microk8s kubectl $args 
+```
+8. sudo chmod 755 /usr/local/bin/kubectl
+8. sudo apt install net-tools
+9. sudo ufw allow in on cni0 && sudo ufw allow out on cni0
+10. sudo ufw default allow routed
+
+### Microk8s Customization
+
+1. microk8s start
+2. microk8s status --wait-ready
+3. microk8s get nodes
+4. microk8s enable dns storage traefik
+5. kubectl get --all-namespaces pods
+```bash
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS        AGE
+kube-system   calico-node-zg4b7                          1/1     Running   1 (5m54s ago)   46m
+kube-system   calico-kube-controllers-6bcdd9597d-kjqfj   1/1     Running   1 (5m54s ago)   46m
+kube-system   coredns-7f9c69c78c-k4bd6                   1/1     Running   0               100s
+traefik       traefik-ingress-controller-gktgh           1/1     Running   0               27s
+kube-system   hostpath-provisioner-5c65fbdb4f-nqq28      1/1     Running   0               26s
+```
+6. kubectl get storageclass
+```bash
+NAME                          PROVISIONER            RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+microk8s-hostpath (default)   microk8s.io/hostpath   Delete          Immediate           false                  2m58s
+```
+### AWX Install
+
+1. git clone https://github.com/ansible/awx-operator.git --branch 0.15.0
+2. cd awx-operator
+3. git checkout
+4. export NAMESPACE=awx-namespace
+5. sudo apt install make
+5. make deploy
+6. kubectl get pods -n $NAMESPACE
+7. kubectl config set-context --current --namespace=$NAMESPACE
+8. cp awx-demo.yml awx-znitro.yml (Changed demo to znitro)
+```bash
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-znitro
+spec:
+  service_type: NodePort
+  nodeport_port: 30080
+  ingress_type: ingress
+  hostname: awx.znitro.com
+```
+9.  sudo nano /etc/hosts and add 192.168.2.96 awx.znitro.com
+10. kubectl apply -f awx-znitro.yml
+11. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+12. kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
+
+
+### Trouble Shooting
+1. sudo apt-get install ubuntu-desktop
+2. sudo apt install xrdp
+3. sudo vgdisplay ubuntu-vg | grep "Free"
+4. sudo lvextend  -L+3.9G /dev/ubuntu-vg/ubuntu-lv
+5. sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
+6. df -h
+7. microk8s enable dashboard
+8. token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
+microk8s kubectl -n kube-system describe secret $token
+9.  kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443
+10. kubectl get secret awx-znitro-admin-password -o jsonpath="{.data.password}" | base64 --decode
+
+
+```yml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: foo
+  namespace: awx-namespace
+
+spec:
+  rules:
+    - host: awx.znitro.com
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name:  awx-znitro
+                port:
+                  number: 80
+```
+
+--------------------------
+
+18. microk8s kubectl create deployment microbot --image=dontrebootme/microbot:v1
+19. microk8s kubectl scale deployment microbot --replicas=2
+20. microk8s kubectl expose deployment microbot --type=NodePort --port=80 --name=microbot-service
+21. kubectl get services
+```bash
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP        54m
+microbot-service   NodePort    10.152.183.198   <none>        80:30734/TCP   15m
+```
+22. microk8s microbot-service Forward localhost port 30734 -> 80
+23. kubectl port-forward service/microbot-service 30734:80
+
+microk8s awx-demo-service Forward localhost port 32317 -> 80
+kubectl port-forward service/awx-demo-service 32317:80
+
+## 19th Nov - AWX ReInstall in Minikube
 
 1. minikube start --cpus=3 --memory=4.5g --addons=ingress
 2. cd awx-operator
@@ -30,7 +169,7 @@ awx-znitro-postgres-0     1/1     Running   0          2m14s
 11. kubectl get secret awx-znitro-admin-password -o jsonpath="{.data.password}" | base64 --decode (this is the password for admin )
 12. login with admin and password as above.
 
-## 18th Nov
+## 18th Nov MINIKUBE
 
 ### Install Docker on Ubuntu 20.04.3
 
@@ -56,7 +195,7 @@ sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
 sudo df -h
 ```
 
-### Install Minikube
+### Install Minikube 
 
 1. https://minikube.sigs.k8s.io/docs/start/
 2. curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -72,78 +211,25 @@ sudo df -h
 3. git checkout
 4. export NAMESPACE=my-namespace
 5. sudo apt install make
-6. cd /usr/local/bin 
-8. sudo nano kubectl
+6. sudo nano /usr/local/bin/kubectl
 ```bash
 #!/bin/bash
 args="$@"
 minikube kubectl -- $args 
 ```
-9. sudo chmod 755 kubectl
-10. cd ~/awx-operator
-11. make deploy
-11. kubectl get pods -n $NAMESPACE
-12. kubectl config set-context --current --namespace=$NAMESPACE
-13. kubectl apply -f awx-demo.yml
-14. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager (no outputs seen)
-15. kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
-16. sudo apt-get install ubuntu-desktop
-17. sudo apt install xrdp
-18. minikube service awx-demo-service --url -n $NAMESPACE ( copy url and access the page from ubuntu desktop firefox)
-19. kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode (this is the password for admin)
-20. login with admin
-
-
-## 17th Nov 
-
-minikube kubectl -- apply -f https://raw.githubusercontent.com/ansible/awx-operator/0.13.0/deploy/awx-operator.yaml
-
----
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
-metadata:
-  name: awx-znitro
-spec:
-  service_type: nodeport
-  ingress_type: none
-  hostname: awx-znitro.com
-
-notepad awx-znitro.yml
-
-minikube kubectl -- apply -f awx-znitro.yml
-
-minikube kubectl -- get pods -l "app.kubernetes.io/managed-by=awx-operator"
-
-minikube kubectl -- get svc -l "app.kubernetes.io/managed-by=awx-operator"
-
----
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
-metadata:
-  name: awx-nginx
-spec:
-  service_type: clusterip
-  ingress_type: ingress
-  hostname: my-awx.znitro.com
-
-notepad awx-nginx-ingress.yml
-
-minikube kubectl -- apply -f awx-nginx-ingress.yml
-
-minikube kubectl -- get awx
-
-minikube kubectl -- get pods -l "app.kubernetes.io/managed-by=awx-operator"
-
-minikube kubectl -- get svc -l "app.kubernetes.io/managed-by=awx-operator"
-
-minikube service list
-
-minikube service awx-znitro-service --url
-
-minikube delete
-
-minikube start --addons=ingress --cpus=3 --cni=flannel --install-addons=true --kubernetes-version=stable --memory=5g --vm-driver=hyperv
-
+7. sudo chmod 755 kubectl
+8. cd ~/awx-operator
+9. make deploy
+10. kubectl get pods -n $NAMESPACE
+11. kubectl config set-context --current --namespace=$NAMESPACE
+12. kubectl apply -f awx-demo.yml
+13. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager (no outputs seen)
+14. kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
+15. sudo apt-get install ubuntu-desktop
+16. sudo apt install xrdp
+17. minikube service awx-demo-service --url -n $NAMESPACE ( copy url and access the page from ubuntu desktop firefox)
+18. kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode (this is the password for admin)
+19. login with admin
 
 ## 5th November MiniKube
 
@@ -170,35 +256,3 @@ pause
 4. edit samples/workspace-pvc replace hostpath with standard ( minikube kubectl get sc will list the current storage class name)
 5. minikube kubectl -- apply -f samples/workspace-pvc.yaml
 6. updated config-cm.yaml and certificates-secret.yaml per https://docs.zowe.org/stable/user-guide/k8s-config
-7.   
-
-## 5th November 2021 Microk8s
-
-1. setp VM with bridged network, 5 GB memory and 25 GB disk 
-2. Install ubuntu 20.04.3 select microk8s 
-3. sudo usermod -a -G microk8s sunil390
-4. sudo chown -f -R sunil390 ~/.kube
-5. sudo apt update
-6. sudo apt upgrade
-7. reboot 
-8. microk8s status --wait-ready
-9. microk8s kubectl get all --all-namespaces
-10. nano ~/.bash_aliases - add this line -> alias kubectl='microk8s kubectl'
-11. kubectl get nodes
-12. microk8s stop
-13. microk8s start
-14. sudo apt install net-tools
-15. sudo ufw allow in on cni0 && sudo ufw allow out on cni0
-16. sudo ufw default allow routed
-17. microk8s enable dns dashboard storage ingress
-18. microk8s kubectl create deployment microbot --image=dontrebootme/microbot:v1
-19. microk8s kubectl scale deployment microbot --replicas=2
-20. microk8s kubectl expose deployment microbot --type=NodePort --port=80 --name=microbot-service
-21. kubectl get services
-```bash
-NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP        54m
-microbot-service   NodePort    10.152.183.198   <none>        80:30734/TCP   15m
-```
-22. microk8s microbot-service Forward localhost port 30734 -> 80
-23. kubectl port-forward service/microbot-service 30734:80
