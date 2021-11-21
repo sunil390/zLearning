@@ -77,6 +77,14 @@ awx-znitro-service                                NodePort    10.152.183.81    <
 9. kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443
 10. microk8s enable metallb:192.168.2.97-192.168.2.99
 11. curl 192.168.2.97 -I
+12. ssh tunnelling timeout
+```bash
+echo "Host *" >> ~/.ssh/config
+echo "ServerAliveInterval 60" >> ~/.ssh/config
+
+JumpServer tunneling
+ssh -L 1115:127.0.0.1:1115 username@jumpserver1 -tt ssh -L 1115:target_db_server:1433  username@jumpserver2
+```
 
 ```yml
 apiVersion: networking.k8s.io/v1
