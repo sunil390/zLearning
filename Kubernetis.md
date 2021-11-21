@@ -1,5 +1,9 @@
 # AWX intsall in MiniKube
 
+## 21st Nov Load Balancer and ingress
+
+1. microk8s enable metallb:192.168.2.97-192.168.2.99
+2. curl 192.168.2.97 -I
 
 ## 20th Nov Microk8s Reinstall
 
@@ -42,8 +46,8 @@ microk8s kubectl $args
 
 1. microk8s start
 2. microk8s status --wait-ready
-3. microk8s get nodes
-4. microk8s enable dns storage traefik
+3. kubectl get nodes
+4. microk8s enable dns storage ingress dashboard
 5. kubectl get --all-namespaces pods
 ```bash
 NAMESPACE     NAME                                       READY   STATUS    RESTARTS        AGE
