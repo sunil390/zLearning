@@ -1,27 +1,6 @@
-# AWX intsall in MiniKube
+# AWX install in Kubernetes
 
-## 21st Nov Load Balancer and ingress
-
-1. microk8s enable metallb:192.168.2.97-192.168.2.99
-2. curl 192.168.2.97 -I
-
-## 20th Nov Microk8s Reinstall
-
-1. microk8s disable dashboard dns storage ingress
-2. sudo snap remove microk8s
-3. sudo snap install microk8s --classic
-4. microk8s enable dns dashboard storage ingress
-18. microk8s kubectl create deployment microbot --image=dontrebootme/microbot:v1
-19. microk8s kubectl scale deployment microbot --replicas=2
-20. microk8s kubectl expose deployment microbot --type=NodePort --port=80 --name=microbot-service
-21. kubectl get services
-```bash
-NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP        54m
-microbot-service   NodePort    10.152.183.198   <none>        80:30263/TCP   15m
-```
-
-## 20th Nov Microk8s Reloaded 
+## 20th Nov Microk8s GoldDisc and AWX Install 
 
 ### Gold Disc Creation
 
@@ -38,9 +17,9 @@ args="$@"
 microk8s kubectl $args 
 ```
 8. sudo chmod 755 /usr/local/bin/kubectl
-8. sudo apt install net-tools
-9. sudo ufw allow in on cni0 && sudo ufw allow out on cni0
-10. sudo ufw default allow routed
+9. sudo apt install net-tools
+10. sudo ufw allow in on cni0 && sudo ufw allow out on cni0
+11. sudo ufw default allow routed
 
 ### Microk8s Customization
 
@@ -64,32 +43,27 @@ microk8s-hostpath (default)   microk8s.io/hostpath   Delete          Immediate  
 ```
 ### AWX Install
 
-1. git clone https://github.com/ansible/awx-operator.git --branch 0.15.0
-2. cd awx-operator
-3. git checkout
-4. export NAMESPACE=awx-namespace
-5. sudo apt install make
-5. make deploy
-6. kubectl get pods -n $NAMESPACE
-7. kubectl config set-context --current --namespace=$NAMESPACE
-8. cp awx-demo.yml awx-znitro.yml (Changed demo to znitro)
-```bash
----
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
-metadata:
-  name: awx-znitro
-spec:
-  service_type: NodePort
-  nodeport_port: 30080
-  ingress_type: ingress
-  hostname: awx.znitro.com
-```
-9.  sudo nano /etc/hosts and add 192.168.2.96 awx.znitro.com
-10. kubectl apply -f awx-znitro.yml
+1. sudo apt install make
+2. git clone https://github.com/ansible/awx-operator.git --branch 0.15.0
+3. cd awx-operator
+4. git checkout
+5. export NAMESPACE=awx-namespace
+6. make deploy
+7. kubectl get pods -n $NAMESPACE
+8. kubectl config set-context --current --namespace=$NAMESPACE
+9. nano awx-demo.yml (Changed demo to znitro)
+10. kubectl apply -f awx-demo.yml
 11. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
 12. kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
-
+13. kubectl get svc
+```bash
+NAME                                              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+awx-operator-controller-manager-metrics-service   ClusterIP   10.152.183.230   <none>        8443/TCP       14m
+awx-znitro-postgres                               ClusterIP   None             <none>        5432/TCP       9m46s
+awx-znitro-service                                NodePort    10.152.183.81    <none>        80:31324/TCP   9m41s
+```
+14. On Windows Powershell ->  ssh -L 31324:localhost:31324 sunil390@192.168.2.96
+15. kubectl get secret awx-znitro-admin-password -o jsonpath="{.data.password}" | base64 --decode
 
 ### Trouble Shooting
 1. sudo apt-get install ubuntu-desktop
@@ -99,11 +73,10 @@ spec:
 5. sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
 6. df -h
 7. microk8s enable dashboard
-8. token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1)
-microk8s kubectl -n kube-system describe secret $token
-9.  kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443
-10. kubectl get secret awx-znitro-admin-password -o jsonpath="{.data.password}" | base64 --decode
-
+8. token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1) microk8s kubectl -n kube-system describe secret $token
+9. kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443
+10. microk8s enable metallb:192.168.2.97-192.168.2.99
+11. curl 192.168.2.97 -I
 
 ```yml
 apiVersion: networking.k8s.io/v1
@@ -126,22 +99,12 @@ spec:
                   number: 80
 ```
 
---------------------------
+### Microk8s Reinstall
 
-18. microk8s kubectl create deployment microbot --image=dontrebootme/microbot:v1
-19. microk8s kubectl scale deployment microbot --replicas=2
-20. microk8s kubectl expose deployment microbot --type=NodePort --port=80 --name=microbot-service
-21. kubectl get services
-```bash
-NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-kubernetes         ClusterIP   10.152.183.1     <none>        443/TCP        54m
-microbot-service   NodePort    10.152.183.198   <none>        80:30734/TCP   15m
-```
-22. microk8s microbot-service Forward localhost port 30734 -> 80
-23. kubectl port-forward service/microbot-service 30734:80
-
-microk8s awx-demo-service Forward localhost port 32317 -> 80
-kubectl port-forward service/awx-demo-service 32317:80
+1. microk8s disable dashboard dns storage ingress
+2. sudo snap remove microk8s
+3. sudo snap install microk8s --classic
+4. microk8s enable dns dashboard storage ingress
 
 ## 19th Nov - AWX ReInstall in Minikube
 
