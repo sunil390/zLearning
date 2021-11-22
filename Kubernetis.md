@@ -1,6 +1,6 @@
 # AWX install in Kubernetes
 
-## 22nd Nov Galaxy collection install
+## 22nd Nov Galaxy collection install and end to end Playbook testing
 
 1. <https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file>
 2. In Git Repo create collections folder and add requirements.yml file
@@ -11,6 +11,37 @@ collections:
     version: "1.4.0-beta.1"
     source: "https://galaxy.ansible.com"
 ```
+3. ssh-keygen in ubuntu and copy privatekey from .ssh/id_rsa 
+4. Add inventory and under hosts enter these rows against zos1
+```yml
+---
+ansible_host: 192.168.2.44
+ansible_user: sysprg1
+ansible_python_interpreter: /usr/lpp/IBM/cyp/v3r8/pyz/bin/python3.8
+################################################################################
+# Configure dependency installations
+################################################################################
+PYZ: "/usr/lpp/IBM/cyp/v3r8/pyz"
+ZOAU: "/usr/lpp/IBM/zoautil"
+################################################################################
+# Playbook enviroment variables
+################################################################################
+
+environment_vars:
+  _BPXK_AUTOCVT: "ON"
+  ZOAU_HOME: "{{ ZOAU }}"
+
+  LIBPATH: "{{ ZOAU }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
+  PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin:/usr/sbin:/var/bin"
+  _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
+  _TAG_REDIR_ERR: "txt"
+  _TAG_REDIR_IN: "txt"
+  _TAG_REDIR_OUT: "txt"
+  LANG: "C"
+  ```
+5. In awx credentials add zos1 as machine and enter id password of sysprg1 and paste the above private key.
+6. In Templates against Cancel_User select inventory and zos1 credentials
+7. Launch the Template
 
 ## 20th Nov Microk8s GoldDisc and AWX Install 
 
