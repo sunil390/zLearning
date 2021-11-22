@@ -1,5 +1,17 @@
 # AWX install in Kubernetes
 
+## 22nd Nov Galaxy collection install
+
+1. <https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file>
+2. In Git Repo create collections folder and add requirements.yml file
+```yml
+---
+collections:
+  - name: ibm.ibm_zos_core
+    version: "1.4.0-beta.1"
+    source: "https://galaxy.ansible.com"
+```
+
 ## 20th Nov Microk8s GoldDisc and AWX Install 
 
 ### Gold Disc Creation
