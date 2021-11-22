@@ -1,5 +1,11 @@
 # Linux Snippets
 
+## Shell Screen Recording <https://asciinema.org/docs/usage>
+
+1. sudo apt-get install asciinema
+2. asciinema rec  (control+c to stop recording and save locally)
+3. asciinema play 
+
 ## passwordless ssh from powershell.
 
 ```bash
