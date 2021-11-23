@@ -417,7 +417,152 @@ Grails application running at http://localhost:4440 in environment: production
 9. open web browse http://192.168.1.24:4440/user/login
 use id admin pwd admin
 
+---
 
+##Microk8s GoldDisc and AWX Install
+---
+###Gold Disc Creation
+
+1. setp VM with bridged network, 5 GB memory and 25 GB disk 3 cpus
+2. Install ubuntu 20.04.3 select microk8s while installing linux on vm
+3. sudo apt update
+4. sudo apt upgrade
+5. Reboot
+6. sudo usermod -a -G microk8s $USER && sudo chown -f -R $USER ~/.kube
+7. echo "alias kubectl='microk8s kubectl'" >> ~/.bash_aliases && source ~/.bash_aliases
+8. sudo nano /usr/local/bin/kubectl
+```
+#!/bin/bash
+args="$@"
+microk8s kubectl $args 
+```
+9. sudo chmod 755 /usr/local/bin/kubectl
+10. sudo apt install net-tools
+11. sudo ufw allow in on cni0 && sudo ufw allow out on cni0
+12. sudo ufw default allow routed
+
+---
+## Microk8s Customization
+---
+1. microk8s start
+2. microk8s status --wait-ready
+```
+sathya@mk8s:~$ \microk8s status --wait-ready
+microk8s is running
+high-availability: no
+  datastore master nodes: 127.0.0.1:19001
+  datastore standby nodes: none
+```
+3. kubectl get nodes
+```
+sathya@mk8s:~$ kubectl get nodes
+NAME   STATUS   ROLES    AGE   VERSION
+mk8s   Ready    <none>   17h   v1.22.3-3+9ec7c40ec93c73
+```
+
+4. microk8s enable dns storage ingress dashboard
+5. kubectl get --all-namespaces pods
+```
+sathya@mk8s:~$ kubectl get --all-namespaces pods
+NAMESPACE       NAME                                               READY   STATUS    RESTARTS      AGE
+kube-system     dashboard-metrics-scraper-58d4977855-5xg9h         1/1     Running   1 (76m ago)   17h
+kube-system     coredns-7f9c69c78c-lflfm                           1/1     Running   1 (76m ago)   17h
+awx-namespace   awx-znitro-postgres-0                              1/1     Running   1 (76m ago)   17h
+kube-system     hostpath-provisioner-5c65fbdb4f-xtc9r              1/1     Running   1 (76m ago)   17h
+kube-system     kubernetes-dashboard-59699458b-86dds               1/1     Running   1 (76m ago)   17h
+awx-namespace   awx-znitro-6ddf4956fd-8bnjl                        4/4     Running   4 (76m ago)   17h
+kube-system     calico-kube-controllers-6dfdf55d48-gcc8w           1/1     Running   2 (76m ago)   17h
+kube-system     calico-node-hk72c                                  1/1     Running   2 (76m ago)   17h
+awx-namespace   awx-operator-controller-manager-647f4c5c7d-7cj6l   2/2     Running   2 (76m ago)   17h
+ingress         nginx-ingress-microk8s-controller-wsjcv            1/1     Running   1 (76m ago)   17h
+kube-system     metrics-server-85df567dd8-vmb27                    1/1     Running   1 (76m ago)   17h
+sathya@mk8s:~$
+```
+6. kubectl get storageclass
+```
+sathya@mk8s:~$ kubectl get storageclass
+NAME                          PROVISIONER            RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+microk8s-hostpath (default)   microk8s.io/hostpath   Delete          Immediate           false                  17h
+sathya@mk8s:~$
+```
+---
+## AWX Install
+
+1. sudo apt install make
+2. git clone https://github.com/ansible/awx-operator.git --branch 0.15.0
+3. cd awx-operator
+4. git checkout
+5. export NAMESPACE=awx-namespace
+6. make deploy
+7. kubectl get pods -n $NAMESPACE
+8. kubectl config set-context --current --namespace=$NAMESPACE
+9. nano awx-demo.yml (Changed demo to znitro)
+10. kubectl apply -f awx-demo.yml
+11. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+12. kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator"
+13. kubectl get svc
+```
+sathya@mk8s:~$ kubectl get svc
+NAME                                              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+awx-operator-controller-manager-metrics-service   ClusterIP   10.152.183.253   <none>        8443/TCP       17h
+awx-znitro-postgres                               ClusterIP   None             <none>        5432/TCP       17h
+awx-znitro-service                                NodePort    10.152.183.52    <none>        80:30551/TCP   17h
+sathya@mk8s:~$
+```
+14. On Windows Powershell ->  ssh -L 30551:localhost:30551 sathya@192.168.1.25
+15. kubectl get secret awx-znitro-admin-password -o jsonpath="{.data.password}" | base64 --decode
+16. open browser
+http://localhost:30551/#/login
+use admin and password from 15th step
+
+---
+## Galaxy collection install and end to end Playbook testing
+
+1. https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file
+2. In Git Repo create collections folder and add requirements.yml file
+```
+---
+collections:
+  - name: ibm.ibm_zos_core
+    version: "1.4.0-beta.1"
+    source: "https://galaxy.ansible.com"
+```
+3. on http://localhost:30551/#/login
+a. Create new user sathya and provide admin access
+b. create new Organization  as ATOS select Excution envirnonment as AWX EE (latest) and Galaxy Credintals as ansible galaxy
+c. create new credinatals awx-gitlab select Organization  as ATOS, credintal type Source control , give username and password of gitlab
+d. create Inventories Name ZOS1-INV select Organization as ATOS, instance group default
+e. create new hosts as zos1, select inventory as ZOS1-INV and enter below lines on variables yaml. 
+```
+---
+ansible_host: 192.168.1.44
+ansible_user: sysprg1
+ansible_python_interpreter: /usr/lpp/IBM/cyp/v3r8/pyz/bin/python3.8
+################################################################################
+# Configure dependency installations
+################################################################################
+PYZ: "/usr/lpp/IBM/cyp/v3r8/pyz"
+ZOAU: "/usr/lpp/IBM/zoautil"
+################################################################################
+# Playbook enviroment variables
+################################################################################
+
+environment_vars:
+  _BPXK_AUTOCVT: "ON"
+  ZOAU_HOME: "{{ ZOAU }}"
+
+  LIBPATH: "{{ ZOAU }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
+  PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin:/usr/sbin:/var/bin"
+  _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
+  _TAG_REDIR_ERR: "txt"
+  _TAG_REDIR_IN: "txt"
+  _TAG_REDIR_OUT: "txt"
+  LANG: "C"
+```
+f. ssh-keygen in ubuntu and copy privatekey from .ssh/id_rsa
+g  Add new credentials as zos1 as machine and enter id password of sysprg1 and paste the above private key.
+h. In Templates against Cancel_User select inventory and zos1 credentials
+i. Launch the Template
 
 
 
