@@ -417,11 +417,10 @@ Grails application running at http://localhost:4440 in environment: production
 9. open web browse http://192.168.1.24:4440/user/login
 use id admin pwd admin
 
----
 
-##Microk8s GoldDisc and AWX Install
+## Microk8s GoldDisc and AWX Install
 ---
-###Gold Disc Creation
+## Gold Disc Creation
 
 1. setp VM with bridged network, 5 GB memory and 25 GB disk 3 cpus
 2. Install ubuntu 20.04.3 select microk8s while installing linux on vm
@@ -441,7 +440,7 @@ microk8s kubectl $args
 11. sudo ufw allow in on cni0 && sudo ufw allow out on cni0
 12. sudo ufw default allow routed
 
----
+ 
 ## Microk8s Customization
 ---
 1. microk8s start
@@ -485,9 +484,9 @@ NAME                          PROVISIONER            RECLAIMPOLICY   VOLUMEBINDI
 microk8s-hostpath (default)   microk8s.io/hostpath   Delete          Immediate           false                  17h
 sathya@mk8s:~$
 ```
----
-## AWX Install
 
+## AWX Install
+---
 1. sudo apt install make
 2. git clone https://github.com/ansible/awx-operator.git --branch 0.15.0
 3. cd awx-operator
@@ -515,9 +514,9 @@ sathya@mk8s:~$
 http://localhost:30551/#/login
 use admin and password from 15th step
 
----
-## Galaxy collection install and end to end Playbook testing
 
+## Galaxy collection install and end to end Playbook testing
+---
 1. https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file
 2. In Git Repo create collections folder and add requirements.yml file
 ```
@@ -528,11 +527,11 @@ collections:
     source: "https://galaxy.ansible.com"
 ```
 3. on http://localhost:30551/#/login
-a. Create new user sathya and provide admin access
-b. create new Organization  as ATOS select Excution envirnonment as AWX EE (latest) and Galaxy Credintals as ansible galaxy
-c. create new credinatals awx-gitlab select Organization  as ATOS, credintal type Source control , give username and password of gitlab
-d. create Inventories Name ZOS1-INV select Organization as ATOS, instance group default
-e. create new hosts as zos1, select inventory as ZOS1-INV and enter below lines on variables yaml. 
+4. Create new user sathya and provide admin access
+5. create new Organization  as ATOS select Excution envirnonment as AWX EE (latest) and Galaxy Credintals as ansible galaxy
+6. create new credinatals awx-gitlab select Organization  as ATOS, credintal type Source control , give username and password of gitlab
+7. create Inventories Name ZOS1-INV select Organization as ATOS, instance group default
+8. create new hosts as zos1, select inventory as ZOS1-INV and enter below lines on variables yaml. 
 ```
 ---
 ansible_host: 192.168.1.44
@@ -559,10 +558,10 @@ environment_vars:
   _TAG_REDIR_OUT: "txt"
   LANG: "C"
 ```
-f. ssh-keygen in ubuntu and copy privatekey from .ssh/id_rsa
-g  Add new credentials as zos1 as machine and enter id password of sysprg1 and paste the above private key.
-h. In Templates against Cancel_User select inventory and zos1 credentials
-i. Launch the Template
+9. ssh-keygen in ubuntu and copy privatekey from .ssh/id_rsa
+10.  Add new credentials as zos1 as machine and enter id password of sysprg1 and paste the above private key.
+11. In Templates against Cancel_User select inventory and zos1 credentials
+12. Launch the Template
 
 
 
