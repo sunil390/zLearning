@@ -559,11 +559,47 @@ environment_vars:
   LANG: "C"
 ```
 9. ssh-keygen in ubuntu and copy privatekey from .ssh/id_rsa
-10.  Add new credentials as zos1 as machine and enter id password of sysprg1 and paste the above private key.
-11. In Templates against Cancel_User select inventory and zos1 credentials
-12. Launch the Template
+10. Add new credentials as zos1 as machine and enter id password of sysprg1 and paste the above private key.
+11. In Templates  create Canceluserjob Job Type : RUN , Inventory : ZOS1-INV , Project : awx , execution env: AWX EE (latest)
+Playbook : Cancel_User.yaml(this is coming from Gitlab)  , Credentials select zos1 save 
+12. on canceluserjoba select survey --> add 2 survey Enter Lpar Name and Enter userid (This will be popup during it runs) and you can control user access for that particular job
+12. Launch the canceluserjob and verify the job
+13. create new workflow under template canceluserworflow --> Organization :ATOS , Inventory :ZOS1-INV
 
 
+## Access kubernets browser
+1.  kubectl get svc -n kube-system
+```
+sathya@mk8s:~$ kubectl get svc -n kube-system
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE
+kube-dns                    ClusterIP   10.152.183.10    <none>        53/UDP,53/TCP,9153/TCP   17h
+metrics-server              ClusterIP   10.152.183.49    <none>        443/TCP                  17h
+kubernetes-dashboard        ClusterIP   10.152.183.237   <none>        443/TCP                  17h
+dashboard-metrics-scraper   ClusterIP   10.152.183.154   <none>        8000/TCP                 17h
+```
+
+2. kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 (don't close it)
+
+```
+Forwarding from 127.0.0.1:10443 -> 8443
+Forwarding from [::1]:10443 -> 8443
+
+Handling connection for 10443
+E1123 08:57:41.380602   55731 portforward.go:400] an error occurred forwarding 10443 -> 8443: error forwarding port 8443 to pod eaeaa36d07d4ccf0688a5e9d1a06ccea0cdcc8982dd94b936fd1c22040556616, uid : failed to execute portforward in network namespace "/var/run/netns/cni-921146f1-fff0-8958-2c8e-bf8f51d2e87c": read tcp4 127.0.0.1:38268->127.0.0.1:8443: read: connection reset by peer
+Handling connection for 10443
+E1123 08:57:42.521997   55731 portforward.go:400] an error occurred forwarding 10443 -> 8443: error forwarding port 8443 to pod eaeaa36d07d4ccf0688a5e9d1a06ccea0cdcc8982dd94b936fd1c22040556616, uid : failed to execute portforward in network namespace "/var/run/netns/cni-921146f1-fff0-8958-2c8e-bf8f51d2e87c": read tcp4 127.0.0.1:38288->127.0.0.1:8443: read: connection reset by peer
+Handling connection for 10443
+Handling connection for 10443
+Handling connection for 10443
+```
+3. Access web interface ssh -L 10443:localhost:10443 sathya@192.168.1.25
+https://localhost:10443/#/login
+4. logon using token
+5. get token password using 
+token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1) microk8s kubectl -n kube-system describe secret $token
+```
+sathya@mk8s:~$ token=$(microk8s kubectl -n kube-system get secret | grep default-token | cut -d " " -f1) microk8s kubectl -n kube-system describe secret $token
+```
 
 
 
