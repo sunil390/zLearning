@@ -560,11 +560,13 @@ environment_vars:
 ```
 9. ssh-keygen in ubuntu and copy privatekey from .ssh/id_rsa
 10. Add new credentials as zos1 as machine and enter id password of sysprg1 and paste the above private key.
-11. In Templates  create Canceluserjob Job Type : RUN , Inventory : ZOS1-INV , Project : awx , execution env: AWX EE (latest)
+11. Create new project as awx, Organization as ATOS, execution env: AWX EE (latest), Source Control Credential Type : GIT,
+Source Control URL: https://gitlab.com/sathiyamoorthy.rajaram/awx.git (this is created on gitlab and placed canceluserjob.yml) and Source Control Credential:awx-gitlab
+12. In Templates  create Canceluserjob Job Type : RUN , Inventory : ZOS1-INV , Project : awx , execution env: AWX EE (latest)
 Playbook : Cancel_User.yaml(this is coming from Gitlab)  , Credentials select zos1 save 
-12. on canceluserjoba select survey --> add 2 survey Enter Lpar Name and Enter userid (This will be popup during it runs) and you can control user access for that particular job
-12. Launch the canceluserjob and verify the job
-13. create new workflow under template canceluserworflow --> Organization :ATOS , Inventory :ZOS1-INV
+13. on canceluserjoba select survey --> add 2 survey Enter Lpar Name and Enter userid (This will be popup during it runs) and you can control user access for that particular job
+14. Launch the canceluserjob and verify the job
+15. create new workflow under template canceluserworflow --> Organization :ATOS , Inventory :ZOS1-INV
 
 
 ## Access kubernets browser
