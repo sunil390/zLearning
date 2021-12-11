@@ -1,5 +1,12 @@
 # AWX install in Kubernetes
 
+## Upgrade to 1.23
+
+```sh
+sudo snap refresh microk8s --channel=1.23/stable
+microk8s (1.23/stable) v1.23.0 from Canonical✓ refreshed
+```
+
 ## 22nd Nov Galaxy collection install and end to end Playbook testing
 
 1. <https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#install-multiple-collections-with-a-requirements-file>
