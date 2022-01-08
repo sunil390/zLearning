@@ -11,3 +11,5 @@
 7. wget https://galaxy.ansible.com/download/ibm-ibm_zos_core-1.4.0-beta.1.tar.gz
 8. sudo ansible-galaxy collection install ibm-ibm_zos_core-1.4.0-beta.1.tar.gz -p /usr/share/ansible/collections
 9. ansible-galaxy collection list
+10. systemctl enable --now cockpit.socket
+11. https://192.168.2.211:9090 to access cockpit..
