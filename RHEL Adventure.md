@@ -4,6 +4,11 @@
 
 1. sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 2. sudo yum install -y tigervnc-server xrdp
+3. sudo systemctl start xrdp
+4. sudo systemctl enable xrdp
+5. sudo netstat -antup | grep xrdp
+6. sudo firewall-cmd --permanent --add-port=3389/tcp
+7. sudo firewall-cmd --reload
 
 
 ## Ansible Setup
