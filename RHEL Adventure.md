@@ -1,5 +1,11 @@
 # RHEL installed from dveloper.redhat.com 
 
+## epel repo enablement
+
+1. sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+2. sudo yum install -y tigervnc-server xrdp
+
+
 ## Ansible Setup
 
 1. sudo yum update
