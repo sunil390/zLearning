@@ -10,6 +10,8 @@
 6. sudo firewall-cmd --permanent --add-port=3389/tcp
 7. sudo firewall-cmd --reload
 8. sudo nano /etc/xrdp/startwm.sh 
+9. sudo bash -c 'echo "exec gnome-session" >> /etc/xrdp/xrdp.ini'
+10. reboot
 
 ## Ansible Setup
 
