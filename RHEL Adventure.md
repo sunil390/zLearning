@@ -9,7 +9,7 @@
 5. sudo netstat -antup | grep xrdp
 6. sudo firewall-cmd --permanent --add-port=3389/tcp
 7. sudo firewall-cmd --reload
-
+8. sudo nano /etc/xrdp/startwm.sh 
 
 ## Ansible Setup
 
