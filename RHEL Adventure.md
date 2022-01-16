@@ -6,10 +6,22 @@
 2. sudo yum install -y tigervnc-server xrdp
 3. sudo systemctl start xrdp
 4. sudo systemctl enable xrdp
-5. sudo netstat -antup | grep xrdp
-6. sudo firewall-cmd --permanent --add-port=3389/tcp
+5. sudo netstat -antup | grep xrdp ( Ubuntu sudo adduser xrdp ssl-cert)
+6. sudo firewall-cmd --permanent --add-port=3389/tcp ( Ubuntu sudo ufw allow 3389)
 7. sudo firewall-cmd --reload
-8. sudo nano /etc/xrdp/startwm.sh 
+8. sudo nano /etc/xrdp/startwm.sh and add startxfce4 for RHEL
+```sh
+# for Ubuntu
+ if test -r /etc/profile; then
+        . /etc/profile
+ fi
+
+unset DBUS_SESSION_BUS_ADDRESS
+unset XDG_RUNTIME_DIR
+
+ test -x /etc/X11/Xsession && exec /etc/X11/Xsession
+ exec /bin/sh /etc/X11/Xsession
+```
 9. sudo bash -c 'echo "exec gnome-session" >> /etc/xrdp/xrdp.ini'
 10. reboot
 
