@@ -1,5 +1,12 @@
 # AWX install in Kubernetes
 
+## 16th Jan 2022 Portainer
+
+1. microk8s enable portainer
+2. https://192.168.2.96:30779
+3. admin / localpw
+
+
 ## 16th Jan HAProxy
 1. /etc/hosts
 ```sh
