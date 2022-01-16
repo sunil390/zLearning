@@ -1,5 +1,51 @@
 # AWX install in Kubernetes
 
+## 16th Jan HAProxy
+1. /etc/hosts
+```sh
+192.168.2.5 HAproxy
+192.168.2.96 awxserver1
+```
+2. sudo sudo apt install haproxy
+3. k get svc
+```
+sunil390@mk8s:~$ k get svc
+NAME                                              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+awx-operator-controller-manager-metrics-service   ClusterIP   10.152.183.230   <none>        8443/TCP       55d
+awx-znitro-postgres                               ClusterIP   None             <none>        5432/TCP       55d
+awx-znitro-service                                NodePort    10.152.183.81    <none>        80:31324/TCP   55d
+gpu-operator-node-feature-discovery               ClusterIP   10.152.183.215   <none>        8080/TCP       43d
+```
+4. sudo nano /etc/haproxy/haproxy.cfg
+```sh
+frontend web-frontend
+  bind 192.168.2.5:80
+  mode http
+  default_backend web-backend
+
+backend web-backend
+  balance roundrobin
+  server awxserver1 192.168.2.96:31324 check
+
+listen stats
+  bind 192.168.2.5:8080
+  mode http
+  option forwardfor
+  option httpclose
+  stats enable
+  stats show-legends
+  stats refresh 5s
+  stats uri /stats
+  stats realm Haproxy\ Statistics
+  stats auth admin:admin@9            #Login User and Password for the monitoring
+  stats admin if TRUE
+  default_backend web-backend
+```
+5. haproxy -c -f /etc/haproxy/haproxy.cfg
+6. sudo systemctl restart haproxy.service
+7. sudo systemctl status haproxy.service
+
+
 ## Upgrade to 1.23
 
 ```sh
