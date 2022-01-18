@@ -8,6 +8,8 @@
 
 
 ## 16th Jan HAProxy
+[HAproxy](https://linuxhint.com/how-to-install-and-configure-haproxy-load-balancer-in-linux/)
+[K8s MetalLB traefik](https://tansanrao.com/home-lab-infrastructure/)
 1. /etc/hosts
 ```sh
 192.168.2.5 HAproxy
