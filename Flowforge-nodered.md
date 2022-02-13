@@ -13,3 +13,7 @@
 8. cp -R flowforge-install-x.y.z/* /opt/flowforge
 9. cd /opt/flowforge
 10. ./install.sh
+
+## NodeRed
+
+1. bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
