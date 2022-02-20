@@ -1,5 +1,7 @@
 # AWX install in Kubernetes
 
+## [AWX Cluster Sample](https://githubhot.com/repo/ansible/awx-operator/issues/260?page=1)
+
 ## 16th Jan 2022 Portainer
 
 1. microk8s enable portainer
