@@ -1,5 +1,19 @@
 # Linux Snippets
 
+## apt update issue
+```
+E: Release file for http://us.archive.ubuntu.com/ubuntu/dists/focal-updates/InRelease is not valid yet (invalid for another 36min 11s). Updates for this repository will not be applied.
+E: Release file for http://us.archive.ubuntu.com/ubuntu/dists/focal-backports/InRelease is not valid yet (invalid for another 37min 5s). Updates for this repository will not be applied.
+E: Release file for http://us.archive.ubuntu.com/ubuntu/dists/focal-security/InRelease is not valid yet (invalid for another 35min 33s). Updates for this repository will not be applied.
+```
+
+
+1. sudo apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update
+2. sudo date --set "20 FEB 2022 3:00 AM"
+
+
+
+
 ## Shell Screen Recording <https://asciinema.org/docs/usage>
 
 1. sudo apt-get install asciinema
