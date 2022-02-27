@@ -82,7 +82,7 @@ TTLSConnectionAction DB2SecureConAct
 
 Client Authentication
 
-```sh
+
 TTLSEnvironmentAction DB2SecureEnvAct
 {
     Trace 31
@@ -97,8 +97,6 @@ TTLSEnvironmentAction DB2SecureEnvAct
     TLSv1.2 On
     }
 }
-```
-
 ```
 
 ## RACF Certificates
