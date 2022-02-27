@@ -174,6 +174,7 @@ RACDCERT ID(DBC1STC) CONNECT(ID(DB2USR1)) -
 ### create a truststore with private key
 
 ```sh
+cd C:\Program Files\Java\jre1.8.0_321\bin
 keytool –genkeypair –keystore mykeystore –storepass mykeypass<Prompts for X.509 distinguished name> 
 ```
 
