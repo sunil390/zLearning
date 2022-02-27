@@ -155,6 +155,8 @@ Client Authentication, Export Client Certificate from Java/GSKit KeyStore
 
 FTP client certificate to z/OS in text format to a sequential file with RECFM=VB
 
+.\keytool -exportcert -storepass Amazone@9 -keystore mykyestore2 -rfc -file ClientCert.cer
+
 RACDCERT -
     ADD('<data set name>') ID(DB2USR1) TRUST -
     WITHLABEL('DB2CLIENTCERT')
@@ -174,8 +176,13 @@ RACDCERT ID(DBC1STC) CONNECT(ID(DB2USR1)) -
 ### create a truststore with private key
 
 ```sh
-cd C:\Program Files\Java\jre1.8.0_321\bin
-keytool –genkeypair –keystore mykeystore –storepass mykeypass<Prompts for X.509 distinguished name> 
+cd C:\"Program Files"\Java\jre1.8.0_321\bin
+.\keytool -genkeypair -keystore mykeystore4 -storepass Amazone@9 -alias mykey4 -storetype pkcs12
+
+The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS12 which is an industry standard format
+.\keytool -importkeystore -srckeystore mykeystore1 -destkeystore mykeystore2 -deststoretype pkcs12
+
+.\keytool -exportcert -storepass Amazone@9 -keystore mykyestore4 -rfc -file ClientCert.cer
 ```
 
 ### Import CA certificate into truststore
