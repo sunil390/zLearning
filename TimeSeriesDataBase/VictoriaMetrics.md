@@ -1,5 +1,10 @@
 # Victoria Metrics
 
+## TimeSeries Management.
+
+1. Check Series before deletion: curl -G 'http://localhost:8428/api/v1/export' -d 'match[]={ticker!=""}'
+1. Series Deletion: curl -G http://192.168.2.28:8428/api/v1/admin/tsdb/delete_series?match[]={ask} [TimeSeriesSelector](https://prometheus.io/docs/prometheus/latest/querying/basics/#time-series-selectors)
+
 ## 26th March
 
 ### VM
