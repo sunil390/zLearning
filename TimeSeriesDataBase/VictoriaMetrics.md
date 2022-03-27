@@ -14,7 +14,8 @@
 ```
 FLAGS="-retentionPeriod=1y"
 ```
-4. datafolder : /var/snap/victoriametrics/current/var/lib/victoriametrics/
+4. sudo snap restart victoriametrics
+5. datafolder : /var/snap/victoriametrics/current/var/lib/victoriametrics/
 
 
 ## 26th March - Vanilla VM and Grafana Setup.
