@@ -4,8 +4,10 @@
 
 1. List labels: curl -G 'http://localhost:8428/prometheus/api/v1/labels'
 2. curl -G 'http://138.69.224.85:8428/api/v1/export' -d 'match[]={client!=""}'
-3. Series Deletion: curl -G http://192.168.2.28:8428/api/v1/admin/tsdb/delete_series?match[]={---metrics---} TimeSeriesSelector
-
+3. Series Deletion: curl -G http://138.69.224.85:8428/api/v1/admin/tsdb/delete_series?match[]={capacity} TimeSeriesSelector
+4. curl -G http://138.69.224.85:8428/api/v1/admin/tsdb/delete_series?match[]={day_avg}
+5. curl -G http://138.69.224.85:8428/api/v1/admin/tsdb/delete_series?match[]={year_avg}
+6. curl -G http://138.69.224.85:8428/api/v1/admin/tsdb/delete_series?match[]={pct_change}
 
 ## Issue List
 1. Alerting :https://github.com/VictoriaMetrics/VictoriaMetrics/issues/1739 , Disabled alerting in Data Source. VMalerting to be explored later.
