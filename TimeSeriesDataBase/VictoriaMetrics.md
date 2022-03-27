@@ -3,11 +3,19 @@
 ## CheatSheet
 
 1. List labels: curl -G 'http://localhost:8428/prometheus/api/v1/labels'
+2. curl -G 'http://138.69.224.85:8428/api/v1/export' -d 'match[]={client!=""}'
+3. Series Deletion: curl -G http://192.168.2.28:8428/api/v1/admin/tsdb/delete_series?match[]={---metrics---} TimeSeriesSelector
 
 
 ## Issue List
 1. Alerting :https://github.com/VictoriaMetrics/VictoriaMetrics/issues/1739 , Disabled alerting in Data Source. VMalerting to be explored later.
- 
+2. Change Retention : https://snapcraft.io/victoriametrics
+3. sudo nano /var/snap/victoriametrics/current/extra_flags 
+```
+FLAGS="-retentionPeriod=1y"
+```
+4. datafolder : /var/snap/victoriametrics/current/var/lib/victoriametrics/
+
 
 ## 26th March - Vanilla VM and Grafana Setup.
 
