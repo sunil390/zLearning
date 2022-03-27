@@ -21,8 +21,11 @@ ConnectHandle = 0
 HttpStatusCode = 0                                                              
 HttpReasonCode = 0                                                              
 ResponseBody = ''                                                               
-RequestPath = '/api/v1/import/csv?format=2:metric:ask,3:metric:bid,1:label:ticke
-r,4:label:market,5:time:rfc3339'                                                
+/* RequestPath = '/api/v1/import/csv?format=2:metric:ask,3:metric:bid,1:label:ticke
+r,4:label:market,5:time:rfc3339' */                                                
+RequestPath = '/api/v1/import/csv?format=4:metric:msu_capacity,5:metric:day_msu_
+mean,6:metric:yr_msu_mean,7:metric:percent_change,2:label:client,3:label:machine
+_model,1:time:rfc3339'                                                 
 /*                                                                              
  * Initialise the environment.                                                  
  */                                                                             
