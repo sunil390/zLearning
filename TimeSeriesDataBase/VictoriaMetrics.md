@@ -1,11 +1,10 @@
 # Victoria Metrics
 
-## TimeSeries Management.
+## Issue List
+1. Alerting :https://github.com/VictoriaMetrics/VictoriaMetrics/issues/1739 , Disabled alerting in Data Source. VMalerting to be explored later.
+ 
 
-1. Check Series before deletion: curl -G 'http://localhost:8428/api/v1/export' -d 'match[]={ticker!=""}'
-1. Series Deletion: curl -G http://192.168.2.28:8428/api/v1/admin/tsdb/delete_series?match[]={ask} [TimeSeriesSelector](https://prometheus.io/docs/prometheus/latest/querying/basics/#time-series-selectors)
-
-## 26th March
+## 26th March - Vanilla VM and Grafana Setup.
 
 ### VM
 1. sudo apt update
@@ -37,9 +36,18 @@
 
 1. + Create -> DashBoard -> Add New Panel -> DataSource : Prometheus -> Metrics Browser -> Select Metric, Label and Values -> Use Query -> Save and Apply 
 
+#### VM Backfilling from Mainframe
+
+1. CSV Data is kept in Dataset as Multiple rows.
+2. Submit the JCL from Mainframe using IKJEFT01 and VMLOADER rexx
+
+#### House Keeping Metrics
+
+1. curl -G 'http://192.168.2.28:8428/api/v1/export' -d 'match[]={ticker!=""}'
+2. Series Deletion: curl -G http://192.168.2.28:8428/api/v1/admin/tsdb/delete_series?match[]={ask} [TimeSeriesSelector](https://prometheus.io/docs/prometheus/latest/querying/basics/#time-series-selectors) 
 
 
-## 25th March Kubernetes Operator Install
+## 25th March Kubernetes Operator Install : Incomplete : To Be Continued ...
 
 1. sudo snap install microk8s --classic --channel=1.23
 2. microk8s start
@@ -70,5 +78,3 @@ spec:
 9. k apply -f ./release/examples/vmsingle_with_pvc.yaml
 
 10. https://javamana.com/2021/06/20210619193722982U.html
-
-
