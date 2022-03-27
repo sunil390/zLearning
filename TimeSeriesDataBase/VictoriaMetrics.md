@@ -1,5 +1,10 @@
 # Victoria Metrics
 
+## CheatSheet
+
+1. List labels: curl -G 'http://localhost:8428/prometheus/api/v1/labels'
+
+
 ## Issue List
 1. Alerting :https://github.com/VictoriaMetrics/VictoriaMetrics/issues/1739 , Disabled alerting in Data Source. VMalerting to be explored later.
  
