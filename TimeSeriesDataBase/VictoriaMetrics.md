@@ -1,5 +1,9 @@
 # Victoria Metrics
 
+## Json export import
+
+1. curl http://localhost:8428/api/v1/export -d 'match[]={client!=""}' > exported_data.jsonl
+
 ## CheatSheet
 
 1. List labels: curl -G 'http://localhost:8428/prometheus/api/v1/labels'
@@ -18,6 +22,7 @@ FLAGS="-retentionPeriod=1y"
 ```
 4. sudo snap restart victoriametrics
 5. datafolder : /var/snap/victoriametrics/current/var/lib/victoriametrics/
+
 
 
 ## 26th March - Vanilla VM and Grafana Setup.
