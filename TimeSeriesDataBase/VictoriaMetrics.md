@@ -2,7 +2,30 @@
 
 ## Json export import
 
-1. curl http://localhost:8428/api/v1/export -d 'match[]={client!=""}' > exported_data.jsonl
+1. curl http://localhost:8428/api/v1/export -d 'match={__name__!=""}' > exported_data.jsonl
+
+```
+import json, yaml 
+
+data = []
+with open(r'exported_data.jsonl') as file:
+    for line in file:
+        data.append(json.loads(line))
+    json_out = json.dumps(data, indent = 4)
+
+with open(r'vm_out.yaml','w') as yaml_out:
+    yaml.dump(json_out, yaml_out, allow_unicode=True)
+
+
+
+Example1:
+In case you are using pandas and you will be interested in loading the json file as a dataframe, you can use:
+import pandas as pd
+df = pd.read_json('file.json', lines=True)
+And to convert it into a json array, you can use:
+df.to_json('new_file.json')
+
+```
 
 ## CheatSheet
 
