@@ -103,8 +103,10 @@
     10. Access controlled by AWS IAM - Identity and Access Manager
     11. Encryption by default - at rest - in transit and backups
     12. Types
-        || Provisioned IOPS SSD| General Purpose SSD|Throughput Optimized SSD|
-        |----------|----------------- --------|--------|---------|
+        | Provisioned IOPS SSD| General Purpose SSD|Throughput Optimized SSD|
+        |----------------------|--------|---------|
+        |io2 block express, io2, io1| gp3, gp2 |st1, sc1 |
+
         |Attributes|io2 block express| io2| io1 | gp3| gp2| st1 | sc1|
         |----------|-----------------| ---|-----|----|----|-----|----|
         |Latency|sub milli second | single digit millisecond |single digit milli second  |single digit milli second|single digit milli second  |  |  |
