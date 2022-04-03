@@ -195,4 +195,27 @@
         2. Destination(2001:db8:1234:1a00::/56) Target (local)
         3. Destination(::/0) Target(eigw-id)
     
+6. NACL
+    1. Firewall at the Subnet Boundary
+    2. default NACL allows all inbound and outboud
+    3. Custom NACL denies all inbound and outbound traffic
+    4. Multiple subnets can be associated with a NACL, Only One NACL per Subnet.
+    5. NACL's are stateless
+    6. Requires Explicit rules for inbound and outboud tracffic
+    7. Numbered list of rules , Lowest having highest priority, match means evaluation stops , Allow/Deny
+        1. Type 
+        2. Protocol
+        3. Port range
+        4. Source
+7. Security Group
+    1. Virtual Firewall at instance level.
+    2. By default denies all inbound traffic and allows all outbound traffic
+    3. No deny rules as by default deny all for inbound
+    4. Stateful - Responces to inbound traffic automatically allowed.
+    5. All rules are evaluated
+        1. Type 
+        2. Protocol
+        3. Port range
+        4. Source
+
 
