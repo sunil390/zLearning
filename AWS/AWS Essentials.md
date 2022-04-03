@@ -117,6 +117,82 @@
         |Durability|99.999%|99.999% | 99.8% to 99.9%| 99.8% to 99.9% |99.8% to 99.9%  |99.8% to 99.9%  |99.8% to 99.9%  |
 
 
+## VPC
 
+1. Private IP address range - Classless Inter-Domain Routing Block (CIDR)
+2. Allowed CIDR Block size : /16 and /28 
+    1. eg:- 10.0.0.0/16 
+        1. first 16 are fixed
+        2. 2^16 = 65536 ip addresses ( 5 are reserved by AWS)
+    2. CIDR Block 0.0.0.0/0 access to any ip address
+    3. Secondary CIDR block can be assigned to Primary CIDR Block to expand VPC
+3. Globally unique IPv4 address to be assigned to instance for access from Internet.
+4. IPv6 addresses are public and accessible over Internet.
+5. VPC with 10.0.0.0/16 -> Subnet1 and Subnet2 CIDR Blocks should not overlap
+    1. 10.0.10.0/24 and 10.0.20.0/24 
+    2. first 24 are fixed , 2^8 = 256 -5 = 251
+6. Route Table
+    1. Main Route Table by default
+        1. 10.0.0.0/16 (Dest) Target(local)
+    2. Custom Route Table
+    3. Subnet Route Table
+        1. Public Subnet 10.0.10.0/24
+            1. 0.0.0.0/0(dest) target(igw-id)
+        2. Private Subnet 10.0.20.0/24
+            1. no route to internet gateway
+
+### VPC Peering Connections
+
+1. nw connection b/w twoi VPC
+2. Private v4 or v6 addresses
+3. across different aws accounts
+4. different regions - Inter region
+5. Uses existing infrastructure of VPC
+6. do not use gateway or vpn connection
+7. no SPOC and bandwidth bottlenecks
+8. stays on AWS backbone
+9. Establishing VPC Peering Connection
+    1. VPC 10.0.0.0/16 - Private Subnet 10.0.10.0/24 (Requestor)  <---->  VPC 172.31.0.0/16 - Private Subnet 172.31.10.0/24(Accepter)
+    2. UnSupported
+        1. Overlapping CIDR Blocks
+        2. no transitive properties
+        3. no edge to edge routing
+    3. Owner of Requester VPC sends a peering request to Owner of Accepter VPC
+    4. Owner of the Accepter accepts the peering request.
+    5. Manually add routes in each VPC
+        1. Requestor 
+            1. Destination(10.0.0.0/16) Target (local)
+            2. Destination(172.31.0.0/16) Target(peering id)
+        2. Accepter
+            1. Destination(172.31.0.0/16) Target (local)
+            2. Destination(10.0.0.0/16) Target(peering id)
+    6. Update Securrity Groups to ensure traffic is not restricted
+ 
     
+### VPC Internet Gateway
+
+1. Horizontally scaled
+2. Redundant and highly available
+3. Steps
+    1. Attach Internet Gateway igw-id
+    2. Add Route in Subnet Routing Table
+    3. Instance should have Public v4 ip, v6 ip or elastic ip
+        1. elastic ip addresses are static and can be rapidly moved from one instance or Network Interface 
+    4. Network Access Control List
+    5. Security Groups
+4. NAT Gateway
+    1. nat-gwy-id in Public Subnet.
+    2. Should associate with Public Subnet
+    3. elastic ip address in Public Subnet for nat-gway-id
+    4. Private Subnet 
+        1. Destination(10.0.0.0/16) Target (local)
+        2. Destination(0.0.0.0/0) Target(nat-gwy-id)
+    5. NAT Gateway are not supported in ipv6 traffic
+5. Egress-Only Internet Gateway
+    1. Stateful (remembers)
+    2. Private Subnet 2001:db8:1234:1a00::/56 
+        1. Destination(10.0.0.0/16) Target (local)
+        2. Destination(2001:db8:1234:1a00::/56) Target (local)
+        3. Destination(::/0) Target(eigw-id)
     
+
