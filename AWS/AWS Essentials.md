@@ -119,6 +119,23 @@
 
 ## VPC
 
+### Overview
+
+1. Logically isolated section of AWS cloud
+2. Virtual Network Environment
+    1. IP Address Range
+    2. Subnets
+    3. Route Tables
+    4. Network Gateways
+3. Default ipv4 private ip addresses
+4. VPC Spans all the available AZ's in the region
+5. One or more subnets in each AZ
+6. Each Subnet must remain within one AZ
+7. By Default 5 VPC's can be created per AWS Account per region. Call AWS Support to increase this.
+
+
+### Concepts
+
 1. Private IP address range - Classless Inter-Domain Routing Block (CIDR)
 2. Allowed CIDR Block size : /16 and /28 
     1. eg:- 10.0.0.0/16 
@@ -218,4 +235,75 @@
         3. Port range
         4. Source
 
+### Marketing and Finance
+
+1. Marketing
+    1. CIDR 10.10.0.0/16
+        1. dest 10.10.0.0/16  target local
+        2. dest 172.31.0.0/16 target pcx
+2. Finance
+    1. CIDR 172.31.0.0/16 
+        1. dest 172.31.0.0/16 target local
+        2. dest 10.10.0.0/16  target pcx 
+
+### Lab
+    1. Create Peering Group
+    2. Add Routing Rules in both subnets
+    3. Update Security Groups to allow ICMP inbound from other subnet.
+
+## RDS
+
+1. Resizable capacity
+2. provisioning , setup, patching , backups 
+3. Aurora, PGsql, MySQL, MariaDB, Oracle, SQLServer
+4. IPSec VPN Connection to Existing IT Infra
+
+### Availability and Durability
+
+1. Automated Backups
+2. Stored in S3
+3. upto last 5 min - snapshot
+4. Automatic Host replacement
+5. Multi AZ DB Instance
+6. Across Region Failover
+
+### Lower Admin Burden 
+
+1. DB Instance Class
+    1. Standard
+    2. Memory Optimized
+    3. Burstable performance
+2. Automatic Software Patches
+    1. Best Practice suggestions
+3. Performance
+    1. General Purpose SSD Storage
+        1. 3 IOPS/GB to 3000 IOPS
+        2. gp2
+    2. Provisioned IOPS SSD Storage
+        1. Upto 40000 IOPS per DB
+    3. Magnetic Storage
+        1. backward compatibility
+4. Managebeability and Cost Metrics
+    1. Cloud watch
+    2. Mgmt Console
+    3. 50 Metrics covering   cpu, memory, i/o, file system and performance insights
+    4. Event Notifications SNS
+    5. Amazon Config
+    6. Pay only for use, Reserved instances, Stop and Start
+5. Scalability
+    1. upto 32 vcpu and 244 GiB 64 TB , SQL Server only upto 16 TB
+    2. Aurora Multi Master Cluster
+        1. Master in Multiple AZ
+        2. Shared Storage Volumes across AZ's
+6. Security
+    1. Network Isolation - VPC
+    2. Security Groups at Instance level , NACL's at Subnet level
+    3. IPSec VPN to on prem, Network firewalls and IDS
+    4. IAM controls snapshots, parameter groups, option groups , control actions, tags
+    5. AWS Key Management Service - Encryption at rest and transit
+    6. Transparen Data Encryption
+    7. AWs Cloud HSM - Hardware Security Module
+    8. SSL or TLS
+
+## AWS IAM
 
