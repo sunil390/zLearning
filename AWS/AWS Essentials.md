@@ -348,3 +348,49 @@
     3. service last accessed - remove obsolete
     4. Automated reasoning
     
+## EFS
+
+1. NFS v4.1 and v4.0
+2. Massively parallel shared access
+3. regional service
+4. for linux based app
+5. FSx for Windows Apps
+6. FSx for Lustre - compute intensive workloads
+
+### Benefits 
+
+1. POSIX permissions
+2. EFS Lifecycle management
+3. AWS Budgets
+4. EFS Access Points
+    1. Application Specific Directory and Permissions
+    2. IAM Policies
+    3. OS groups and users
+### Features
+1. Standard Storage Class
+2. Infrequent Access Storage Class - EFS IA
+3. EFS Lifecycle policy to migrate
+4. General purpose and max IO performance modes
+5. throughput modes - bursting and  provisioned
+6. AWS KMS
+7. TLS for netwrok traffic
+8. containers and serverless storage
+9. ECS, EKS , Lambda and Fargate
+### Data Transfer and Backup
+
+1. AWS DataSync 
+2. DataSync - Automates scaling and validating transfers
+3. AWS Backup - Automated
+
+### EFS LAB
+
+1. sudo yum install -y amazon-efs-utils
+2. mkdir data
+3. sudo mount -t efs -o tls fs-05cdb4740a979fd0a:/ data
+4. cd data 
+5. sudo bash -c "cat >> efs-1-setup.log" 
+6. cat efs-1-setup.log
+
+## DynamoDB
+
+1. 
