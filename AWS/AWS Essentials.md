@@ -307,3 +307,44 @@
 
 ## AWS IAM
 
+### Shared Responsibility Model
+
+1. Customer - Responsible for "Security IN the cloud. /Data Security/OS/Applications
+2. AWS - - Responsible for "Security OF the cloud. /Virtualization/Facilities/Hardware
+
+### IAM
+1. IAM User, IAM Group
+2. IAM Policy
+3. IAM Roles to delegate access
+4. TOD conditions, IP Address , MFA, SSL, 
+5. Analyze Access.
+6. Identity Federation SAML 2.0
+
+### IAM Permissions
+
+1. IAM Policy
+    1. Version Statements
+    2. SID - Statement ID
+    3. Effect - Allow/Deny
+    4. Principal - IAM Entities - USer, Federated User, Group, Roles 
+    5. Action - actions to allow/deny - Access Levels below
+        1. List
+        2. Read
+        3. Tagging
+        4. Write
+        5. Permisions Management
+    6. Resources - 
+    7. Conditions - 
+
+    8. Management Console - Policy Summaries
+2. IAM Roles
+    1. AWS Identity with permission policies
+        1. No Long term Credential such as password and access keys
+        2. Temporary security credential
+        3. Delegate Access using Roles
+3. Access Analyzer
+    1. Comprehencive findings
+    2. Monitors and helps to refine permissions
+    3. service last accessed - remove obsolete
+    4. Automated reasoning
+    
