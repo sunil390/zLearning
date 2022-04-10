@@ -1,5 +1,14 @@
 # Linux Snippets
 
+## Linux on Z
+
+1. CentOS Stream9 https://www.centos.org/centos-stream/
+2. SNA https://www.sinenomine.net/index.php/offerings/linux/ClefOS
+3. SUSE https://www.suse.com/download/sles/
+4. RHEL Trial https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/ibm-z-linux-one/try-it
+5. Ubuntu http://old-releases.ubuntu.com/releases/20.04.3/
+
+
 ## apt update issue
 ```
 E: Release file for http://us.archive.ubuntu.com/ubuntu/dists/focal-updates/InRelease is not valid yet (invalid for another 36min 11s). Updates for this repository will not be applied.
