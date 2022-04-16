@@ -22,6 +22,11 @@ namespace: awx
 3. ./kustomize build . | kubectl apply -f -
 4. kubectl config set-context --current --namespace=awx
 5. k get pods
+```
+sunil390@dashb:~$ k get pods
+NAME                                               READY   STATUS    RESTARTS   AGE
+awx-operator-controller-manager-5d9949568d-62dkc   1/2     Running   0          3m55s
+```
 6. nano awx-zdino.yaml
 ```
 ---
