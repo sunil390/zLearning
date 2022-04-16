@@ -1,5 +1,11 @@
 # Linux Snippets
 
+## [blk_update_request I/O Error dev fd0 sector 0 ](https://askubuntu.com/questions/719058/blk-update-request-i-o-error-dev-fd0-sector-0)
+
+1. sudo rmmod floppy
+2. echo "blacklist floppy" | sudo tee /etc/modprobe.d/blacklist-floppy.conf
+3. sudo dpkg-reconfigure initramfs-tools
+
 ## Linux on Z
 
 1. CentOS Stream9 https://www.centos.org/centos-stream/
