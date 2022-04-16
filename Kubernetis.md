@@ -1,5 +1,59 @@
 # AWX install in Kubernetes
 
+## Installation using Kustomize
+
+1. curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+2. nano kustomization.yaml
+```
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Find the latest tag here: https://github.com/ansible/awx-operator/releases
+  - github.com/ansible/awx-operator/config/default?ref=0.20.0
+
+# Set the image tags to match the git version from above
+images:
+  - name: quay.io/ansible/awx-operator
+    newTag: 0.20.0
+
+# Specify a custom namespace in which to install AWX
+namespace: awx
+```
+3. ./kustomize build . | kubectl apply -f -
+4. kubectl config set-context --current --namespace=awx
+5. k get pods
+6. nano awx-zdino.yaml
+```
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-zdino
+spec:
+  service_type: nodeport
+```
+7. add awx-zdino to kustomiztion.yaml
+```
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Find the latest tag here: https://github.com/ansible/awx-operator/releases
+  - github.com/ansible/awx-operator/config/default?ref=0.20.0
+  - awx-zdino.yaml
+# Set the image tags to match the git version from above
+images:
+  - name: quay.io/ansible/awx-operator
+    newTag: 0.20.0
+
+# Specify a custom namespace in which to install AWX
+namespace: awx
+```
+8. kustomize build . | kubectl apply -f -
+9. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+10. $ kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" | base64 --decode
+yDL2Cx5Za94g9MvBP6B73nzVLlmfgPjR
+
+
 ## [AWX Cluster Sample](https://githubhot.com/repo/ansible/awx-operator/issues/260?page=1)
 
 ## 16th Jan 2022 Portainer
