@@ -1,5 +1,15 @@
 # AWX install in Kubernetes
 
+## Helm Install.
+
+1. sudo snap install helm --classic
+2. microk8s enable helm3
+3. microk8s enable storage dns ingress portainer 
+4. helm3 repo add awx-operator https://ansible.github.io/awx-operator/
+5. helm3 repo update
+6. helm3 search repo awx-operator
+7.  
+
 ## Installation using Kustomize
 
 1. curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
