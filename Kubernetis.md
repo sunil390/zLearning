@@ -1,5 +1,25 @@
 # AWX install in Kubernetes
 
+## Microk8s on rhel 8.6
+
+[AWX on CentOS/RHEL](https://computingforgeeks.com/install-and-configure-ansible-awx-on-centos/)
+
+1. sudo dnf -y update
+2. sudo systemctl disable firewalld --now
+3. sudo reboot
+4. sudo setenforce 0
+5. sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
+6. cat /etc/selinux/config | grep SELINUX=
+
+
+
+1. sudo firewall-cmd --list-services
+2. sudo firewall-cmd --permanent --add-port 30080/tcp
+3. nmap localhost
+4. sudo firewall-cmd --list-all
+5. sudo systemctl disable firewalld --now
+
+
 ## Nfs Setup 
 
 1. sudo systemctl start nfs-server
