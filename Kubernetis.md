@@ -14,6 +14,141 @@
 10. sudo usermod -a -G microk8s sunil390 && sudo chown -f -R sunil390 ~/.kube
 6. echo "alias kubectl='microk8s kubectl'" >> ~/.bashrc && source ~/.bashrc
 
+1. sudo yum install cockpit
+2. sudo systemctl enable --now cockpit.socket
+3. http://192.168.2.87:9090
+
+
+1. Root CA: openssl req -x509 -nodes -sha256 -days 3650 -newkey rsa:4096 -keyout rootCA.key -out rootCA.crt
+```
+Country Name (2 letter code) [XX]:IN
+State or Province Name (full name) []:KA
+Locality Name (eg, city) [Default City]:Bengaluru
+Organization Name (eg, company) [Default Company Ltd]:sunil390
+Organizational Unit Name (eg, section) []:rnd
+Common Name (eg, your name or your server's hostname) []:rootCA
+Email Address []:sunil390@gmail.com
+```
+2. Cert Request: Cert Req: openssl req -newkey rsa:4096 -nodes -keyout awx.key -out awx.csr
+```
+Country Name (2 letter code) [XX]:IN
+State or Province Name (full name) []:KA
+Locality Name (eg, city) [Default City]:Bengaluru
+Organization Name (eg, company) [Default Company Ltd]:sunil390
+Organizational Unit Name (eg, section) []:rnd
+Common Name (eg, your name or your server's hostname) []:awx.com
+Email Address []:sunil390@gmail.com
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+```
+3. Configuration Text : awx.ext
+```
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = awx.sunil390.com
+```
+4. openssl x509 -req -CA rootCA.crt -CAkey rootCA.key -in awx.csr -out awx.crt -days 3650 -CAcreateserial -extfile awx.ext
+```
+Signature ok
+subject=C = IN, ST = KA, L = Bengaluru, O = sunil390, OU = rnd, CN = awx.com, emailAddress = sunil390@gmail.com
+Getting CA Private Key
+```
+5. openssl x509 -text -noout -in awx.crt
+```
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            72:d5:8d:e8:fc:0a:fe:07:23:3d:eb:2a:0d:68:32:18:bd:54:12:19
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C = IN, ST = KA, L = Bengaluru, O = sunil390, OU = rnd, CN = rootCA, emailAddress = sunil390@gmail.com
+        Validity
+            Not Before: May 22 12:31:55 2022 GMT
+            Not After : May 19 12:31:55 2032 GMT
+        Subject: C = IN, ST = KA, L = Bengaluru, O = sunil390, OU = rnd, CN = awx.com, emailAddress = sunil390@gmail.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (4096 bit)
+                Modulus:
+                    00:c2:0d:02:bf:65:da:d0:70:72:30:8e:92:c2:7d:
+                    e5:a3:8c:ad:f4:48:e2:a5:a0:e5:77:6c:c8:1e:00:
+                    39:12:9e:c0:3c:c1:c1:97:42:f8:fa:85:9e:ee:0b:
+                    5c:73:82:28:e0:1f:90:e8:b5:96:74:79:0e:97:f6:
+                    e8:67:99:d4:a5:24:0f:e3:03:52:2a:35:2e:d1:4f:
+                    a6:9d:cb:10:cc:08:6e:09:e1:b6:82:3b:2c:61:e0:
+                    d1:33:1c:5e:24:c3:39:30:7d:0a:05:cb:ab:66:b6:
+                    de:a1:80:85:f8:2a:89:42:cc:c3:66:3e:a1:96:98:
+                    92:80:8f:2d:9f:ab:80:dd:08:9f:f0:ea:2c:aa:05:
+                    55:a8:4b:3d:86:57:2e:e4:04:5d:2c:6f:cc:a1:53:
+                    a4:70:d3:fc:df:2b:69:c3:80:2f:86:94:e1:bd:4c:
+                    dc:87:bf:1a:5c:d4:ed:e1:10:48:09:40:a1:82:23:
+                    fb:c8:6d:7f:bb:7c:88:50:3d:b3:26:23:40:30:5d:
+                    b5:9d:41:61:d9:45:43:df:07:40:d4:56:f1:5c:cc:
+                    8b:85:39:c7:7e:55:d9:0c:fd:41:18:d7:4b:33:bf:
+                    97:2e:92:a3:28:ee:a7:c0:86:f4:56:ff:ca:57:5a:
+                    db:06:a9:5e:9c:45:9a:55:24:32:03:8d:66:a4:46:
+                    4a:c1:db:c8:09:1f:6f:67:08:d4:58:10:d5:8f:d1:
+                    01:aa:18:12:16:b3:8e:7f:80:5c:80:d0:7f:29:aa:
+                    d3:bd:21:f1:0c:ad:76:32:81:95:7d:f0:05:e2:c2:
+                    ff:68:96:78:85:34:38:2a:72:1d:fb:d4:c0:b6:57:
+                    28:6e:a7:03:47:51:fe:e9:30:cd:bf:f8:cf:9f:49:
+                    eb:31:d5:6e:84:da:f1:4b:77:12:68:4c:48:4e:c6:
+                    e7:d1:e5:8b:2e:02:54:47:f2:57:2b:1a:ab:d0:7a:
+                    4d:f9:68:ac:d5:40:c1:10:93:0b:42:ea:ae:44:5e:
+                    d1:a2:4c:af:00:1d:ea:3b:7b:f2:fb:40:81:3a:71:
+                    08:89:8a:01:44:6f:35:cb:5b:11:dc:d4:e2:37:60:
+                    5c:5a:91:d4:6f:76:21:73:e4:26:aa:9a:5e:e2:e9:
+                    1a:b2:9c:63:70:2d:99:2d:94:97:de:f2:e0:bf:a3:
+                    d4:3e:63:e9:d1:1f:5e:1e:89:d5:2d:53:37:96:15:
+                    c2:76:f1:46:bc:aa:1b:87:e3:82:4d:c9:25:6a:8a:
+                    f4:50:4c:c9:57:e9:ab:b7:0d:b6:d8:6c:fb:0f:53:
+                    62:ef:ea:e4:95:e9:ae:d4:58:35:97:8c:8e:c1:21:
+                    06:f6:7a:7a:c8:16:0d:43:c0:e2:0e:ee:51:6b:c5:
+                    5f:58:11
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Authority Key Identifier:
+                keyid:C2:8B:6B:65:15:B2:25:4A:BD:8C:4F:C7:8E:03:E2:58:2C:A2:07:3E
+
+            X509v3 Basic Constraints:
+                CA:FALSE
+            X509v3 Subject Alternative Name:
+                DNS:awx.sunil390.com1~
+    Signature Algorithm: sha256WithRSAEncryption
+         21:b2:6a:cd:42:2b:61:78:bb:fb:c5:b7:7f:23:1a:6a:ec:8f:
+         6e:b0:30:fd:71:f2:00:84:ce:7e:07:3f:d8:c3:ab:a9:ec:e7:
+         82:84:db:64:7d:9c:7b:30:ab:80:95:b6:f4:0c:8f:c9:62:6c:
+         e0:59:00:96:24:91:5f:7b:df:0c:a3:20:7f:9b:e3:13:3e:3d:
+         66:15:f9:d4:57:b2:92:ad:f4:bb:be:3b:8e:00:0b:4b:6e:0f:
+         6a:92:e9:2a:e2:79:62:4b:d1:03:31:db:e8:52:34:e5:e7:20:
+         d2:5c:e5:6b:2e:ba:15:65:2e:5f:9e:56:2a:c3:1d:54:46:1b:
+         06:b2:00:3b:bd:10:5d:47:90:91:bf:48:c8:a8:ed:4c:02:62:
+         8f:08:16:d5:a2:9b:67:d2:13:ca:70:c8:22:38:fa:d1:c7:d4:
+         73:93:2f:af:f7:cf:6c:e2:14:2e:37:21:00:fc:7f:ac:5c:2d:
+         30:31:3b:f5:b9:3a:0b:40:6c:31:82:37:1d:3d:46:55:e1:45:
+         63:2c:78:33:0a:09:85:da:ac:77:c0:c8:13:76:c0:ac:2d:9e:
+         eb:68:63:a3:9d:cc:a2:71:6e:1b:e9:6b:51:ac:b4:9d:3f:7d:
+         d3:32:2e:a6:e6:d5:c7:be:f0:ed:22:0d:7c:55:4b:ce:4e:45:
+         56:79:08:4c:46:9d:78:c1:42:7f:8b:23:84:86:aa:57:fa:19:
+         b3:40:9f:dd:5b:d0:ed:00:78:f0:6f:19:6a:7d:b0:70:7c:1f:
+         9d:a7:b3:1e:75:9a:30:16:6a:67:6a:6a:b2:74:e9:25:ac:68:
+         f4:03:28:41:fb:d9:de:76:13:a1:17:88:68:c6:58:ae:80:58:
+         cf:81:16:d6:f8:9a:e6:b6:75:49:e8:12:75:61:3f:77:66:ed:
+         42:0c:c6:99:ac:5a:8e:8e:3e:a1:d1:e5:7a:68:d2:b0:a6:18:
+         02:be:44:05:e9:c2:12:b3:70:88:14:48:b5:5f:bb:7c:71:ce:
+         47:05:10:e3:dd:68:8c:e6:d0:42:c8:88:26:9e:f1:6f:ca:90:
+         fd:57:ca:3e:dc:b4:52:ec:24:9d:14:5e:06:08:00:89:59:6e:
+         f3:26:ee:bd:2b:9d:75:07:19:3f:21:e7:ec:90:07:1a:e1:b9:
+         7a:06:a8:9a:e5:1b:ea:69:2b:48:0e:d3:3a:d5:44:2c:fe:70:
+         5d:0b:86:ca:4c:8e:cb:2e:cf:7e:2a:4f:dd:24:82:ea:0b:b7:
+         a4:be:49:da:15:4e:46:37:d6:05:6f:59:da:aa:b9:28:49:74:
+         31:88:7d:4b:8d:f6:78:83:7c:4b:85:bc:28:a2:dd:cc:4a:43:
+         e6:40:63:b0:dc:c0:68:2d
+```
 
 ## Helm Install.
 
