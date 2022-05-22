@@ -12,12 +12,14 @@
 8. sudo ln -s /var/lib/snapd/snap /snap
 9. sudo snap install microk8s --classic
 10. sudo usermod -a -G microk8s sunil390 && sudo chown -f -R sunil390 ~/.kube
-6. echo "alias kubectl='microk8s kubectl'" >> ~/.bashrc && source ~/.bashrc
+11. echo "alias kubectl='microk8s kubectl'" >> ~/.bashrc && source ~/.bashrc
 
+## Monitoring Cockpit
 1. sudo yum install cockpit
 2. sudo systemctl enable --now cockpit.socket
 3. http://192.168.2.87:9090
 
+### [Certificate Setup](https://www.baeldung.com/openssl-self-signed-cert)
 
 1. Root CA: openssl req -x509 -nodes -sha256 -days 3650 -newkey rsa:4096 -keyout rootCA.key -out rootCA.crt
 ```
