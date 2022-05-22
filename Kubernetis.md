@@ -1,5 +1,20 @@
 # AWX install in Kubernetes
 
+## MicroK8s on rhel8.6
+
+1. Download and install rhel 8.6 from Redhat developer
+2. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+3. sudo dnf upgrade
+4. sudo subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"
+5. sudo yum update
+6. sudo yum install snapd
+7. sudo systemctl enable --now snapd.socket
+8. sudo ln -s /var/lib/snapd/snap /snap
+9. sudo snap install microk8s --classic
+10. sudo usermod -a -G microk8s sunil390 && sudo chown -f -R sunil390 ~/.kube
+6. echo "alias kubectl='microk8s kubectl'" >> ~/.bashrc && source ~/.bashrc
+
+
 ## Helm Install.
 
 1. sudo snap install helm --classic
