@@ -1,7 +1,12 @@
 # AWX install in Kubernetes
 
-## MicroK8s on rhel8.6
+## Nfs Setup 
 
+1. sudo systemctl start nfs-server
+2. sudo systemctl status nfs-server
+
+
+## MicroK8s on rhel8.6
 1. Download and install rhel 8.6 from Redhat developer
 2. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 3. sudo dnf upgrade
@@ -13,6 +18,14 @@
 9. sudo snap install microk8s --classic
 10. sudo usermod -a -G microk8s sunil390 && sudo chown -f -R sunil390 ~/.kube
 11. echo "alias kubectl='microk8s kubectl'" >> ~/.bashrc && source ~/.bashrc
+
+12. microk8s enable dns:192.168.2.1
+13. microk8s enable storage
+14. microk8s enable ingress
+15. microk8s enable metallb:192.168.2.200-192.168.2.210
+16. microk8s enable dashboard
+17. microk8s enable registry
+
 
 ## Monitoring Cockpit
 1. sudo yum install cockpit
@@ -59,7 +72,9 @@ Signature ok
 subject=C = IN, ST = KA, L = Bengaluru, O = sunil390, OU = rnd, CN = awx.com, emailAddress = sunil390@gmail.com
 Getting CA Private Key
 ```
-5. openssl x509 -text -noout -in awx.crt
+5. base64 encoding: cat awx.crt|base64 -w0 
+6. openssl x509 -text -noout -in awx.crt
+  1. .crt is X.509 certificate that's ASCII PEM-encoded
 ```
 Certificate:
     Data:
@@ -151,6 +166,11 @@ Certificate:
          31:88:7d:4b:8d:f6:78:83:7c:4b:85:bc:28:a2:dd:cc:4a:43:
          e6:40:63:b0:dc:c0:68:2d
 ```
+6.  PEM-encoded certificate to a DER-encoded certificate
+openssl x509 -in awx.crt -outform der -out awx.der
+
+7. Combine private key and certificate into a PKCS12 file ( pfx used for importing and exporting certificate chains in Microsoft IIS)
+openssl pkcs12 -inkey awx.key -in awx.crt -export -out awx.pfx
 
 ## Helm Install.
 
