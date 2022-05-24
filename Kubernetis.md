@@ -2,6 +2,14 @@
 
 ## Microk8s on rhel 8.6
 
+### ArgoCD
+
+1. kubectl create namespace argocd 
+2. kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+3. kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+4. kubectl expose deployment.apps/argocd-server --type="NodePort" --port 8080 --name=argo-nodeport -n argocd  
+5. kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+
 [AWX on CentOS/RHEL](https://computingforgeeks.com/install-and-configure-ansible-awx-on-centos/)
 
 1. sudo dnf -y update
