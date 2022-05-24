@@ -11,7 +11,7 @@
 5. sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
 6. cat /etc/selinux/config | grep SELINUX=
 
-
+### firewall rhel
 
 1. sudo firewall-cmd --list-services
 2. sudo firewall-cmd --permanent --add-port 30080/tcp
@@ -20,13 +20,13 @@
 5. sudo systemctl disable firewalld --now
 
 
-## Nfs Setup 
+### Nfs Setup 
 
 1. sudo systemctl start nfs-server
 2. sudo systemctl status nfs-server
 
 
-## MicroK8s on rhel8.6
+### MicroK8s on rhel8.6
 1. Download and install rhel 8.6 from Redhat developer
 2. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 3. sudo dnf upgrade
@@ -38,7 +38,6 @@
 9. sudo snap install microk8s --classic
 10. sudo usermod -a -G microk8s sunil390 && sudo chown -f -R sunil390 ~/.kube
 11. echo "alias kubectl='microk8s kubectl'" >> ~/.bashrc && source ~/.bashrc
-
 12. microk8s enable dns:192.168.2.1
 13. microk8s enable storage
 14. microk8s enable ingress
@@ -47,7 +46,7 @@
 17. microk8s enable registry
 
 
-## Monitoring Cockpit
+### Monitoring Cockpit
 1. sudo yum install cockpit
 2. sudo systemctl enable --now cockpit.socket
 3. http://192.168.2.87:9090
