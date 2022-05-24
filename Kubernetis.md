@@ -6,8 +6,8 @@
 
 1. kubectl create namespace argocd 
 2. kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-3. kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
-4. kubectl expose deployment.apps/argocd-server --type="NodePort" --port 8080 --name=argo-nodeport -n argocd  
+3. option1: kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+4. option2: kubectl expose deployment.apps/argocd-server --type="NodePort" --port 8080 --name=argo-nodeport -n argocd  
 5. kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
 [AWX on CentOS/RHEL](https://computingforgeeks.com/install-and-configure-ansible-awx-on-centos/)
@@ -61,7 +61,7 @@
 
 ### [Certificate Setup](https://www.baeldung.com/openssl-self-signed-cert)
 
-1. Root CA: openssl req -x509 -nodes -sha256 -days 3650 -newkey rsa:4096 -keyout rootCA.key -out rootCA.crt
+1. Root CA Key and Crt: openssl req -x509 -nodes -sha256 -days 3650 -newkey rsa:4096 -keyout rootCA.key -out rootCA.crt
 ```
 Country Name (2 letter code) [XX]:IN
 State or Province Name (full name) []:KA
@@ -71,7 +71,7 @@ Organizational Unit Name (eg, section) []:rnd
 Common Name (eg, your name or your server's hostname) []:rootCA
 Email Address []:sunil390@gmail.com
 ```
-2. Cert Request: Cert Req: openssl req -newkey rsa:4096 -nodes -keyout awx.key -out awx.csr
+2. Server Cert Request: Cert Req: openssl req -newkey rsa:4096 -nodes -keyout awx.key -out awx.csr
 ```
 Country Name (2 letter code) [XX]:IN
 State or Province Name (full name) []:KA
@@ -93,7 +93,7 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = awx.sunil390.com
 ```
-4. openssl x509 -req -CA rootCA.crt -CAkey rootCA.key -in awx.csr -out awx.crt -days 3650 -CAcreateserial -extfile awx.ext
+4. Server Cert: openssl x509 -req -CA rootCA.crt -CAkey rootCA.key -in awx.csr -out awx.crt -days 3650 -CAcreateserial -extfile awx.ext
 ```
 Signature ok
 subject=C = IN, ST = KA, L = Bengaluru, O = sunil390, OU = rnd, CN = awx.com, emailAddress = sunil390@gmail.com
