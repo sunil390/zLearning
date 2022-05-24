@@ -1,5 +1,9 @@
 # Commands
 
+## Microk8s Kubeconfig
+
+1. sudo microk8s kubectl config view --raw > $HOME/.kube/config
+
 ## ssh to POD and Container
 
 1. k get pods --all-namespaces -o wide
