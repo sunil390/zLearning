@@ -204,10 +204,10 @@ openssl pkcs12 -inkey awx.key -in awx.crt -export -out awx.pfx
 1. sudo snap install helm --classic
 2. microk8s enable helm3
 3. microk8s enable storage dns ingress portainer 
-4. helm3 repo add awx-operator https://ansible.github.io/awx-operator/
-5. helm3 repo update
-6. helm3 search repo awx-operator
-7.  
+4. helm repo add awx-operator https://ansible.github.io/awx-operator/
+5. helm repo update
+6. helm search repo awx-operator
+7. helm install my-awx-operator awx-operator/awx-operator 
 
 ## Installation using Kustomize
 
