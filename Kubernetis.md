@@ -1,5 +1,111 @@
 # AWX install in Kubernetes
 
+## AWX on K3S Running in RHEL [AWX on CentOS](https://computingforgeeks.com/install-and-configure-ansible-awx-on-centos/)
+
+1. sudo dnf -y update
+2. sudo systemctl disable firewalld --now
+3. sudo reboot
+4. sudo setenforce 0
+5. sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
+6. cat /etc/selinux/config | grep SELINUX=
+7. curl -sfL https://get.k3s.io | sudo bash -
+8. sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+9. systemctl status k3s.service
+10. sudo su -
+11. kubectl get nodes
+12. kubectl version --short
+13. sudo yum -y install git make
+14. git clone https://github.com/ansible/awx-operator.git --branch 0.22.0
+15. cd awx-operator
+16. git checkout
+17. export NAMESPACE=awx
+18. kubectl create ns ${NAMESPACE}
+19. kubectl config set-context --current --namespace=$NAMESPACE
+20. make deploy
+21. kubectl get pods -n awx
+22. sudo nano public-static-pvc.yaml
+```
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: public-static-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+```
+23. kubectl apply -f public-static-pvc.yaml -n awx
+24. kubectl get pvc -n awx
+25. sudo nano awx-instance-deployment.yml
+```
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  service_type: nodeport
+  projects_persistence: true
+  projects_storage_access_mode: ReadWriteOnce
+  web_extra_volume_mounts: |
+    - name: static-data
+      mountPath: /var/lib/projects
+  extra_volumes: |
+    - name: static-data
+      persistentVolumeClaim:
+        claimName: public-static-data-pvc
+```
+26. kubectl apply -f awx-instance-deployment.yml -n awx
+27. watch kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator" -n awx
+28. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+29. kubectl  get pvc
+30. In case of Postgress isssue: 
+```
+kubectl logs awx-postgres-0
+mkdir: cannot create directory ‘/var/lib/postgresql/data’: Permission denied
+ls -lh /var/lib/rancher/k3s/storage/ | grep awx-postgres-0
+chmod -R 777  /var/lib/rancher/k3s/storage/*
+kubectl delete pods -l "app.kubernetes.io/managed-by=awx-operator" -n awx
+kubectl get pods -n awx
+```
+31: Checking logs
+```
+kubectl -n awx  logs deploy/awx -c redis
+kubectl -n awx  logs deploy/awx -c awx-web
+kubectl -n awx  logs deploy/awx -c awx-task
+kubectl -n awx  logs deploy/awx -c awx-ee
+
+kubectl exec -ti deploy/awx  -c  awx-task -- /bin/bash
+kubectl exec -ti deploy/awx  -c  awx-web -- /bin/bash
+kubectl exec -ti deploy/awx  -c  awx-ee -- /bin/bash
+kubectl exec -ti deploy/awx  -c  redis -- /bin/bash
+```
+
+### AWX Upgrade
+1. kubectl describe pod awx-operator-controller-manager | grep quay.io/ansible/awx-operator
+2. git clone https://github.com/ansible/awx-operator.git --branch 0.22.0
+3. cd awx-operator
+4. git checkout
+5. kubectl config set-context --current --namespace=awx
+6. kubectl delete  deployment awx-operator-controller-manager
+7. kubectl  delete serviceaccount awx-operator-controller-manager
+8. kubectl delete rolebinding awx-operator-awx-manager-rolebinding
+9. kubectl delete role awx-operator-awx-manager-role
+10. kubectl get pods
+11. export NAMESPACE=awx
+12. make deploy
+13. kubectl get pods
+14. kubectl describe pod awx-operator-controller-manager | grep quay.io/ansible/awx
+15. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+16. kubectl get pods
+17. kubectl get svc
+18. kubectl -n awx get secret awx-admin-password -o go-template='{{range $k,$v := .data}}{{printf "%s: " $k}}{{if not $v}}{{$v}}{{else}}{{$v | base64decode}}{{end}}{{"\n"}}{{end}}'
+
+
 ## Microk8s on rhel 8.6
 
 ### ArgoCD
