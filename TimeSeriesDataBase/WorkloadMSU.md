@@ -21,3 +21,4 @@ https://www.ibm.com/support/pages/system/files/inline-files/An_Overview_of_x.509
 
 https://www.ibm.com/support/pages/system/files/inline-files/Managing_Mainframe_End_to_End_SHARE_12901.pdf
 
+https://www.ibm.com/support/pages/system/files/inline-files/FICON_Multihop_White_Paper_2018-03.pdf
