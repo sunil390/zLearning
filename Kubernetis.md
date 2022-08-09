@@ -15,7 +15,7 @@
 11. sudo /usr/local/bin/k3s kubectl config view --raw > "$KUBECONFIG"
 12. chmod 600 "$KUBECONFIG"
 9. sudo yum -y install git make
-10. git clone https://github.com/ansible/awx-operator.git --branch 0.22.0
+10. git clone https://github.com/ansible/awx-operator.git --branch 0.26.0
 11. cd awx-operator
 12. git checkout
 13. export NAMESPACE=awx
