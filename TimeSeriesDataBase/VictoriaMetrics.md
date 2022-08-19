@@ -7,13 +7,6 @@ uri
 '/api/v1/import/csv?format=3:metric:tb_local,4:metric:tb_mirror,5:metric:gb_alloc,6:metric:gb_free,7:metric:total_tb,8:metric:total_gb,1:label:client,2:label:lpar_grp,9:label:dc,10:label:mgr,11:label:hub,12:time:rfc3339'      
 
 data
-7ELEVEN,DCU1,DCU0,5.75,28.75,5656.29,96.515,5.6179736328125,5752.805,Irving,P.Prendeville,NAMH,2021-10-01T00:00:00Z                
-ALLSCRIPTS,SYSV,IVSEDEV,SYSA,SYSN,SYST,48.384,0,4756.9,43627.1,47.25,48384,Charlotte,D.Dedola,Non HUB,2021-09-27T00:00:00Z         
-ALLSCRIPTS HQ,DDC1,DDC2,DDC7,DDC8,DDC9,10.14,0,9375.28,759.82,9.89755859375,10135.1,Charlotte,D.Dedola,Non HUB,2021-10-04T00:00:00Z
-ALLSCRIPTS HQ,SYSI,0.85,0,729.55,122.06,0.831650390625,851.61,Charlotte,D.Dedola,Non HUB,2021-10-04T00:00:00Z                      
-ARBELLA,SYZ1,5.12,20.48,3632.97,1489.476,5.002388671875,5122.446,Charlotte,C.Deacon,NAMH,2021-10-01T00:00:00Z                      
-ATOS,ACSD,6.10178866,30.51,3472.97635,2628.80192,5.95876784179687,6101.77827,Irving,S.Sukumaran,NAMH,2021-10-07T00:00:00Z          
-ATOS,COM2,1.559,7.79,735.741,823.291,1.5224921875,1559.032,Irving,S.Sukumaran,NAMH,2021-10-07T00:00:00Z                            
 
 ```
 
