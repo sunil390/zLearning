@@ -1,5 +1,23 @@
 # AWX install in Kubernetes
 
+## Oct 2022 - K3S and AWX Upgrade
+
+1. curl -sfL https://get.k3s.io/ | sh -s - --write-kubeconfig-mode 644
+2. k3s --version
+3. sudo systemctl status k3s
+4. export KUBECONFIG=~/.kube/config
+5. mkdir ~/.kube 2> /dev/null
+6. sudo /usr/local/bin/k3s kubectl config view --raw > "$KUBECONFIG"
+7. chmod 600 "$KUBECONFIG"
+8. git clone https://github.com/ansible/awx-operator.git --branch 0.30.0
+9. cd awx-operator
+10. git checkout
+11. export NAMESPACE=awx
+12. kubectl config set-context --current --namespace=$NAMESPACE
+13. make deploy
+14. kubectl get pods -n awx
+15. kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager
+
 ## Aug 2022 - https://technixleo.com/install-kubernetes-k3s-on-centos-rhel-alma/
 
 1. sudo dnf update -y
