@@ -1,5 +1,7 @@
 ## 21st Oct 2022 Installing latest Ansible https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
+User Install.
+
 1. python3 -m pip install --user ansible
 2. update path
 ```
@@ -7,6 +9,8 @@
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:/home/pi/.local/bin:$PATH"
 ```
+3. ansible-galaxy collection install ansible.utils
+4. ansible-galaxy collection install community.general 
 
 ## 4th Oct 2021
 
