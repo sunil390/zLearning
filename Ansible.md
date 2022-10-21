@@ -1,3 +1,13 @@
+## 21st Oct 2022 Installing latest Ansible https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+1. python3 -m pip install --user ansible
+2. update path
+```
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:/home/pi/.local/bin:$PATH"
+```
+
 ## 4th Oct 2021
 
 Storage Activities 
