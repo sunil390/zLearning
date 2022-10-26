@@ -1,3 +1,7 @@
+## 26th Oct
+json_query
+pip install jmespath
+
 ## 21st Oct 2022 Installing latest Ansible https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
 A. User Install.
