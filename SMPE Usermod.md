@@ -1,4 +1,5 @@
 
+```
 After seeing the posts this week about ISRONLY in ISP.SISPSAMP, I am
 trying to write a SMPE usermod that will:
 1) Copy/move ISRONLY from SISPSAMP to SISPEXEC
@@ -771,3 +772,4 @@ using the ideas of the more knowledgeable people on this list. :-)
 
 --
 Jeff
+```
