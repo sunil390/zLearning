@@ -1,3 +1,10 @@
+## 31st Oct ansible install on rhel 8.6
+
+1. sudo dnf update
+2. sudo python3 -m pip install --upgrade pip
+3. sudo python3 -m pip install ansible
+4. sudo pip install jmespath
+
 ## 30th Oct 2022 
 
 ### Jinja2
