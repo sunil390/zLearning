@@ -1,3 +1,33 @@
+## 30th Oct 2022 
+
+### Jinja2
+1. Variable {{ variable_name  }}
+```
+    - name: template task
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        mode: u=rw,g=r,o=r
+```
+2. Controlling flow : condition checking with % .... %
+
+
+```
+  server_name _;
+
+        {% if status_url is defined -%}
+        location /{{ status_url }} {
+            stub_status on;
+        }
+        {%- endif %}
+```
+3. Loops:  
+```
+{% for ip in ansible_all_ipv4_addresses %}
+    {{ ip }}<br />
+{% endfor %}
+```
+
 ## 26th Oct
 json_query
 pip install jmespath
