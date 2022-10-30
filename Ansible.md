@@ -35,6 +35,11 @@
 {% endif %}
 </div>
 ```
+5. filters: filters only apply to that instance of the variable.
+5.1 Jija trim filter will remove the \n from the "from_yaml" filter.
+5.2 to_json(indent=8) will make the output file readable.
+
+
 
 ## 26th Oct
 json_query
