@@ -27,6 +27,14 @@
     {{ ip }}<br />
 {% endfor %}
 ```
+4. Whitespace control: Do not indent jinja statements
+```
+<div>
+{% if say_hello %}
+    Hello, world
+{% endif %}
+</div>
+```
 
 ## 26th Oct
 json_query
