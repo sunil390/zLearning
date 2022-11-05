@@ -1,5 +1,7 @@
 ## 5th November Ansible-Navigator and builder # rhel 8.6
 
+https://infohub.delltechnologies.com/l/dell-powermax-ansible-modules-best-practices-1/creating-ansible-execution-environments-using-ansible-builder
+
 ```
 nano .bashrc
 alias python3='python3.9'
