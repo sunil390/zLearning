@@ -35,7 +35,18 @@ additional_build_steps:
  requirements.txt
  jmespath>=1.0.1
  ```
- 6. ansible-builder build 
+ 6. ansible-builder build  <<< will take an hour to build.
+ 7. podman images
+ ```
+ [sunil390@sunil390 context]$ podman images
+REPOSITORY                                 TAG         IMAGE ID      CREATED         SIZE
+localhost/ansible-execution-env            latest      b51d4637a6ca  19 minutes ago  1.04 GB
+<none>                                     <none>      e126e4efd608  31 minutes ago  1.02 GB
+<none>                                     <none>      8db440aa8822  43 minutes ago  816 MB
+quay.io/ansible/ansible-runner             latest      bec0dc171168  6 months ago    816 MB
+quay.io/ansible/ansible-builder            latest      b0348faa7f41  8 months ago    779 MB
+quay.io/ansible/ansible-navigator-demo-ee  0.6.0       e65e4777caa3  15 months ago   1.35 GB
+ ```
 
 ## 31st Oct ansible install on rhel 8.6
 
