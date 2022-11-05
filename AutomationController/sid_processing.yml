@@ -1,0 +1,23 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Register dcuf sid as a variable
+    shell: cat sid_dcuf.yml
+    register: result
+  - name: set sid_dcuf as fact 
+    set_fact:
+      sid_json: "{{ result.stdout | from_yaml | trim }}" 
+  - name: select smpe dsn and zone from sid
+    set_fact:
+      smpe_global_dsn: "{{ sid_json | json_query(query1) }}"
+      smpe_target_zone2: "{{ sid_json | json_query(query2) }}"
+    vars:
+      query1: 'sid_dcuf.smpe_environment.smpe.global.dsn'
+      query2: 'sid_dcuf.smpe_environment.smpe.target.zone2'
+  - name: Display variables
+    debug:
+      var: smpe_global_dsn ,  smpe_target_zone2
+  - name: Create JCL
+    template:
+      src: usermod.j2
+      dest: usermod.jcl
