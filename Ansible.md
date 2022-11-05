@@ -1,3 +1,9 @@
+## 5th November Ansible-Navigator
+
+1. python3 -m pip install ansible-navigator --user
+2. echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.profile
+3. source ~/.profile
+
 ## 31st Oct ansible install on rhel 8.6
 
 1. sudo dnf update
