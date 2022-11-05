@@ -1,4 +1,4 @@
-## 5th November Ansible-Navigator and builder
+## 5th November Ansible-Navigator and builder # rhel 8.6
 
 ```
 nano .bashrc
