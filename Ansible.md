@@ -22,7 +22,7 @@ version: 1
 #ansible_config: 'ansible.cfg'
 
 dependencies:
-#  galaxy: requirements.yml
+  galaxy: requirements.yml
   python: requirements.txt
 #  system: bindep.txt
 
@@ -36,7 +36,12 @@ additional_build_steps:
  
  requirements.txt
  jmespath>=1.0.1
- ```
+
+ requirements.yml
+ collections:
+ - name: community.general
+
+```
  6. ansible-builder build  <<< will take an hour to build.
  7. podman images
  ```
