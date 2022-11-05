@@ -1,8 +1,41 @@
 ## 5th November Ansible-Navigator
 
+```
+nano .bashrc
+alias python3='python3.9'
+```
 1. python3 -m pip install ansible-navigator --user
 2. echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.profile
 3. source ~/.profile
+4. python3 -m pip install ansible-builder
+5. execution environment and requirements.txt
+```
+execution-environment
+---
+version: 1
+
+# build_arg_defaults:
+#  EE_BASE_IMAGE: 'quay.io/ansible/ansible-runner:stable-2.10-devel'
+
+#ansible_config: 'ansible.cfg'
+
+dependencies:
+#  galaxy: requirements.yml
+  python: requirements.txt
+#  system: bindep.txt
+
+additional_build_steps:
+  prepend: |
+    RUN whoami
+    RUN cat /etc/os-release
+  append:
+    - RUN echo This is a post-install command!
+    - RUN ls -la /etc
+ 
+ requirements.txt
+ jmespath>=1.0.1
+ ```
+ 6. ansible-builder build 
 
 ## 31st Oct ansible install on rhel 8.6
 
