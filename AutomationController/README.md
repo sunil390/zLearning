@@ -29,19 +29,20 @@ additional_build_steps:
   append:
     - RUN echo This is a post-install command!
     - RUN ls -la /etc
- 
+``` 
 requirements.txt
+```
 ---
 jmespath>=1.0.1
-
+```
 requirements.yml
+```
 ---
 collections:
  - name: community.general
  - name: ansible.utils
  - name: awx.awx
  - name: ibm.ibm_zos_core
-
 ```
  6. ansible-builder build  <<< will take some time to build.
  ```
