@@ -2,3 +2,4 @@ collections:
 - name: community.general
 - name: ansible.utils
 - name: awx.awx
+- name: ibm.ibm_zos_core
