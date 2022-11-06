@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: get file
+    get_url:
+      url: https://www.ibm.com/support/pages/sites/default/files/software-lifecycle/ibm_software_lifecycle_product_list.csv
+      dest: ./lifecycleN.csv
+      mode: u=rw,g=r,o=r
+  - name: Register lifecyle as a variable
+    read_csv: 
+      path: lifecycleO.csv
+    register: pre
+  - name: Read data from CSV file and return a list
+    community.general.read_csv:
+      path: lifecycleN.csv
+    register: post
+  - name: Show the difference
+    ansible.utils.fact_diff:
+      before: "{{ pre |to_nice_yaml}}"
+      after: "{{ post |to_nice_yaml}}"
