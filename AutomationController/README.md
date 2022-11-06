@@ -7,8 +7,9 @@ https://infohub.delltechnologies.com/l/dell-powermax-ansible-modules-best-practi
 3. source ~/.profile
 4. python3 -m pip install ansible-builder
 5. execution-environment.yml, requirements.yml and requirements.txt
-```
+
 execution-environment.yml
+```
 ---
 version: 1
 
