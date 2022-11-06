@@ -3,9 +3,9 @@ ansible-navigator:
   execution-environment:
     image: localhost/ansible-execution-env
     pull-policy: never
-#    volume-mounts:
-#      - src: /home/fridim/vars
-#        dest: /vars
-#      - src: /home/fridim/secrets
-#        dest: /secrets
-#  mode: stdout
+    volume-mounts:
+      - src: /home/sunil390/znext/vars
+        dest: /vars
+      - src: /home/sunil390/znext/secrets
+        dest: /secrets
+  mode: stdout
