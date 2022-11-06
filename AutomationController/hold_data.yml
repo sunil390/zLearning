@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Copy last download to old
+    copy:
+      src: ./hold_data_30.txt
+      dest: ./hold_data_old.txt
+  - name: get file
+    get_url:
+      url: https://public.dhe.ibm.com/eserver/zseries/holddata/month.txt
+      dest: ./hold_data_30.txt
+      mode: u=rw,g=r,o=r
+  - name: Register lifecyle as a variable
+    read_csv: 
+      path: hold_data_old.txt
+    register: pre
+  - name: Read data from CSV file and return a list
+    community.general.read_csv:
+      path: hold_data_30.txt
+    register: post
+  - name: Show the difference
+    ansible.utils.fact_diff:
+      before: "{{ pre |to_nice_yaml}}"
+      after: "{{ post |to_nice_yaml}}"
