@@ -1,2 +1,4 @@
 collections:
 - name: community.general
+- name: ansible.utils
+- name: awx.awx
