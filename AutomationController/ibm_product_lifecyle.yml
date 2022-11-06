@@ -1,6 +1,10 @@
 - hosts: localhost
   gather_facts: no
   tasks:
+  - name: Copy last download to old
+    copy:
+      src: ./lifecycleN.csv
+      dest: ./lifecycleO.csv
   - name: get file
     get_url:
       url: https://www.ibm.com/support/pages/sites/default/files/software-lifecycle/ibm_software_lifecycle_product_list.csv
