@@ -1,5 +1,26 @@
 # Linux Snippets
 
+## Static IP Linux
+1. nano /etc/sysconfig/network-scripts/ifcfg-ens160
+```
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=dhcp
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+NAME=ens160
+IPADDR=192.168.2.87
+NETMASK=255.255.255.0
+UUID=7427c9f0-f98b-4fbd-b52e-321501c61af7
+DEVICE=ens160
+ONBOOT=yes
+```
+
 ## [blk_update_request I/O Error dev fd0 sector 0 ](https://askubuntu.com/questions/719058/blk-update-request-i-o-error-dev-fd0-sector-0)
 
 1. sudo rmmod floppy
