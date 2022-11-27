@@ -2,7 +2,7 @@
 
 ## md table with list
 
-|-- | ---|
+
 |sno | list |
 |---|---- |
 |one| list <br> 1. list1 <br>2. list2|
