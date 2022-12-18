@@ -8,7 +8,11 @@
 5. sudo mkdir -p /data/git
 6. kubectl apply -k git
 7. kubectl -n git get all,ingress
-
+8. access https://git.znext.com , In the first config scree update Git Base url as https://git.znext.com
+9. First logged in user will be the Administrator of Gitea
+10. go to zansible folder git remote add origin https://git.znext.com/Sunil390/zAnsible.git
+11. git config --global http.sslVerify false
+12. git push -u origin main
 
 ## [K3S on rhel](https://github.com/kurokobo/awx-on-k3s)
 1. sudo systemctl disable firewalld --now
