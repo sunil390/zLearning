@@ -17,8 +17,8 @@ ExecStart=/usr/local/bin/k3s \
     server \
         '--write-kubeconfig-mode' \
         '644' \
-        '--resolv-conf' \     👈👈👈
-        '/etc/rancher/k3s/resolv.conf' \ 👈👈👈 
+        '--resolv-conf' \
+        '/etc/rancher/k3s/resolv.conf' \ 
 ```
 6. sudo systemctl daemon-reload
 7. sudo systemctl restart k3s
@@ -27,6 +27,7 @@ ExecStart=/usr/local/bin/k3s \
 10. kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.znext.com
 11. dnsmasq issue
 ```
+                                               
                                                
 ## Gitea for AWX
 1. cd awx-on-k3s
