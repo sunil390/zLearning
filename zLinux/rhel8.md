@@ -8,10 +8,9 @@
 ```
 2. sudo dnf install dnsmasq
 3. sudo systemctl enable dnsmasq --now
-4. sudo tee /etc/rancher/k3s/resolv.conf <<EOF
+4. sudo nano /etc/rancher/k3s/resolv.conf
 nameserver 192.168.2.87
-EOF
-5. Resolver config.  
+5. Resolver config.
 ``` 
 ExecStart=/usr/local/bin/k3s \
     server \
@@ -27,8 +26,35 @@ ExecStart=/usr/local/bin/k3s \
 10. kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.znext.com
 11. dnsmasq issue
 ```
-                                               
-                                               
+systemctl status dnsmasq output shows as failed.
+Dec 18 04:58:54 rhel8 dnsmasq[119706]: failed to create listening socket for port 53: Address already in use
+
+ps ax | grep dnsmasq
+   2082 ?        S      0:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+   2084 ?        S      0:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+ 124778 pts/0    S+     0:00 grep --color=auto dnsmasq
+
+netstat -anp | egrep "list|53"
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+tcp        0      0 192.168.122.1:53        0.0.0.0:*               LISTEN      -
+tcp        0      0 10.42.0.1:37530         10.42.0.16:8181         TIME_WAIT   -
+tcp        0      0 10.42.0.1:37538         10.42.0.16:8181         TIME_WAIT   -
+tcp6       0      0 192.168.2.87:10250      10.42.0.3:53904         ESTABLISHED -
+udp        0      0 192.168.122.1:53        0.0.0.0:*                           -
+
+sudo pkill -9 -f dnsmasq
+sudo service dnsmasq restart
+systemctl status dnsmasq
+
+kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.znext.com
+Server:    10.43.0.10
+Address 1: 10.43.0.10 kube-dns.kube-system.svc.cluster.local
+Name:      git.znext.com
+Address 1: 192.168.2.87 rhel8
+pod "busybox" deleted
+```
+
 ## Gitea for AWX
 1. cd awx-on-k3s
 2. GIT_HOST="git.znext.com"
