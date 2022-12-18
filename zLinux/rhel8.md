@@ -1,5 +1,15 @@
 # RHEL on x86
 
+## Gitea for AWX
+1. cd awx-on-k3s
+2. GIT_HOST="git.znext.com"
+3. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./git/tls.crt -keyout ./git/tls.key -subj "/CN=${GIT_HOST}/O=${GIT_HOST}" -addext "subjectAltName = DNS:${GIT_HOST}"
+4. nano git/ingress.yaml  -> update hostname
+5. sudo mkdir -p /data/git
+6. kubectl apply -k git
+7. kubectl -n git get all,ingress
+
+
 ## [K3S on rhel](https://github.com/kurokobo/awx-on-k3s)
 1. sudo systemctl disable firewalld --now
 2. sudo reboot
