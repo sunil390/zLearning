@@ -26,8 +26,8 @@ ExecStart=/usr/local/bin/k3s \
 9. sudo systemctl restart dnsmasq
 10. kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.znext.com
 11. dnsmasq issue
+```
 
-                                               
 ## Gitea for AWX
 1. cd awx-on-k3s
 2. GIT_HOST="git.znext.com"
