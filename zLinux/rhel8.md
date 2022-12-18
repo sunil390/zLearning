@@ -28,6 +28,7 @@
 25. kubectl apply -k base
 26. kubectl -n awx logs -f deployments/awx-operator-controller-manager
 27. kubectl -n awx get awx,all,ingress,secrets
+28. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.87 awx.znext.com
 
 ## tools
 1. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
