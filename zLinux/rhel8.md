@@ -1,5 +1,33 @@
 # RHEL on x86
 
+## Expose /etc/hosts to Pods on K3s
+1. sudo nano /etc/hosts
+```
+192.168.2.87 awx.znext.com
+192.168.2.87 git.znext.com
+```
+2. sudo dnf install dnsmasq
+3. sudo systemctl enable dnsmasq --now
+4. sudo tee /etc/rancher/k3s/resolv.conf <<EOF
+nameserver 192.168.2.87
+EOF
+5. Resolver config.  
+``` 
+ExecStart=/usr/local/bin/k3s \
+    server \
+        '--write-kubeconfig-mode' \
+        '644' \
+        '--resolv-conf' \     👈👈👈
+        '/etc/rancher/k3s/resolv.conf' \ 👈👈👈 
+```
+6. sudo systemctl daemon-reload
+7. sudo systemctl restart k3s
+8. kubectl -n kube-system delete pod -l k8s-app=kube-dns
+9. sudo systemctl restart dnsmasq
+10. kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.znext.com
+11. dnsmasq issue
+
+                                               
 ## Gitea for AWX
 1. cd awx-on-k3s
 2. GIT_HOST="git.znext.com"
