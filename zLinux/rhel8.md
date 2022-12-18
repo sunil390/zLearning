@@ -1,5 +1,14 @@
 # RHEL on x86
 
+## tools
+1. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+2. sudo dnf upgrade
+3. sudo dnf install snapd
+4. sudo systemctl enable --now snapd.socket
+5. sudo ln -s /var/lib/snapd/snap /snap
+6. sudo snap install btop
+
+## Gold copy
 1. Install via dvd iso
 2. use custom and vmnet1
 3. root and admin password
