@@ -1,5 +1,47 @@
 # RHEL on x86
 
+## http to https redirect
+#### AWX
+1. cd awx-on-k3s/base 
+2. nano middleware.yaml
+```
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+```
+3. kubectl -n default apply -f middleware.yaml
+4. kubectl -n default get middleware
+5. nano awx.yaml 
+```
+spec:
+  ...
+  ingress_annotations: |      👈👈👈
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect@kubernetescrd      👈👈👈
+```
+6. cd ..
+7. kubectl apply -k base
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+9. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
+### gitea
+1. cd git
+2. nano ingress.yaml 
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: <resource name>
+  annotations:     👈👈👈
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect@kubernetescrd     👈👈👈
+...
+```
+3. cd ..
+4. kubectl apply -k git
+
 ## Expose /etc/hosts to Pods on K3s
 1. sudo nano /etc/hosts
 ```
