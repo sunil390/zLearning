@@ -1,5 +1,52 @@
 # RHEL on x86
 
+## Private Registry
+1. cd awx-on-k3s
+2. REGISTRY_HOST="registry.znext.com"
+3. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./registry/tls.crt -keyout ./registry/tls.key -subj "/CN=${REGISTRY_HOST}/O=${REGISTRY_HOST}" -addext "subjectAltName = DNS:${REGISTRY_HOST}"
+4. cd registry
+5. nano ingress.yaml
+```
+...
+    - hosts:
+        - registry.znext.com     👈👈👈
+      secretName: registry-secret-tls
+  rules:
+    - host: registry.znext.com     👈👈👈
+...
+```
+6. kubectl run htpasswd -it --restart=Never --image httpd:2.4 --rm -- htpasswd -nbB reguser --password--
+7. Replace htpasswd in registry/configmap.yaml with your own htpasswd string that generated above
+8. sudo mkdir -p /data/registry
+9. kubectl apply -k registry
+10. kubectl -n registry get all,ingress
+11. sudo dnf install podman-docker
+12. sudo nano /etc/containers/registries.conf.d/myregistry.conf
+```
+[[registry]]
+location = "registry.znext.com"
+insecure = true
+```
+13. docker login registry.znext.com
+14. testdrive registry
+```
+# Pull from docker.io
+podman pull quay.io/smile/redis
+
+# Tag as your own image on your private container registry
+podman tag quay.io/smile/redis registry.znext.com/reguser/redis
+
+# Push your own image to your private container registry
+podman push registry.znext.com/reguser/redis
+
+Push Error >>>>
+
+kubectl logs registry-69df8f9f57-dntdj -c registry -n registry | less
+
+docker run -it --rm registry.znext.com/reguser/whalesay:latest cowsay hoge
+
+```
+
 ## http to https redirect
 #### AWX
 1. cd awx-on-k3s/base 
