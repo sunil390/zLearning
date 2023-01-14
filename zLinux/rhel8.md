@@ -1,5 +1,12 @@
 # RHEL on x86
 
+## Almalinux 8.7
+
+1. download almalinux http://repo.extreme-ix.org/alma/8.7/isos/x86_64/
+2. configure a new VM.
+3. Custom Networking vmnet1 was used with LAN.
+4. Rest of the procedures are ditto similar to the rhel 8.7 steps listed below.
+
 ## Upgrade to AWX Operator 1.1.3
 
 1. cd ~
