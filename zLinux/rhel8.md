@@ -109,7 +109,7 @@ metadata:
 3. sudo systemctl enable dnsmasq --now
 4. sudo nano /etc/rancher/k3s/resolv.conf
 nameserver 192.168.2.87
-5. Resolver config.
+5. sudo nano /etc/systemd/system/k3s.service
 ``` 
 ExecStart=/usr/local/bin/k3s \
     server \
@@ -186,7 +186,7 @@ pod "busybox" deleted
 15. AWX_HOST="awx.znext.com"
 16. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
 17. cd base
-18. sudo nano zwx.yaml -> change host to awx.znext.com
+18. sudo nano awx.yaml -> change host to awx.znext.com
 19. sudo nano kustomization.yaml -> change both the passwords
 20. sudo mkdir -p /data/postgres-13
 21. sudo mkdir -p /data/projects
