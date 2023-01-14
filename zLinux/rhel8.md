@@ -1,6 +1,16 @@
 # RHEL on x86
 
-## Private Registry
+## Upgrade to AWX Operator 1.1.3
+
+1. cd ~
+2. git clone https://github.com/ansible/awx-operator.git
+3. cd awx-operator
+4. git checkout 1.1.3  
+5. export NAMESPACE=awx 
+6. make deploy
+7. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
+
+## Private Registry - Work in Progress - Open Issues
 1. cd awx-on-k3s
 2. REGISTRY_HOST="registry.znext.com"
 3. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./registry/tls.crt -keyout ./registry/tls.key -subj "/CN=${REGISTRY_HOST}/O=${REGISTRY_HOST}" -addext "subjectAltName = DNS:${REGISTRY_HOST}"
