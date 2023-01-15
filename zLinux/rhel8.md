@@ -1,5 +1,24 @@
 # RHEL on x86
 
+## [MariaDB](https://www.atlantic.net/dedicated-server-hosting/how-to-install-gitea-code-hosting-service-on-rockylinux-8/)
+
+1. sudo dnf install git unzip gnupg2 nano wget -y
+2. sudo dnf install mariadb-server -y
+3. systemctl start mariadb
+4. systemctl enable mariadb
+5. sudo mysql
+6. CREATE DATABASE gitea CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+7. GRANT ALL ON gitea.* TO 'gitea'@'localhost' IDENTIFIED BY 'gitea1911';
+8. FLUSH PRIVILEGES;
+9. EXIT;
+10. sudo nano /etc/my.cnf.d/mariadb-server.cnf
+```
+innodb_file_format = Barracuda
+innodb_large_prefix = 1
+innodb_default_row_format = dynamic
+```
+11. systemctl restart mariadb
+
 ## Almalinux 8.7
 
 1. download almalinux http://repo.extreme-ix.org/alma/8.7/isos/x86_64/
