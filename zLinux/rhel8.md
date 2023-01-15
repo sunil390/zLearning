@@ -1,6 +1,6 @@
 # RHEL on x86
 
-## [MariaDB](https://www.atlantic.net/dedicated-server-hosting/how-to-install-gitea-code-hosting-service-on-rockylinux-8/)
+## External [MariaDB](https://www.atlantic.net/dedicated-server-hosting/how-to-install-gitea-code-hosting-service-on-rockylinux-8/) for Gitea.
 
 1. sudo dnf install git unzip gnupg2 nano wget -y
 2. sudo dnf install mariadb-server -y
@@ -8,16 +8,34 @@
 4. systemctl enable mariadb
 5. sudo mysql
 6. CREATE DATABASE gitea CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
-7. GRANT ALL ON gitea.* TO 'gitea'@'localhost' IDENTIFIED BY 'gitea1911';
+7. GRANT ALL ON gitea.* TO 'gitea'@'%.%.%.%' IDENTIFIED BY 'gitea1911';
 8. FLUSH PRIVILEGES;
 9. EXIT;
 10. sudo nano /etc/my.cnf.d/mariadb-server.cnf
 ```
+...
+bind-address=0.0.0.0
+...
 innodb_file_format = Barracuda
 innodb_large_prefix = 1
 innodb_default_row_format = dynamic
 ```
 11. systemctl restart mariadb
+### Gitea Config.
+1. cd ~/awx-on-k3s
+2. kubectl delete -k git
+3. cd /data/git
+4. sudo rm -rf git gitea ssh 
+5. cd ~/awx-on-k3s
+6. kubectl apply -k git
+7. git.al8.com
+8. Database Type : MySQL
+9. Host : 192.168.2.4:3306
+10. Username : gitea
+11. Password : .....
+12. Databasename : gitea
+13. Sever Domain : git.al8.com
+14. Gitea Base URL : https://git.al8.com
 
 ## Almalinux 8.7
 
