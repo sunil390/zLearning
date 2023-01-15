@@ -1,6 +1,6 @@
 #zLinux
 
-## Text 
+## Offline Repo
 
 1. Download dvd image from https://access.redhat.com/downloads/content/69/ver=/rhel---7/7.9/x86_64/product-software to JumpServer
 2. sudo mkdir -p  /mnt/disc
@@ -23,7 +23,22 @@ $ sudo rm epel.repo
 8. sudo yum repolist enabled
 10. sudo yum update
 
+## Network Connection
 
+1. nmcli d
+2. Manual nameserver override
+3. sudo nano /etc/NetworkManager/conf.d/90-dns-none.conf
+```
+[main]
+dns=none
+```
+4. systemctl reload NetworkManager
+5. sudo nano /etc/resolv.conf
+```
+nameserver 8.8.8.8
+```
+6. systemctl reload NetworkManager
+7. cat /etc/resolv.conf
 
 
 [RHEL v7 to v8 in place Upgrade](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/pdf/upgrading_from_rhel_7_to_rhel_8/red_hat_enterprise_linux-8-upgrading_from_rhel_7_to_rhel_8-en-us.pdf)
