@@ -36,6 +36,9 @@ innodb_default_row_format = dynamic
 12. Databasename : gitea
 13. Sever Domain : git.al8.com
 14. Gitea Base URL : https://git.al8.com
+15. go to zansible folder git remote add origin https://git.znext.com/Sunil390/zAnsible.git
+16. git config --global http.sslVerify false
+17. git push -u origin main
 
 ## Almalinux 8.7
 
