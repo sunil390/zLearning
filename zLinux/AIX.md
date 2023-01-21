@@ -74,21 +74,25 @@
   -cpu POWER9 \
   -machine pseries,ic-mode=xics \
   -m 8192 \
-  -smp 2 \
+  -smp 4 \
   -serial stdio \
   -device virtio-scsi,id=scsi0 \
   -drive file=./hdisk0.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none \
   -device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=1 \
   -cdrom ../../AIX72.iso \
-  -netdev tap,ifname=tap0,script=no,downscript=no,id=n0 \
-  -device spapr-vlan,netdev=n0,mac=52:54:00:12:00:02 \
+  -net nic,macaddr=56:44:45:30:31:32 \
+  -net tap,script=no,ifname=tap0 \
   -prom-env "boot-command=boot disk:" \
   -prom-env "input-device=/vdevice/vty@71000000" \
   -prom-env "output-device=/vdevice/vty@71000000"
-  
+
+ This did not work...
+  -device spapr-vlan,netdev=n0,mac=52:54:00:12:00:02 \
+  -netdev tap,ifname=tap0,script=no,downscript=no,id=n0 \
 
 ```
-37. sudo chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
+37. chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
+38. ssh root@192.168.x.x
 
 ### [AIX Install Reference](https://aix4admins.blogspot.com/2020/04/qemu-aix-on-x86-qemu-quick-emulator-is.html)
 ### [Power9 spapr Discussion](https://gitlab.com/qemu-project/qemu/-/issues/269)
