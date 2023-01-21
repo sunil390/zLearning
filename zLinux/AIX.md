@@ -66,7 +66,7 @@
 29.  ip link set tap0 up 
 30.  echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
 31.  ip route add 192.168.2.100 dev tap0 
-34.  Ds 192.168.2.100 enp0s3 pub     
+34.  arp -Ds 192.168.2.100 ens160 pub     
 36.  Boot with NIC
 
 ```
