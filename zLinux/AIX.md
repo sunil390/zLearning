@@ -61,15 +61,12 @@
 25.  cd  /tmp/ssh_install
 26.  installp -acgXYd . openssh.base openssh.license openssh.man.en_US openssh.msg.en_US
 27.  lssrc  -s  sshd
-28.  ip tuntap add dev tap0 mode tap
-29.  echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
-30.  echo 1 > /proc/sys/net/ipv4/conf/wlp0s20f3/proxy_arp
-31.  ip addr add 192.168.2.4 dev tap0
-32.  ip link set up tap0
-33.  ip link set up dev tap0 promisc on
-34.  ip route add 192.168.2.100 dev tap0
-35.  arp -Ds 192.168.100.100 wlp0s20f3 pub
-35. Boot with NIC
+28.  sudo ip tuntap add tap0 mode tap
+29.  sudo ip link set tap0 up 
+30.  sudo echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
+31.  sudo ip route add 192.168.2.100 dev tap0 
+34.  sudo Ds 192.168.2.100 enp0s3 pub     
+36.  Boot with NIC
 
 ```
 ./qemu-system-ppc64 \
@@ -82,12 +79,14 @@
   -device virtio-scsi-pci,id=scsi \
   -device scsi-hd,drive=drive-virtio-disk0 \
   -cdrom ../../AIX72.iso \
-  -net nic -net tap,script=no,ifname=tap0
+  -net nic,macaddr=56:44:45:30:31:32 \
+  -net tap,script=no,ifname=tap0 \
   -prom-env "boot-command=boot disk:" \
   -prom-env "input-device=/vdevice/vty@71000000" \
   -prom-env "output-device=/vdevice/vty@71000000"
-
 ```
+37. sudo chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
+
 [ref](https://aix4admins.blogspot.com/2020/04/qemu-aix-on-x86-qemu-quick-emulator-is.html)
 [Power9 Parms](https://gitlab.com/qemu-project/qemu/-/issues/269)
 ```
