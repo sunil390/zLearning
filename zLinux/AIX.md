@@ -69,7 +69,7 @@
 32.  echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
 33.  ip route add 192.168.2.100 dev tap0 
 34.  arp -Ds 192.168.2.100 ens160 pub     
-35.  cd aix/qemu/build 
+35.  Another Terminal $cd aix/qemu/build 
 36.  Boot with NIC from # 
 
 ```
