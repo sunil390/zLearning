@@ -1,15 +1,18 @@
 # AIX Fun
 
-## Prerqs
+## Prerqs almalinux 8.7
 
-1. wget https://archive.org/download/aix_7200-04-02-2027_072020/aix_7200-04-02-2027_1of2_072020.iso
-2. sudo dnf --enablerepo=powertools install ninja-build
-3. sudo dnf install gcc glib2-devel pixman-devel cmake zlib-devel flex bison python3.8 
-4. git clone https://gitlab.com/qemu-project/qemu.git
-5. cd qemu  
-6. mkdir build 
-7. cd build
-8. ../configure –target-list=ppc64-softmmu
+1. sudo dnf remove python3 ( python 3.6 was being called by default.
+2. python3 --version
+3. wget https://archive.org/download/aix_7200-04-02-2027_072020/aix_7200-04-02-2027_1of2_072020.iso
+4. sudo dnf --enablerepo=powertools install ninja-build
+5. sudo dnf install gcc glib2-devel pixman-devel cmake zlib-devel flex bison 
+6. git clone https://gitlab.com/qemu-project/qemu.git
+7. cd qemu  
+8. mkdir build 
+9. cd build
+10. ../configure –target-list=ppc64-softmmu
+11. make
 
 
 
