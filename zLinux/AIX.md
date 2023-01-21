@@ -1,3 +1,16 @@
+# AIX Fun
+
+## Prerqs
+
+1. wget https://archive.org/download/aix_7200-04-02-2027_072020/aix_7200-04-02-2027_1of2_072020.iso
+2. sudo dnf --enablerepo=powertools install ninja-build
+3. sudo dnf install gcc glib2-devel
+4. git clone https://gitlab.com/qemu-project/qemu.git
+5. cd qemu  
+6. mkdir build 
+7. cd build
+8. ../configure –target-list=ppc64-softmmu
+
 
 
 https://gitlab.com/qemu-project/qemu/-/issues/269
