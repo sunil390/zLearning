@@ -62,7 +62,7 @@
 25.  cd  /tmp/ssh_install
 26.  installp -acgXYd . openssh.base openssh.license openssh.man.en_US openssh.msg.en_US
 27.  lssrc  -s  sshd
-28.  On  Alma Linux ( 28 to 34 only once)
+28.  On  Alma Linux ( 28 to 34 After every reboot)
 29.  su -i 
 30.  ip tuntap add tap0 mode tap
 31.  ip link set tap0 up 
