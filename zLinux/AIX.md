@@ -79,11 +79,13 @@
   -device virtio-scsi-pci,id=scsi \
   -device scsi-hd,drive=drive-virtio-disk0 \
   -cdrom ../../AIX72.iso \
-  -net nic,macaddr=56:44:45:30:31:32 \
-  -net tap,script=no,ifname=tap0 \
+  -netdev tap,ifname=tap0,script=no,downscript=no,id=n0 \
+  -device spapr-vlan,netdev=n0,mac=52:54:00:12:00:02 \
   -prom-env "boot-command=boot disk:" \
   -prom-env "input-device=/vdevice/vty@71000000" \
   -prom-env "output-device=/vdevice/vty@71000000"
+  
+
 ```
 37. sudo chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
 
