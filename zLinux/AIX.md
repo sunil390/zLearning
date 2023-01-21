@@ -13,9 +13,9 @@
 8. mkdir build 
 9. cd build
 10. ../configure –target-list=ppc64-softmmu
-11. make
+11. make  ( This will take 1 hour to complete)
 12. ./qemu-img create -f qcow2 hdisk0.qcow2 20G
-13. Install
+13. Install , This will take around 2 Hours to complete.
 ```
 ./qemu-system-ppc64 \
   -cpu POWER9 \
@@ -89,8 +89,8 @@
 ```
 37. sudo chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
 
-[ref](https://aix4admins.blogspot.com/2020/04/qemu-aix-on-x86-qemu-quick-emulator-is.html)
-[Power9 Parms](https://gitlab.com/qemu-project/qemu/-/issues/269)
+### [AIX Install Reference](https://aix4admins.blogspot.com/2020/04/qemu-aix-on-x86-qemu-quick-emulator-is.html)
+### [Power9 spapr Discussion](https://gitlab.com/qemu-project/qemu/-/issues/269)
 ```
 ./qemu-system-ppc64 \
   -name "IBM AIX - IBM POWER9" \
