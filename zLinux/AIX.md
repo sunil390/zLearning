@@ -21,7 +21,7 @@
   -cpu POWER9 \
   -machine pseries,ic-mode=xics \
   -m 8192 \
-  -smp 2 \
+  -smp 4 \
   -serial stdio \
   -device virtio-scsi,id=scsi0 \
   -drive file=./hdisk0.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none \
@@ -38,7 +38,7 @@
   -cpu POWER9 \
   -machine pseries,ic-mode=xics \
   -m 8192 \
-  -smp 2 \
+  -smp 4 \
   -serial stdio \
   -device virtio-scsi,id=scsi0 \
   -drive file=./hdisk0.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none \
