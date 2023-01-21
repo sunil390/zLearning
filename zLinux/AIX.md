@@ -62,11 +62,11 @@
 25.  cd  /tmp/ssh_install
 26.  installp -acgXYd . openssh.base openssh.license openssh.man.en_US openssh.msg.en_US
 27.  lssrc  -s  sshd
-28.  sudo ip tuntap add tap0 mode tap
-29.  sudo ip link set tap0 up 
-30.  sudo echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
-31.  sudo ip route add 192.168.2.100 dev tap0 
-34.  sudo Ds 192.168.2.100 enp0s3 pub     
+28.  ip tuntap add tap0 mode tap
+29.  ip link set tap0 up 
+30.  echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
+31.  ip route add 192.168.2.100 dev tap0 
+34.  Ds 192.168.2.100 enp0s3 pub     
 36.  Boot with NIC
 
 ```
@@ -76,9 +76,9 @@
   -m 8192 \
   -smp 2 \
   -serial stdio \
-  -drive file=./hdisk0.qcow2,if=none,id=drive-virtio-disk0 \
-  -device virtio-scsi-pci,id=scsi \
-  -device scsi-hd,drive=drive-virtio-disk0 \
+  -device virtio-scsi,id=scsi0 \
+  -drive file=./hdisk0.qcow2,if=none,id=drive-scsi0-0-0-0,format=qcow2,cache=none \
+  -device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=1 \
   -cdrom ../../AIX72.iso \
   -netdev tap,ifname=tap0,script=no,downscript=no,id=n0 \
   -device spapr-vlan,netdev=n0,mac=52:54:00:12:00:02 \
