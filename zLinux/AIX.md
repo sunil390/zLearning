@@ -36,6 +36,7 @@
 ```
 ./qemu-system-ppc64 \
   -cpu POWER9 \
+  -accel tcg \
   -machine pseries,ic-mode=xics \
   -m 8192 \
   -smp 4 \
