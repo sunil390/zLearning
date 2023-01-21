@@ -4,7 +4,7 @@
 
 1. wget https://archive.org/download/aix_7200-04-02-2027_072020/aix_7200-04-02-2027_1of2_072020.iso
 2. sudo dnf --enablerepo=powertools install ninja-build
-3. sudo dnf install gcc glib2-devel
+3. sudo dnf install gcc glib2-devel pixman-devel cmake zlib-devel flex bison python3.8 
 4. git clone https://gitlab.com/qemu-project/qemu.git
 5. cd qemu  
 6. mkdir build 
