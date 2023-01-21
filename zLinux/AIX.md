@@ -92,7 +92,7 @@
 
 ```
 37. chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
-38. ssh root@192.168.x.x
+38. ssh root@192.168.2.100
 
 ### [AIX Install Reference](https://aix4admins.blogspot.com/2020/04/qemu-aix-on-x86-qemu-quick-emulator-is.html)
 ### [Power9 spapr Discussion](https://gitlab.com/qemu-project/qemu/-/issues/269)
