@@ -95,10 +95,12 @@
 
 ```
 37. chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
-38. ssh root@192.168.2.100
+38. chdev -l inet0 -a route=0,192.168.2.1
+39. ssh root@192.168.2.100
 
 ### [AIX Install Reference](https://aix4admins.blogspot.com/2020/04/qemu-aix-on-x86-qemu-quick-emulator-is.html)
 ### [Power9 spapr Discussion](https://gitlab.com/qemu-project/qemu/-/issues/269)
+### [AIX /Linux Networking](https://www.jazakallah.info/post/how-to-setup-network-for-ibm-aix-vm-access-in-qemu)
 ```
 ./qemu-system-ppc64 \
   -name "IBM AIX - IBM POWER9" \
