@@ -96,7 +96,17 @@
 ```
 37. chdev -l en0 -a netaddr=192.168.2.100 -a netmask=255.255.255.0 -a state=up
 38. chdev -l inet0 -a route=0,192.168.2.1
-39. ssh root@192.168.2.100
+39. Go to you Putty preferences and alter your “Terminal – Keyboard” settings for the “function keys and keypad” to “Xterm R6”
+40. Connect Using Putty 192.168.2.100
+
+### [AIX QuickSheets](http://www.tablespace.net/quicksheet/aix-quicksheet.pdf)
+nmon
+oslevel -s
+lsconf
+lparstat -i
+uptime
+smtctl
+
 
 ### [AIX Install Reference](https://aix4admins.blogspot.com/2020/04/qemu-aix-on-x86-qemu-quick-emulator-is.html)
 ### [Power9 spapr Discussion](https://gitlab.com/qemu-project/qemu/-/issues/269)
