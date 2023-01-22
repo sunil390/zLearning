@@ -70,10 +70,10 @@
 33.  ip route add 192.168.2.100 dev tap0 
 34.  arp -Ds 192.168.2.100 ens160 pub     
 35.  Another Terminal $cd aix/qemu/build 
-36.  Boot with NIC from # 
+36.  Boot with NIC from 
 
 ```
-sudo ./qemu-system-ppc64 \
+./qemu-system-ppc64 \
   -cpu POWER9 \
   -machine pseries,ic-mode=xics \
   -m 8192 \
