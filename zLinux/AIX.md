@@ -1,5 +1,9 @@
 # AIX Fun
 
+## Updates...
+1. smitty comms and apps -> TCP/IP -> further config -> change hostname - pbaby
+2. uname -S pbaby
+
 ## Prerqs almalinux 8.7 [qemu 7.2](https://kwakousys.wordpress.com/2020/09/06/run-aix-7-2-on-x86-with-qemu/)
 
 
