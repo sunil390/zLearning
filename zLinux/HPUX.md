@@ -26,6 +26,13 @@ user:p4ssw0rd
 -serial telnet::4441,server \
 -nographic
 
+### root password reset.
+1. added -boot menu=on 
+2. pri isl
+3. Interact with ISL -> Y
+4. hpux -is
+5. passwd root
+
 ## Prep for cool term
 
 1. Install Ubuntu 22.04.1 Server
