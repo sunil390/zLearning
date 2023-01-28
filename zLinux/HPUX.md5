@@ -1,8 +1,26 @@
 # HPUX
 
-## Prep
+## Prep for cool term
 
-1. Install Ubuntu 22.04.1
-2. sudo apt-get install build-essential
-2. sudo apt install -y qtcreator qtbase5-dev qt5-qmake cmake
-3. 
+1. Install Ubuntu 22.04.1 Server
+2. sudo apt install slim
+3. sudo apt install ubuntu-desktop
+4. sudo reboot
+5. sudo apt-get install build-essential
+6 sudo apt install -y qtcreator qtbase5-dev qt5-qmake cmake qtdeclarative5-dev
+7. git clone https://github.com/Swordfish90/qmltermwidget.git
+8. cd qmltermwidget
+9. export PATH=$PATH:/usr/lib/qt5/bin
+10. sudo add-apt-repository ppa:vantuz/cool-retro-term
+11. sudo apt update
+12. sudo apt install cool-retro-term
+13. sudo apt install build-essential qmlscene qml-module-qtquick-controls2 qml-module-qtgraphicaleffects qml-module-qtquick-dialogs \
+    qml-module-qtquick-localstorage qml-module-qtquick-window2 qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qtquickcontrols2-5-dev
+14. qmake && make
+15. qmlscene -I . test-app/test-app.qml
+16. git clone --recursive https://github.com/Swordfish90/cool-retro-term.git
+17. cd cool-retro-term
+18. qmake && make
+19. ./cool-retro-term
+
+## HP-UX
