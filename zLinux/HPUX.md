@@ -18,7 +18,7 @@ user:p4ssw0rd
 2.  cd hpux/qemu/build
 3.  ./qemu-system-hppa \
 -m 512 \
--boot menu=on
+-boot menu=on \
 -drive if=scsi,bus=0,index=6,file=../../hpux.img,format=raw \
 -net nic,model=tulip \
 -net tap,script=no,ifname=tap0 \
