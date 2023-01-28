@@ -26,4 +26,7 @@
 ## HP-UX
 
 1. https://archive.org/download/hpux-11i-v3
-2. 
+2. sudo apt install ninja-build gcc libglib2.0-dev libpixman-1-dev zlib1g zlib1g-dev cmake flex bison pkg-config -y
+3. mkdir hpux && cd hpux && git clone git clone https://github.com/qemu/qemu.git
+4. cd qemu && ./configure --target-list=hppa-softmmu
+5. 
