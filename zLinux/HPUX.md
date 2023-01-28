@@ -29,4 +29,32 @@
 2. sudo apt install ninja-build gcc libglib2.0-dev libpixman-1-dev zlib1g zlib1g-dev cmake flex bison pkg-config -y
 3. mkdir hpux && cd hpux && git clone git clone https://github.com/qemu/qemu.git
 4. cd qemu && ./configure --target-list=hppa-softmmu
-5. 
+5. cd build && cp qemu-system-hppa ../../qemu-system-hppa
+6. cd .. && ./qemu-system-hppa --version
+7. sudo apt install uml-utilities net-tools bridge-utils
+8. sudo passwd root (change password of root)
+9. su -
+```
+ip tuntap add tap0 mode tap
+ip link set tap0 up
+echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
+ip route add 192.168.2.200 dev tap0
+arp -Ds 192.168.2.100 ens33 pub
+```
+9. dd if=/dev/zero of=hpux.img bs=1024 count=8M
+10.  ./qemu-system-hppa -boot d \
+           -serial telnet::4441,server 
+           -drive if=scsi,bus=0,index=6,file=../../hpux.img,format=raw 
+           -serial mon:stdio 
+           -D /tmp/foo 
+           -nographic 
+           -m 512 
+           -d nochain 
+           -cdrom ../../HPUX11iv3_Disc1.iso 
+           -D /tmp/foo 
+           -net nic,model=tulip  
+           -net tap,script=no,ifname=tap0
+
+
+11. telnet 192.168.2.36 4441
+12. 
