@@ -43,7 +43,7 @@ user:p4ssw0rd
 6 sudo apt install -y qtcreator qtbase5-dev qt5-qmake cmake qtdeclarative5-dev
 7. git clone https://github.com/Swordfish90/qmltermwidget.git
 8. cd qmltermwidget
-9. export PATH=$PATH:/usr/lib/qt5/bin
+9. export PATH=$PATH:/usr/lib/qt5/bin 
 10. sudo add-apt-repository ppa:vantuz/cool-retro-term
 11. sudo apt update
 12. sudo apt install cool-retro-term
