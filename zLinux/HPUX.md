@@ -28,7 +28,7 @@ user:p4ssw0rd
 
 ### root password reset.
 1. added -boot menu=on 
-2. pri isl
+2. BO ISL
 3. Interact with ISL -> Y
 4. hpux -is
 5. passwd root
