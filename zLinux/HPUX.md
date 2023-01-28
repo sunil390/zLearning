@@ -57,4 +57,4 @@ arp -Ds 192.168.2.100 ens33 pub
 
 
 11. telnet 192.168.2.36 4441
-12. 
+12. Redy to use 10.2 https://archive.org/details/hpux_20200510
