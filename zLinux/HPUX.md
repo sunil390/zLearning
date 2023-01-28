@@ -1,5 +1,18 @@
 # HPUX
 
+## Ready to load system
+
+1.  cd hpux/qemu/build
+2.  ./qemu-system-hppa \
+-m 512 \
+-drive if=scsi,bus=0,index=6,file=../../hpux.img,format=raw \
+-net nic,model=tulip \
+-net tap,script=no,ifname=tap0 \
+-boot c \
+-serial mon:stdio \
+-serial telnet::4441,server \
+-nographic
+
 ## Prep for cool term
 
 1. Install Ubuntu 22.04.1 Server
