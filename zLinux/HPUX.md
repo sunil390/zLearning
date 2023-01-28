@@ -34,6 +34,9 @@ user:p4ssw0rd
 3. Interact with ISL -> Y
 4. hpux -is
 5. passwd root
+### Disable mail daemon
+1. nano /etc/rc.config.d/sendmail
+2. set the line "export SENDMAIL_SERVER=1" to be "export SENDMAIL_SERVER=0"
 
 ## Prep for cool term
 
