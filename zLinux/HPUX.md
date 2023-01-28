@@ -1,15 +1,27 @@
 # HPUX
 
-## Ready to load system
+## Ready to load 10.2 system https://archive.org/details/hpux_20200510
+```
+Network is configured as follows:
+ethernet    10.0.2.12
+netmask    255.255.255.0
+gateway    10.0.2.2
+DNS          8.8.8.8
 
-1.  cd hpux/qemu/build
-2.  ./qemu-system-hppa \
+So make sure you are setting up 10.0.2.2 your bridge br0 device on your Linux machine for the network to be operational !
+
+Credentials:
+root:p4ssw0rd
+user:p4ssw0rd
+```
+1.  wget https://archive.org/details/hpux_20200510/hpux.img
+2.  cd hpux/qemu/build
+3.  ./qemu-system-hppa \
 -m 512 \
 -drive if=scsi,bus=0,index=6,file=../../hpux.img,format=raw \
 -net nic,model=tulip \
 -net tap,script=no,ifname=tap0 \
 -boot c \
--serial mon:stdio \
 -serial telnet::4441,server \
 -nographic
 
