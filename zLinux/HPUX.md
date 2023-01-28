@@ -16,7 +16,9 @@ user:p4ssw0rd
 ```
 1.  wget https://archive.org/details/hpux_20200510/hpux.img
 2.  cd hpux/qemu/build
-3.  ./qemu-system-hppa \
+3.  
+```
+./qemu-system-hppa \
 -m 1024 \
 -boot menu=on \
 -drive if=scsi,bus=0,index=6,file=../../hpux.img,format=raw \
@@ -25,7 +27,7 @@ user:p4ssw0rd
 -boot c \
 -serial telnet::4441,server \
 -nographic
-
+```
 ### root password reset.
 1. added -boot menu=on 
 2. BO ISL
