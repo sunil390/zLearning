@@ -1,0 +1,8 @@
+# HPUX
+
+## Prep
+
+1. Install Ubuntu 22.04.1
+2. sudo apt-get install build-essential
+2. sudo apt install -y qtcreator qtbase5-dev qt5-qmake cmake
+3. 
