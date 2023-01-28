@@ -58,3 +58,5 @@ arp -Ds 192.168.2.100 ens33 pub
 
 11. telnet 192.168.2.36 4441
 12. Redy to use 10.2 https://archive.org/details/hpux_20200510
+13. https://supratim-sanyal.blogspot.com/2019/11/hpux-11i-v1-hpux-1111-pa-risc-guest.html
+14. https://astr0baby.wordpress.com/2019/04/28/running-hp-ux-11-11-on-qemu-system-hppa/
