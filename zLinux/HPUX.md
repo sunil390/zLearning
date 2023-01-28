@@ -35,8 +35,12 @@ user:p4ssw0rd
 4. hpux -is
 5. passwd root
 ### Disable mail daemon
-1. nano /etc/rc.config.d/sendmail
+1. vi /etc/rc.config.d/mailservs
 2. set the line "export SENDMAIL_SERVER=1" to be "export SENDMAIL_SERVER=0"
+
+### HP-UX Cheat Sheet 
+
+http://www.unixmantra.com/2013/04/hp-ux-cheat-sheet.html
 
 ## Prep for cool term
 
