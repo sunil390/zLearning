@@ -38,6 +38,13 @@ user:p4ssw0rd
 1. vi /etc/rc.config.d/mailservs
 2. set the line "export SENDMAIL_SERVER=1" to be "export SENDMAIL_SERVER=0"
 
+### Network Issues.  [Multiple ip's](https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c02949912)
+
+1. lanscan
+2. ifconfig lan0 192.168.2.200 netmask 255.255.255.0 up
+3. ifconfig lan0
+4. route add default 192.168.2.1
+
 ### HP-UX Cheat Sheet 
 
 http://www.unixmantra.com/2013/04/hp-ux-cheat-sheet.html
@@ -81,7 +88,7 @@ ip tuntap add tap0 mode tap
 ip link set tap0 up
 echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
 ip route add 192.168.2.200 dev tap0
-arp -Ds 192.168.2.100 ens33 pub
+arp -Ds 192.168.2.200 ens33 pub
 ```
 9. dd if=/dev/zero of=hpux.img bs=1024 count=8M
 10.  ./qemu-system-hppa -boot d \
