@@ -1,5 +1,17 @@
 # RHEL on x86
 
+## Upgrade to AWX Operator 1.1.4 31st Jan 2023
+
+1. cd ~
+2. sudo rm -rf awx-operator 
+3. git clone https://github.com/ansible/awx-operator.git
+4. cd awx-operator
+5. git checkout 1.1.4  
+6. export NAMESPACE=awx 
+7. make deploy
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
+
+
 ## External [MariaDB](https://www.atlantic.net/dedicated-server-hosting/how-to-install-gitea-code-hosting-service-on-rockylinux-8/) for Gitea.
 
 1. sudo dnf install git unzip gnupg2 nano wget -y
