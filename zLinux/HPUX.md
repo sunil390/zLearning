@@ -56,14 +56,15 @@ http://www.unixmantra.com/2013/04/hp-ux-cheat-sheet.html
 3. sudo apt install ubuntu-desktop
 4. sudo reboot
 5. sudo apt-get install build-essential
-6 sudo apt install -y qtcreator qtbase5-dev qt5-qmake cmake qtdeclarative5-dev
-7. git clone https://github.com/Swordfish90/qmltermwidget.git
-8. cd qmltermwidget
-9. export PATH=$PATH:/usr/lib/qt5/bin 
-10. sudo add-apt-repository ppa:vantuz/cool-retro-term
-11. sudo apt update
-12. sudo apt install cool-retro-term
-13. sudo apt install build-essential qmlscene qml-module-qtquick-controls2 qml-module-qtgraphicaleffects qml-module-qtquick-dialogs \
+6. sudo apt install -y qtcreator qtbase5-dev qt5-qmake cmake qtdeclarative5-dev
+7. sudo dnf install qt5-qtbase qt5-qtbase-devel
+8. git clone https://github.com/Swordfish90/qmltermwidget.git
+9. cd qmltermwidget
+10. export PATH=$PATH:/usr/lib/qt5/bin 
+11. sudo add-apt-repository ppa:vantuz/cool-retro-term
+12. sudo apt update
+13. sudo apt install cool-retro-term
+14. sudo apt install build-essential qmlscene qml-module-qtquick-controls2 qml-module-qtgraphicaleffects qml-module-qtquick-dialogs \
     qml-module-qtquick-localstorage qml-module-qtquick-window2 qml-module-qt-labs-settings qml-module-qt-labs-folderlistmodel qtquickcontrols2-5-dev
 14. qmake && make
 15. qmlscene -I . test-app/test-app.qml
