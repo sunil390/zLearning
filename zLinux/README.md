@@ -8,6 +8,14 @@
 4. nmcli connection modify enc0 IPv4.dns 8.8.8.8
 5. nmcli connection modify enc0 IPv4.method manual
 6. nmcli connection down enc0 && nmcli connection up enc0
+7. hostnamectl set-hostname zlinux
+8. sudo nano /etc/hosts
+```
+127.0.0.1   zlinux
+::1         zlinux
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+```
 
 ## Qemu 
 
