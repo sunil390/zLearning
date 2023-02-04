@@ -2,7 +2,12 @@
 
 ## [qemu networking](https://gist.github.com/extremecoders-re/e8fd8a67a515fee0c873dcafc81d811c)
 
-
+1. su -
+2. nmcli connection modify enc0 IPv4.address 192.168.2.101/24
+3. nmcli connection modify enc0 IPv4.gateway 192.168.2.1
+4. nmcli connection modify enc0 IPv4.dns 8.8.8.8
+5. nmcli connection modify enc0 IPv4.method manual
+6. nmcli connection down enc0 && nmcli connection up enc0
 
 ## Qemu 
 
