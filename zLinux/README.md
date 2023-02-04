@@ -1,5 +1,14 @@
 # zLinux
 
+## tools
+
+1. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+2. sudo dnf upgrade
+3. sudo dnf install snapd
+4. sudo systemctl enable --now snapd.socket
+5. sudo ln -s /var/lib/snapd/snap /snap
+6. sudo snap install btop
+
 ## [qemu networking](https://gist.github.com/extremecoders-re/e8fd8a67a515fee0c873dcafc81d811c)
 
 1. su -
