@@ -42,7 +42,7 @@
   -device virtio-scsi -device scsi-cd,drive=drive-virtio-disk1,id=virtio-disk1,bootindex=2 \
   -drive file=../../almalinux.qcow2,if=none,id=drive-virtio-disk0 \
   -device virtio-blk-ccw,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1,scsi=off \
-  -nic user,model=virtio,hostfwd=tcp::2222-:22 \
+  -net tap,ifname=tap0,script=no,downscript=no -net nic \
   -nographic -display none -serial mon:stdio
 
 ```
