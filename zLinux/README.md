@@ -1,4 +1,29 @@
-#zLinux
+# zLinux
+
+## Qemu 
+
+1. su -
+2. ip tuntap add tap0 mode tap
+3. ip link set tap0 up
+4. echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
+5. ip route add 192.168.2.101 dev tap0
+6. arp -Ds 192.168.2.101 ens160 pub
+8. sudo dnf install libslirp-devel
+7. git clone https://github.com/qemu/qemu.git
+8. cd qemu && ./configure --target-list=s390x-softmmu --enable-slirp && make
+9. ./qemu/build/qemu-img create -f qcow2 almalinux.qcow2 20G
+10. cd build
+```
+./qemu-system-s390x -M s390-ccw-virtio \
+  -cpu qemu -m 4G -smp 3 \
+  -drive file=../../AlmaLinux-9.1-s390x-dvd.iso,media=cdrom,if=none,id=drive-virtio-disk1 \
+  -device virtio-scsi -device scsi-cd,drive=drive-virtio-disk1,id=virtio-disk1,bootindex=1 \
+  -drive file=../../almalinux.qcow2,if=none,id=drive-virtio-disk0 \
+  -device virtio-blk-ccw,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=2,scsi=off \
+  -nic user,model=virtio,hostfwd=tcp::2222-:22 \
+  -nographic -display none -serial mon:stdio
+
+```
 
 ## Offline Repo
 
