@@ -29,6 +29,20 @@
 
 ```
 
+11. Boot from Disk
+```
+./qemu-system-s390x -M s390-ccw-virtio \
+  -cpu qemu -m 4G -smp 3 \
+  -drive file=../../AlmaLinux-9.1-s390x-dvd.iso,media=cdrom,if=none,id=drive-virtio-disk1 \
+  -device virtio-scsi -device scsi-cd,drive=drive-virtio-disk1,id=virtio-disk1,bootindex=2 \
+  -drive file=../../almalinux.qcow2,if=none,id=drive-virtio-disk0 \
+  -device virtio-blk-ccw,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1,scsi=off \
+  -nic user,model=virtio,hostfwd=tcp::2222-:22 \
+  -nographic -display none -serial mon:stdio
+
+```
+
+
 ## Offline Repo
 
 1. Download dvd image from https://access.redhat.com/downloads/content/69/ver=/rhel---7/7.9/x86_64/product-software to JumpServer
