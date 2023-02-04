@@ -8,7 +8,7 @@
 4. echo 1 > /proc/sys/net/ipv4/conf/tap0/proxy_arp
 5. ip route add 192.168.2.101 dev tap0
 6. arp -Ds 192.168.2.101 ens160 pub
-8. sudo dnf install libslirp-devel
+8. sudo dnf install libslirp-devel dhclient
 7. git clone https://github.com/qemu/qemu.git
 8. cd qemu && ./configure --target-list=s390x-softmmu --enable-slirp && make
 9. ./qemu/build/qemu-img create -f qcow2 almalinux.qcow2 20G
