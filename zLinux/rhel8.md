@@ -104,12 +104,11 @@ innodb_default_row_format = dynamic
 18. git config --global http.sslVerify false
 19. git push -u origin main
 
-## Almalinux 8.7
+## Almalinux 8.7 on Windows host
 
-1. download almalinux http://repo.extreme-ix.org/alma/8.7/isos/x86_64/
-2. configure a new VM.
-3. Custom Networking vmnet1 was used with LAN.
-4. Rest of the procedures are ditto similar to the rhel 8.7 steps listed below.
+1. download almalinux https://mirrors.almalinux.org/isos.html
+2. configure a new VM with 12 GM memory and 40 GM Disk in VMWare Player.
+3. Custom Networking vmnet1 for LAN.
 
 ## Upgrade to AWX Operator 1.1.3
 
