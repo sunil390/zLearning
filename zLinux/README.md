@@ -1,5 +1,13 @@
 # zLinux - Almalinux 9.1
 
+## Temporarily disabling SELinux and k3s in almalinux s390x
+
+1. sudo nano /etc/selinux/config
+```
+SELINUX=disabled
+```
+2. sudo systemctl disable/enable/stop/start k3s
+
 ## btop install in almalinux s390x
 
 1. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
