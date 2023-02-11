@@ -50,3 +50,29 @@ statefulset.apps/znext-pool-0   1/2     4m35s
 9. kubectl patch statefulsets znext-pool-0 -p '{"spec":{"replicas":1}}' -n znext-namespace
 10. kubectl delete secret znext-secret -n znext-namespace
 11. kubectl delete secret znext-user-0 -n znext-namespace
+
+### PV
+1. sudo mkdir -p /data/minio
+2. sudo chmod 755 /data/minio
+3. grep 1000 /etc/group  ( 1000 is the first unix user created)
+4. grep 1000 /etc/passwd
+5. sudo chown 1000:0 /data/minio
+6. mkdir minio && cd minio
+7. [sunil390@al8 minio]$ cat pv.yaml
+```
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: minio-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  capacity:
+    storage: 20Gi
+  storageClassName: minio-volume
+  hostPath:
+    path: /data/minio
+```
+8. kubectl apply -f pv.yaml
