@@ -1,0 +1,21 @@
+# MinIO
+
+## Setup
+
+1. wget https://github.com/minio/operator/releases/download/v4.5.8/kubectl-minio_4.5.8_linux_amd64 kubectl-minio  (curl resulted in exec format error and emply file)
+2. mv kubectl-minio_4.5.8_linux_amd64 kubectl-minio
+3. chmod +x kubectl-minio
+4. sudo mv kubectl-minio /usr/local/bin/
+5. kubectl minio init
+6. kubectl get all --namespace minio-operator
+7. kubectl minio proxy
+8. JWT Token : eyJhbGciOiJSUzI1NiIsImtpZCI6ImJUVmZzaEFtTkpUYkxnbkE1RE4tWVV5WDZpU2hMUmx5bUdPUW5EWWkxUUkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJtaW5pby1vcGVyYXRvciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJjb25zb2xlLXNhLXNlY3JldCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJjb25zb2xlLXNhIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiM2E5ZTFjMmItNTQ2Yy00ZTc1LWIzZGUtMGU5MDk5YTUzZDFlIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Om1pbmlvLW9wZXJhdG9yOmNvbnNvbGUtc2EifQ.UxPTWmLTp2FuT74C0WWbMKvYlUUEwAwPaaXfJP32U6mqSFlW8tc1obGZx_8R8-uWf5nJxENqCsVptrC1iX6tdZlP8mrkiTx5q5_1wcJRwymyfLyj4z7uZBxoESxP-yS9Ge05o3jxx8wyYTeK5ofEejwzmbn-0P__tO7UatU4UNUwgrDB0Dl35v76v7_BXIxBj6GBHh0qCvu2McsFWkH6hVkY6VLv2qCesS8_OmHicrwK1E8LKnBSxCKiCaMv80H6P-fBXOV46rqL1S8zFaMt3lpLFhGqhDJj4M_Gtl8246NGmF6mIPfAxs4Tq1s140uf8naJDFF47P4JSC8okDU7rQ
+
+## Confifg
+
+1. Name : znext
+2. NameSpace : minio-operator
+3. 2,2,20
+4. Access Key :MSLPOpgOkwmsUzR2
+5. Secret Key :qjwwSKrzCqraV4w6Ic2dUfWlOhnruYyx
+6.  
