@@ -55,3 +55,20 @@ const student =
     GPA:3.92,
     Major:"Computer Science"
   }
+```
+
+4. Validation
+```
+function validate() {
+    if(myForm.Name.Value == "") {
+      return false;
+    }
+    if(myForm.telephone.value.length > 10 ) {
+       retrun false;
+    }
+    if(myForm.isFavourite.checked == false ) {
+        return false;
+    }
+    return( true );
+}
+```
