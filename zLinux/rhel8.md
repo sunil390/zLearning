@@ -1,5 +1,16 @@
 # RHEL on x86
 
+## Ethernet DOwn - TroubleShooting
+
+1. # nmcli networking off
+2. # nmcli networking on
+3. $ ip a
+4. # ifdown ens160
+5. # ifup ens160
+6. # sudo ip link set ens160 down
+7. # sudo ip link set ens160 up
+
+
 ## [Extending LVM](https://kb.vmware.com/s/article/1006371)
 
 1. VMWare Workstation -> Extend Disk
