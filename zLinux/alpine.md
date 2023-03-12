@@ -28,3 +28,4 @@ http://dl-cdn.alpinelinux.org/alpine/edge/community
 12. sudo service gitea start
 13. sudo service gitea status
 14. http://192.168.2.153:3000
+15. sudo apk add btop
