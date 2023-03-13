@@ -1,7 +1,10 @@
 # Alpine Linux
 
+## ToDo 
+1. wireguard vpn [ppt](https://www.chrisnicola.de/posts/ha-kubernetes-with-k3s-and-wireguard-part-2/)
+2. k3s / k0s 
 
-## Alpine Linux Install
+## Alpine Linux Install 12th March 2023
 
 1. Download extended x64 iso and boot in vm image
 2. setup-alpine
