@@ -1,4 +1,15 @@
-# RHEL on x86
+# RHEL / Almalinux on x86
+
+## Upgrade to AWX Operator 1.3 19th March 2023
+
+cd ~
+sudo rm -rf awx-operator
+git clone https://github.com/ansible/awx-operator.git
+cd awx-operator
+git checkout 1.3.0
+export NAMESPACE=awx
+make deploy
+kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
 
 ## Ethernet DOwn - TroubleShooting
 
