@@ -1,5 +1,15 @@
 # RHEL / Almalinux on x86
 
+## Netdata install for Monitoring Kubernetes
+
+1. curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+2. chmod 700 get_helm.sh
+3. ./get_helm.sh
+4. helm repo add netdata https://netdata.github.io/helmchart/
+5. mkdir ~/.kube 2> /dev/null
+6. sudo /usr/local/bin/k3s kubectl config view --raw > "$KUBECONFIG"
+7. Login to Netdata and copy the onboarding code and execute
+
 ## Upgrade to AWX Operator 1.3 19th March 2023
 ```
 cd ~
