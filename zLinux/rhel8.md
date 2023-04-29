@@ -1,5 +1,18 @@
 # RHEL / Almalinux on x86
 
+## Upgrade to AWX Operator 2.0.1 29th April 2023
+```
+cd ~
+sudo rm -rf awx-operator
+git clone https://github.com/ansible/awx-operator.git
+cd awx-operator
+git checkout 2.0.1
+export NAMESPACE=awx
+make deploy
+kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
+```
+
+
 ## Netdata install for Monitoring Kubernetes
 
 1. curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
