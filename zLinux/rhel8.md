@@ -1,5 +1,20 @@
 # RHEL / Almalinux on x86
 
+## Flowforge
+
+1. sudo dnf module install nodejs:18/common
+2. sudo mkdir /opt/flowforge
+3. sudo adduser flowforge
+4. sudo chown flowforge /opt/flowforge
+5. wget https://github.com/flowforge/installer/releases/latest/download/flowforge-installer.zip
+6. unzip flowforge-installer.zip
+7. cp -R flowforge-installer/* /opt/flowforge
+8. cd /opt/flowforge
+9. ./install.sh
+10. cd /opt/flowforge/bin
+11. su -
+12. ./flowforge.sh &
+
 ## Upgrade to AWX Operator 2.2.1 19th May 2023
 ```
 cd ~
