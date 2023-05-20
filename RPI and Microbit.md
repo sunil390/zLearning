@@ -1,3 +1,11 @@
+# Flowforge Device Registration 20th May 2023
+
+### PROVISIONING TOKEN ###
+1. provisioningName: zraspberry
+2. provisioningTeam: MXnyArYa46
+3. provisioningToken: ffadp_WXm25DUkqDuSAxy8viUrHJqUkPOQq5zEAiFi7g02YFA
+4. forgeURL: http://192.168.2.4:3003
+
 # Nov 13th 2021
 
 1. Convert /var/lib/rundeck/id_rsa to new format  ssh-keygen -p -m PEM -f id_rsa
