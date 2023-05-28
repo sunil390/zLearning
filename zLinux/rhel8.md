@@ -1,5 +1,8 @@
 # RHEL / Almalinux on x86
 
+## K3S Upgrade 28th May 2023 from 1.25.4 to 1.26.4
+1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+
 ## Flowforge
 
 1. sudo dnf module install nodejs:18/common
