@@ -1,5 +1,12 @@
 # RHEL / Almalinux on x86
 
+## IBM/tnz tn3270 emulator June 1st 2023
+
+1. sudo pip3 install ebcdic tnz
+2. export SESSION_PS_SIZE=62x160
+3. export SESSION_PORT=23
+4. goto 192.168.2.44
+
 ## K3S Upgrade 28th May 2023 from 1.25.4 to 1.26.4
 1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 
