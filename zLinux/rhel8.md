@@ -2,7 +2,8 @@
 
 ## Root FileSystem Repair almalinux root 3rd June 2023
 
-1. #xfs_repair -L /dev/mapper/almalinux-root
+1. #xfs_repair /dev/mapper/almalinux-root (Best Option)
+2. #xfs_repair -L /dev/mapper/almalinux-root (Last Option, Data Loss)
 
 ## IBM/tnz tn3270 emulator June 1st 2023
 
