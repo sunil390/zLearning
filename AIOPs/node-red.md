@@ -6,7 +6,17 @@
 
 1. kubectl get pods -A
 2. kubectl exec -it nodered-5c57c69b9c-n5tpk   -n nodered -- /bin/bash
-3. pip3 install ebcdic tnz
+```
+FROM nodered/node-red:latest
+USER root
+RUN pip3 install --upgrade pip requests && \
+    npm install node-red-contrib-eztimer \
+    node-red-contrib-home-assistant-websocket \
+    node-red-contrib-mqtt \
+    node-red-contrib-time-range-switch \
+    node-red-node-suncalc
+USER node-red
+```
 
 ## Running Nodered in Kubernetes 3rd June 2023
 1. NODE_RED="nodered.al8.com"
