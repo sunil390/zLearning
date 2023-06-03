@@ -40,7 +40,7 @@ spec:
               containerPort: 1880
           volumeMounts:
             - name: nodered-volume
-              mountPath: /data/nodered
+              mountPath: /data
       volumes:
         - name: nodered-volume
           persistentVolumeClaim:
