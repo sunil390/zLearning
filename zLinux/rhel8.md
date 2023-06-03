@@ -1,5 +1,9 @@
 # RHEL / Almalinux on x86
 
+## Root FileSystem Repair almalinux root 3rd June 2023
+
+1. #xfs_repair -L /dev/mapper/almalinux-root
+
 ## IBM/tnz tn3270 emulator June 1st 2023
 
 1. sudo pip3 install ebcdic tnz
