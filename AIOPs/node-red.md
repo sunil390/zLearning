@@ -2,6 +2,13 @@
 
 ## https://stackoverflow.com/questions/74809325/node-red-kubernetes-deployment
 
+## Working with NodeRed Container
+
+1. kubectl get pods -A
+2. kubectl exec -it nodered-5c57c69b9c-n5tpk   -n nodered -- /bin/bash
+3. pip3 install ebcdic tnz
+
+## Running Nodered in Kubernetes 3rd June 2023
 1. NODE_RED="nodered.al8.com"
 2. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./tls.crt -keyout ./tls.key -subj "/CN=${NODE_RED}/O=${NODE_RED}" -addext "subjectAltName = DNS:${NODE_RED}"
 3. sudo mkdir -p /data/nodered
