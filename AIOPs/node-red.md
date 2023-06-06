@@ -2,6 +2,13 @@
 
 ## https://stackoverflow.com/questions/74809325/node-red-kubernetes-deployment
 
+## New container
+
+1. podman login docker.io
+2. podman build -t node-red-ati:v3.1.0 . 
+3. podman tag localhost/node-red-ati:v3.1.0 sunil390/node-red-ati:v3.1.0
+4. podman push sunil390/node-red-ati:v3.1.0
+
 ## Working with NodeRed Container
 
 1. kubectl get pods -A
