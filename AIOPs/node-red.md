@@ -1,29 +1,43 @@
 # Node-red in Kubernetes
 
-## https://stackoverflow.com/questions/74809325/node-red-kubernetes-deployment
+## New container image with pip3 ebcdic and tnz 
 
-## New container
+1. Create Containerfile
+```
+FROM nodered/node-red-dev:v3.1.0-beta.2-debian
+USER root
+RUN apt-get update && apt-get install -y python3-pip
+RUN pip3 install ebcdic tnz
+RUN usermod -aG dialout node-red
+USER node-red
 
-1. podman login docker.io
-2. podman build -t node-red-ati:v3.1.0 . 
-3. podman tag localhost/node-red-ati:v3.1.0 sunil390/node-red-ati:v3.1.0
-4. podman push sunil390/node-red-ati:v3.1.0
+Or
+
+FROM nodered/node-red-dev:v3.1.0-beta.2-debian
+USER root
+RUN apt-get update && apt-get install -y python3-pip
+RUN pip3 install --upgrade pip requests && \
+    npm install node-red-contrib-alexa-remote2-applestrudel \
+    node-red-contrib-bard \
+    node-red-contrib-credentials \
+    node-red-contrib-google-sheets \
+    node-red-contrib-play-audio \
+    node-red-contrib-string \
+    node-red-dashboard \
+    node-red-contrib-web-worldmap
+USER node-red
+
+```
+2. logged on to docker.com as sunil390 and created repository node-red-ati
+3. podman login docker.io
+4. podman build -t node-red-ati:v3.1.0 . 
+5. podman tag localhost/node-red-ati:v3.1.0 sunil390/node-red-ati:v3.1.0
+6. podman push sunil390/node-red-ati:v3.1.0
 
 ## Working with NodeRed Container
 
 1. kubectl get pods -A
 2. kubectl exec -it nodered-5c57c69b9c-n5tpk   -n nodered -- /bin/bash
-```
-FROM nodered/node-red:latest
-USER root
-RUN pip3 install --upgrade pip requests && \
-    npm install node-red-contrib-eztimer \
-    node-red-contrib-home-assistant-websocket \
-    node-red-contrib-mqtt \
-    node-red-contrib-time-range-switch \
-    node-red-node-suncalc
-USER node-red
-```
 
 ## Running Nodered in Kubernetes 3rd June 2023
 1. NODE_RED="nodered.al8.com"
@@ -51,7 +65,7 @@ spec:
     spec:
       containers:
         - name: nodered
-          image: nodered/node-red:latest
+          image: sunil390/node-red-ati:v3.1.0
           resources:
             limits:
               memory: 512Mi
@@ -179,5 +193,4 @@ resources:
   - deployment.yaml
 ```
 14. kubectl apply -k node-red
-15. sudo systemctl restart k3s
-16. 
+15. sudo systemctl restart k3s 
