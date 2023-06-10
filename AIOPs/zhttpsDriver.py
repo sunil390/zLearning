@@ -156,7 +156,9 @@ If ReturnCode \= 0 Then Call ShowError "hwthconn"
      * Setup the request options                                        
      */                                                                 
     /* Setup list of headers */                                         
-    sList = 0                                                           
+    sList = 0
+    nodezuser = 'zuser'  
+    nodepaswd = 'zuser password'
     headerContentType = 'Content-type: Text/plain'                      
     Address hwthttp "hwthslst" "ReturnCode" ,                           
                     "ReqHandle" "HWTH_SLST_NEW" "sList" ,               
@@ -174,6 +176,13 @@ If ReturnCode \= 0 Then Call ShowError "hwthconn"
     /* Translate to EBCDIC inbound please */                            
     Call SetReqOpt "HWTH_OPT_TRANSLATE_RESPBODY", ,                     
                    "HWTH_XLATE_RESPBODY_A2E"                            
+    /* HTTP authorization option          */       
+    Call SetReqOpt "HWTH_OPT_HTTPAUTH", ,          
+               "HWTH_HTTPAUTH_BASIC"           
+    /* HTTP user name for nodered */               
+    Call SetReqOpt "HWTH_OPT_USERNAME", nodezuser  
+    /* HTTP password  for nodered */               
+    Call SetReqOpt "HWTH_OPT_PASSWORD", nodepaswd  
     /*                                                                  
       The following options take a reference to the internal Rexx       
       string buffer, but Rexx does not allow us to pass arguments by    
