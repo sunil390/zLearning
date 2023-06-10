@@ -35,7 +35,7 @@ Or with Single RUN Command
 FROM nodered/node-red-dev:v3.1.0-beta.2-debian
 USER root
 RUN apt-get update && apt-get install -y python3-pip && \
-    pip3 install --upgrade pip requests ebcdic tnz && \
+    pip3 install --upgrade pip ebcdic tnz && \
     npm install node-red-contrib-alexa-remote2-applestrudel \
     node-red-contrib-bard \
     node-red-contrib-credentials \
@@ -44,7 +44,6 @@ RUN apt-get update && apt-get install -y python3-pip && \
     node-red-contrib-string \
     node-red-dashboard \
     node-red-contrib-web-worldmap && \
-    echo "192.168.2.44 dcuf" >> /etc/hosts && \
     usermod -aG dialout node-red
 USER node-red
 
