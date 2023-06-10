@@ -43,8 +43,7 @@ RUN apt-get update && apt-get install -y python3-pip && \
     node-red-contrib-play-audio \
     node-red-contrib-string \
     node-red-dashboard \
-    node-red-contrib-web-worldmap && \
-    usermod -aG dialout node-red
+    node-red-contrib-web-worldmap
 USER node-red
 
 ```
