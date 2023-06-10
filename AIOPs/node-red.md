@@ -44,6 +44,7 @@ RUN apt-get update && apt-get install -y python3-pip && \
     node-red-contrib-string \
     node-red-dashboard \
     node-red-contrib-web-worldmap && \
+    echo "192.168.2.44 dcuf" >> /etc/hosts && \
     usermod -aG dialout node-red
 USER node-red
 
