@@ -1,5 +1,12 @@
 # Node-red in Kubernetes
 
+## http Basic Auth Enablement
+
+1. sudo npm install -g --unsafe-perm node-red
+2. node-red admin hash-pw
+3. update /data/nodered/settings.js with the hash-pw
+4. 
+
 ## New container image with pip3 ebcdic and tnz 
 
 1. Create Containerfile
