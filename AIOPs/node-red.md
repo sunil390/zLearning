@@ -5,7 +5,19 @@
 1. sudo npm install -g --unsafe-perm node-red
 2. node-red admin hash-pw
 3. update /data/nodered/settings.js with the hash-pw
-4. 
+```
+    adminAuth: {
+        type: "credentials",
+        users: [{
+            username: "admin",
+            password: "hash pw output for adnin ",
+            permissions: "*"
+        }]
+    },
+
+    httpNodeAuth: {user:"zuser",pass:"hash-pw out for the password of zuser"},
+    httpStaticAuth: {user:"zuser",pass:"hash-pw out for the password of zuser"},
+```
 
 ## New container image with pip3 ebcdic and tnz 
 
