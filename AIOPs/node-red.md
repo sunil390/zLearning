@@ -51,9 +51,9 @@ USER node-red
 ```
 2. logged on to docker.com as sunil390 and created repository node-red-ati
 3. podman login docker.io
-4. podman build -t node-red-ati:v3.1.0 . 
-5. podman tag localhost/node-red-ati:v3.1.0 sunil390/node-red-ati:v3.1.0
-6. podman push sunil390/node-red-ati:v3.1.0
+4. podman build -t node-red-ati:v3.1.0-v2 . 
+5. podman tag localhost/node-red-ati:v3.1.0-v2 sunil390/node-red-ati:v3.1.0-v2
+6. podman push sunil390/node-red-ati:v3.1.0-v2
 
 ## Working with NodeRed Container
 
@@ -86,7 +86,7 @@ spec:
     spec:
       containers:
         - name: nodered
-          image: sunil390/node-red-ati:v3.1.0
+          image: sunil390/node-red-ati:v3.1.0-v2
           resources:
             limits:
               memory: 512Mi
