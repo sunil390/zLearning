@@ -30,12 +30,12 @@ RUN pip3 install ebcdic tnz
 RUN usermod -aG dialout node-red
 USER node-red
 
-Or
+Or with Single RUN Command
 
 FROM nodered/node-red-dev:v3.1.0-beta.2-debian
 USER root
-RUN apt-get update && apt-get install -y python3-pip
-RUN pip3 install --upgrade pip requests && \
+RUN apt-get update && apt-get install -y python3-pip && \
+    pip3 install --upgrade pip requests ebcdic tnz && \
     npm install node-red-contrib-alexa-remote2-applestrudel \
     node-red-contrib-bard \
     node-red-contrib-credentials \
@@ -43,7 +43,8 @@ RUN pip3 install --upgrade pip requests && \
     node-red-contrib-play-audio \
     node-red-contrib-string \
     node-red-dashboard \
-    node-red-contrib-web-worldmap
+    node-red-contrib-web-worldmap && \
+    usermod -aG dialout node-red
 USER node-red
 
 ```
