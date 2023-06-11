@@ -35,7 +35,7 @@ Or with Single RUN Command
 FROM nodered/node-red-dev:v3.1.0-beta.2-debian
 USER root
 RUN apt-get update && apt-get install -y python3-pip && \
-    python3 -m pip install --upgrade pip ebcdic tnz && \
+    python3 -m pip install --upgrade pip ebcdic tnz ansible && \
     npm install node-red-contrib-alexa-remote2-applestrudel \
     node-red-contrib-bard \
     node-red-contrib-credentials \
