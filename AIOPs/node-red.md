@@ -1,7 +1,96 @@
 # Node-red in Kubernetes
 
-## podman
+## podman image for znext
+1. git clone https://github.com/node-red/node-red-docker.git
+2. cd node-red-docker/docker-custom
+3. Create Containerfile
+```.py
+#### Stage BASE ########################################################################################################
+FROM amd64/node:18-bullseye-slim AS base
 
+# Copy scripts
+COPY scripts/*.sh /tmp/
+
+# Install tools, create Node-RED app and data dir, add user and set rights
+RUN set -ex && \
+    apt-get update && apt-get install -y \
+        bash \
+        tzdata \
+        curl \
+        nano \
+        wget \
+        git \
+        openssl \
+        openssh-client \
+        ca-certificates && \
+    mkdir -p /usr/src/node-red /data && \
+    deluser --remove-home node && \
+    useradd --home-dir /usr/src/node-red --uid 1000 node-red && \
+    chown -R node-red:root /data && chmod -R g+rwX /data && \
+    chown -R node-red:root /usr/src/node-red && chmod -R g+rwX /usr/src/node-red
+
+# Set work directory
+WORKDIR /usr/src/node-red
+
+# Setup SSH known_hosts file
+COPY known_hosts.sh .
+RUN ./known_hosts.sh /etc/ssh/ssh_known_hosts && rm /usr/src/node-red/known_hosts.sh
+RUN echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> /etc/ssh/ssh_config
+
+# package.json contains Node-RED NPM module and node dependencies
+COPY package.json .
+COPY flows.json /data
+COPY scripts/entrypoint.sh .
+
+#### Stage BUILD #######################################################################################################
+FROM base AS build
+
+# Install Build tools
+RUN apt-get update && apt-get install -y build-essential python && \
+    npm install --unsafe-perm --no-update-notifier --no-fund --only=production && \
+    npm uninstall node-red-node-gpio && \
+    cp -R node_modules prod_node_modules
+
+#### Stage RELEASE #####################################################################################################
+FROM base AS RELEASE
+
+COPY --from=build /usr/src/node-red/prod_node_modules ./node_modules
+
+# Chown, install devtools & Clean up
+RUN chown -R node-red:root /usr/src/node-red && \
+    apt-get update && apt-get install -y build-essential python-dev python3.9 python3-pip && \
+    python3 -m pip install --upgrade pip ebcdic tnz ansible && \
+    ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core && \
+    npm install jmespath node-red-contrib-alexa-remote2-applestrudel \
+    node-red-contrib-bard \
+    node-red-contrib-credentials \
+    node-red-contrib-google-sheets \
+    node-red-contrib-play-audio \
+    node-red-contrib-string \
+    node-red-dashboard \
+    node-red-contrib-web-worldmap \
+    rm -r /tmp/*
+
+RUN npm config set cache /data/.npm --global
+
+USER node-red
+
+# Env variables
+ENV NODE_RED_VERSION=$NODE_RED_VERSION \
+    NODE_PATH=/usr/src/node-red/node_modules:/data/node_modules \
+    PATH=/usr/src/node-red/node_modules/.bin:${PATH} \
+    FLOWS=flows.json
+
+# Expose the listening port of node-red
+EXPOSE 1880
+
+ENTRYPOINT ["./entrypoint.sh"]
+```
+4. podman build -t node-red-znext:v1 .
+5. podman tag localhost/node-red-znext:v1 sunil390/node-red-znext:v1
+6. podman push sunil390/node-red-znext:v1
+
+## podman image cleanup
 1. list external containers -> podman ps -a --external
 3. Force remove container -> podman rm f684cd3e44cd --force
 
@@ -40,7 +129,7 @@ Or with Single RUN Command
 
 FROM nodered/node-red-dev:v3.1.0-beta.2-debian
 USER root
-RUN add-apt-repository universe && apt-get update && apt-get install -y python3.9 python3-pip && \
+RUN apt-get update && apt-get install -y python3-pip && \
     python3 -m pip install --upgrade pip ebcdic tnz ansible && \
     ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core && \
     npm install jmespath node-red-contrib-alexa-remote2-applestrudel \
