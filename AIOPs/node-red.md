@@ -24,6 +24,8 @@ RUN set -ex && \
         openssh-client \
         ca-certificates && \
     mkdir -p /usr/src/node-red /data && \
+    mkdir -p /usr/share/ansible/collections && \
+    chmod -R a+rX /usr/share/ansible/collections && \
     deluser --remove-home node && \
     useradd --home-dir /usr/src/node-red --uid 1000 node-red && \
     chown -R node-red:root /data && chmod -R g+rwX /data && \
@@ -60,7 +62,7 @@ COPY --from=build /usr/src/node-red/prod_node_modules ./node_modules
 RUN chown -R node-red:root /usr/src/node-red && \
     apt-get update && apt-get install -y build-essential python-dev python3.9 python3-pip && \
     python3 -m pip install --upgrade pip ebcdic tnz ansible && \
-    ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core && \
+    ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core -p /usr/share/ansible/collections && \
     npm install jmespath node-red-contrib-alexa-remote2-applestrudel \
     node-red-contrib-bard \
     node-red-contrib-credentials \
