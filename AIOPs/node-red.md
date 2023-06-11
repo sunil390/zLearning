@@ -1,5 +1,11 @@
 # Node-red in Kubernetes
 
+## podman
+
+1. list external containers -> podman ps -a --external
+3. Force remove container -> podman rm f684cd3e44cd --force
+
+
 ## http Basic Auth Enablement
 
 1. sudo npm install -g --unsafe-perm node-red
