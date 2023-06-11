@@ -23,8 +23,7 @@ RUN set -ex && \
         openssl \
         openssh-client \
         ca-certificates && \
-    mkdir -p /usr/src/node-red /data && \
-    mkdir -p /usr/share/ansible/collections && \
+    mkdir -p /usr/src/node-red/.ssh /data /usr/share/ansible/collections && \
     deluser --remove-home node && \
     useradd --home-dir /usr/src/node-red --uid 1000 node-red && \
     chown -R node-red:root /data && chmod -R g+rwX /data && \
@@ -36,7 +35,8 @@ WORKDIR /usr/src/node-red
 
 # Setup SSH known_hosts file
 COPY known_hosts.sh .
-RUN ./known_hosts.sh /etc/ssh/ssh_known_hosts && rm /usr/src/node-red/known_hosts.sh
+RUN ./known_hosts.sh /etc/ssh/ssh_known_hosts && rm /usr/src/node-red/known_hosts.sh && \
+    cp ~/.ssh/id_rsa /usr/src/node-red/.ssh/id_rsa  
 RUN echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> /etc/ssh/ssh_config
 
 # package.json contains Node-RED NPM module and node dependencies
@@ -62,7 +62,7 @@ COPY --from=build /usr/src/node-red/prod_node_modules ./node_modules
 RUN chown -R node-red:root /usr/src/node-red && \
     apt-get update && apt-get install -y build-essential python-dev python3.9 python3-pip && \
     python3 -m pip install --upgrade pip ebcdic tnz ansible && \
-    ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core -p /usr/share/ansible/collections && \
+    ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core-1.6.0-beta-1 -p /usr/share/ansible/collections && \
     npm install jmespath node-red-contrib-alexa-remote2-applestrudel \
     node-red-contrib-bard \
     node-red-contrib-credentials \
@@ -71,7 +71,6 @@ RUN chown -R node-red:root /usr/src/node-red && \
     node-red-contrib-string \
     node-red-dashboard \
     node-red-contrib-web-worldmap && \
-    cp ~/.ssh/id_rsa /usr/src/node-red/.ssh/id_rsa && \
     rm -r /tmp/*
 
 RUN npm config set cache /data/.npm --global
