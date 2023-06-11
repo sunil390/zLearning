@@ -96,8 +96,10 @@ ENTRYPOINT ["./entrypoint.sh"]
 9. Restart Server.
 
 ## podman image cleanup
-1. list external containers -> podman ps -a --external
-3. Force remove container -> podman rm f684cd3e44cd --force
+1. podman images
+2. podman rmi 
+3. list external containers -> podman ps -a --external
+4. Force remove container -> podman rm f684cd3e44cd --force
 
 
 ## http Basic Auth Enablement
