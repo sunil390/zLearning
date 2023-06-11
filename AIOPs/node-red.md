@@ -36,7 +36,7 @@ WORKDIR /usr/src/node-red
 # Setup SSH known_hosts file
 COPY known_hosts.sh .
 RUN ./known_hosts.sh /etc/ssh/ssh_known_hosts && rm /usr/src/node-red/known_hosts.sh && \
-    cp ~/.ssh/id_rsa /usr/src/node-red/.ssh/id_rsa  
+COPY id_rsa /usr/src/node-red/.ssh/id_rsa
 RUN echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> /etc/ssh/ssh_config
 
 # package.json contains Node-RED NPM module and node dependencies
