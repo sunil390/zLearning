@@ -34,7 +34,7 @@ Or with Single RUN Command
 
 FROM nodered/node-red-dev:v3.1.0-beta.2-debian
 USER root
-RUN apt-get update && apt-get install -y python3.9 python3-pip && \
+RUN add-apt-repository universe && apt-get update && apt-get install -y python3.9 python3-pip && \
     python3 -m pip install --upgrade pip ebcdic tnz ansible && \
     ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core && \
     npm install jmespath node-red-contrib-alexa-remote2-applestrudel \
