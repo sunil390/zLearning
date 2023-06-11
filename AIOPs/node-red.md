@@ -36,7 +36,7 @@ FROM nodered/node-red-dev:v3.1.0-beta.2-debian
 USER root
 RUN apt-get update && apt-get install -y python3-pip && \
     python3 -m pip install --upgrade pip ebcdic tnz ansible && \
-    ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core && \
+    ansible-galaxy collection install --global community.general ansible.utils ibm.ibm_zos_core && \
     npm install jmespath node-red-contrib-alexa-remote2-applestrudel \
     node-red-contrib-bard \
     node-red-contrib-credentials \
