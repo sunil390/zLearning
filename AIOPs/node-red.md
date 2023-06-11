@@ -68,7 +68,7 @@ RUN chown -R node-red:root /usr/src/node-red && \
     node-red-contrib-play-audio \
     node-red-contrib-string \
     node-red-dashboard \
-    node-red-contrib-web-worldmap \
+    node-red-contrib-web-worldmap && \
     rm -r /tmp/*
 
 RUN npm config set cache /data/.npm --global
@@ -76,7 +76,7 @@ RUN npm config set cache /data/.npm --global
 USER node-red
 
 # Env variables
-ENV NODE_RED_VERSION=$NODE_RED_VERSION \
+ENV NODE_RED_VERSION=3.0.2 \
     NODE_PATH=/usr/src/node-red/node_modules:/data/node_modules \
     PATH=/usr/src/node-red/node_modules/.bin:${PATH} \
     FLOWS=flows.json
@@ -89,6 +89,9 @@ ENTRYPOINT ["./entrypoint.sh"]
 4. podman build -t node-red-znext:v1 .
 5. podman tag localhost/node-red-znext:v1 sunil390/node-red-znext:v1
 6. podman push sunil390/node-red-znext:v1
+7. edit ~/node-red/deployment.yaml and point to node-red-znext:v1
+8. kubectl apply -k node-red
+9. Restart Server.
 
 ## podman image cleanup
 1. list external containers -> podman ps -a --external
