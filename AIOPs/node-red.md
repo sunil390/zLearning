@@ -3,7 +3,8 @@
 ## podman image for znext
 1. git clone https://github.com/node-red/node-red-docker.git
 2. cd node-red-docker/docker-custom
-3. Create Containerfile
+3. cp ~/.ssh/id_rsa .
+4. Create Containerfile
 ```.py
 #### Stage BASE ########################################################################################################
 FROM amd64/node:18-bullseye-slim AS base
