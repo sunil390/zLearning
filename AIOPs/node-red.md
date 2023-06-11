@@ -71,6 +71,7 @@ RUN chown -R node-red:root /usr/src/node-red && \
     node-red-contrib-string \
     node-red-dashboard \
     node-red-contrib-web-worldmap && \
+    cp ~/.ssh/id_rsa /usr/src/node-red/.ssh/id_rsa && \
     rm -r /tmp/*
 
 RUN npm config set cache /data/.npm --global
