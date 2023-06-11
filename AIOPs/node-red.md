@@ -25,11 +25,11 @@ RUN set -ex && \
         ca-certificates && \
     mkdir -p /usr/src/node-red /data && \
     mkdir -p /usr/share/ansible/collections && \
-    chmod -R a+rX /usr/share/ansible/collections && \
     deluser --remove-home node && \
     useradd --home-dir /usr/src/node-red --uid 1000 node-red && \
     chown -R node-red:root /data && chmod -R g+rwX /data && \
-    chown -R node-red:root /usr/src/node-red && chmod -R g+rwX /usr/src/node-red
+    chown -R node-red:root /usr/src/node-red && chmod -R g+rwX /usr/src/node-red && \
+    chown -R node-red:root /usr/share/ansible/collections && chmod -R g+rwX /usr/share/ansible/collections
 
 # Set work directory
 WORKDIR /usr/src/node-red
