@@ -37,7 +37,7 @@ USER root
 RUN apt-get update && apt-get install -y python3-pip && \
     python3 -m pip install --upgrade pip ebcdic tnz ansible && \
     ansible-galaxy collection install community.general ansible.utils ibm.ibm_zos_core && \
-    npm install node-red-contrib-alexa-remote2-applestrudel \
+    npm install jmespath node-red-contrib-alexa-remote2-applestrudel \
     node-red-contrib-bard \
     node-red-contrib-credentials \
     node-red-contrib-google-sheets \
