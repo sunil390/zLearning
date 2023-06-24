@@ -2,9 +2,10 @@
 
 ## Hugging face 
 
-1. pip3 install torch torchvision torchaudio
-2. pip3 install transformers
-3. Text Summarirization using bart models
+1. only cpu-> pip3 install torch torchvision torchaudio
+2. with CUDA 11.8 -> pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+3. pip3 install transformers
+4. Text Summarirization using bart models
 ```.py
 from transformers import pipeline
 
