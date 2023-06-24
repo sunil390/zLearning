@@ -42,7 +42,12 @@ print(summary2[0]['summary_text'])
 print(summary3[0]['summary_text'])
 print(summary4[0]['summary_text'])
 ```
+5. Summary Text
 
+I am happy to join with you today in what will go down in history as the greatest demonstration for freedom in the history of our nation. Five score years ago, a great American, in whose symbolic shadow we stand today, signed the Emancipation Proclamation. This momentous decree came as a great beacon light of hope to millions of Negro slaves who had been seared in the flames of withering injustice. One hundred years later, the life of the Negro is still sadly crippled by the manacles of segregation and the chains of discrimination.
+We have also come to this hallowed spot to remind America of the fierce urgency of now. This sweltering summer of the Negro's legitimate discontent will not pass until there is an invigorating autumn of freedom and equality. In the process of gaining our rightful place we must not be guilty of wrongful deeds. Let us not seek to satisfy our thirst for freedom by drinking from the cup of bitterness and hatred. We must forever conduct our struggle on the high plane of dignity and discipline.
+"We can never be satisfied, as long as our bodies, heavy with the fatigue of travel, cannot gain lodging in the motels of the highways and the hotels of the cities," he says. "No, no, we are not satisfied, and we will not be satisfied until justice rolls down like waters and righteousness like a mighty stream," he adds. "I have a dream that one day even the state of Mississippi, a state sweltering with the heat of injustice, will be transformed into an oasis of freedom and justice"
+I have a dream that my four little children will one day live in a nation where they will not be judged by the color of their skin but by the content of their character. This is the faith that I go back to the South with. With this faith we will be able to transform the jangling discords of our nation into a beautiful symphony of brotherhood. And when this happens, when we allow freedom to ring, we can speed up that day when all of God's children, black men and white men, Jews and Gentiles, Protestants and Catholics, can join hands and sing in the words of the old Negro spiritual.
 
 ## Miscellaneous 
 
