@@ -142,16 +142,22 @@ print(summary7[0]['summary_text'])
 print(summary8[0]['summary_text'])
 ```
 7. Meeting Summary
-```.txt
+
 In this episode of the a16z podcast, Das talks about the SaaS go-to-market with David Ulevitch and Kristina Shen. They discuss the advantages and disadvantages of selling to the market from the start.
+
 Kristina explains to Das how to grow a business from a start-up to a successful software as a service (SaaS) company. Kristina advises starting with early adopters and going vertical by vertical. She also points out that on-premise software is dying as people
+
 Kristina explains to Das and David the differences between old and new school SaaS pricing models. Kristina also explains to David the difference between a per employee per month and a per usage model. 
+
 Kristina works with SaaS founders and advises them on how to set the right pricing model for their product. David advises them to double their prices.
+
 Kristina and David explain to Das when it's time to change the pricing and packaging of a product or service.
+
 Kristina and David discuss some common mistakes that founders make when it comes to pricing and packaging.
+
 Kristina explains to Das how the SaaS business works. Kristina explains the difference between a paid trial and a free trial. David explains why he prefers the latter.
+
 David and Kristina discuss the benefits and disadvantages of a paid pilot for SaaS companies. Kristina suggests signing an annual contract with a one or three month opt-out period as a replacement for the paid pilot. David talks about renewals and how to grow a recurring revenue business.
-```
 
 ## Miscellaneous 
 
