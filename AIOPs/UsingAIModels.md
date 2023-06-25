@@ -2,6 +2,13 @@
 
 ## Summarization along with Sentiment Analysis and Write the result to a csv file 25th June 2023
 
+1. Install [Python 3.11](https://www.python.org/downloads/) (Remember to select add to path, also ensure at least 30 GB is free in C Drive)
+2. Install [VSCode](https://code.visualstudio.com/download)
+3. pip install torch torchvision torchaudio
+4. pip install transformers pd
+5. Open new file summaryandsentiment.py  and copy below content. The text = variable to be replaced with the transcript that need to be summarized.
+6. python summaryandsentiment.py
+7. Output.csv will have the results. 
 ```py
 import pandas as pd
 from transformers import pipeline
