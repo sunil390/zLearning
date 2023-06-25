@@ -66,7 +66,7 @@ This sweltering summer of the Negro's legitimate discontent will not pass until 
 
 "If America is to be a great nation this must become true," he says. "Let freedom ring from the prodigious hilltops of New Hampshire," he adds. "From every mountainside, let freedom ring," he writes. "When this happens, when we allow freedom to ring, we will be able to speed up that day when all of God's children, black men and white men, Jews and Gentiles, Protestants and Catholics, can join hands and sing in the words of the old Negro spiritual"
 
-## Hugging face  6/25
+## Hugging face  6/24
 
 1. only cpu-> pip3 install torch torchvision torchaudio
 2. with CUDA 11.8 -> pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
