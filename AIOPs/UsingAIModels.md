@@ -1,5 +1,11 @@
 # Using AI Models
 
+## llama2
+
+1. https://huggingface.co/settings/tokens Created a read only tokem for llama2
+2. huggingface-cli login (copy and right click for token)
+3. pip install accelerate
+
 ## Summarization along with Sentiment Analysis and Write the result to a csv file 25th June 2023
 
 1. Install [Python 3.11](https://www.python.org/downloads/) (Remember to select add to path, also ensure at least 30 GB is free in C Drive)
