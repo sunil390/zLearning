@@ -1,5 +1,20 @@
 # RHEL / Almalinux on x86
 
+## K3S Upgrade 26th July 2023 from 1.26.4 to 1.27.3
+1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+2. sudo nano /etc/rancher/k3s/resolv.conf
+nameserver 192.168.2.87
+3. sudo nano /etc/systemd/system/k3s.service
+``` 
+ExecStart=/usr/local/bin/k3s \
+    server \
+        '--write-kubeconfig-mode' \
+        '644' \
+        '--resolv-conf' \
+        '/etc/rancher/k3s/resolv.conf' \ 
+```
+4. sudo service k3s stop , Restart Linux.
+
 ## Windows PowerShell to RHEL ssh without pw 10th June
 1. Get-Content "$env:USERPROFILE\.ssh\id_rsa.pub" | ssh sunil390@192.168.2.4 "cat >> ~/.ssh/authorized_keys"
 2. /etc/ssh/sshd_config -> PubkeyAuthentication yes and AuthorizedKeysFile .ssh/authorized_keys
