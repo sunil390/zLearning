@@ -4,7 +4,7 @@
 
 1. [cvt mapping](https://www.ibm.com/docs/en/zos/2.4.0?topic=correlator-cvt-information)
 2. [iplinfo](http://www.mzelden.com/mvsfiles/iplinfo.txt)
-3. cvt mappings name display - rexx
+3. cvt mappings name display - rexx. All offsets are in decimal from the table in point 1.
 ```.py
 /* REXX program to display the contents of the CVT Structure  */                 
 cvt = c2d(Storage(10,4))                                                         
@@ -23,7 +23,7 @@ say 'z/OS mcat          =' mcatdsn
 say 'z/OS mcat volume   =' mcatvol                                               
 Exit
 ```
-4. UserMod to apply UserModification flags [xephone](https://www.cbttape.org/xephon/xephonm/mvs9908.pdf)
+4. UserMod to apply UserModification flags [xephone](https://www.cbttape.org/xephon/xephonm/mvs9908.pdf). Not sure this is true but this is now the hex offset in VER was computed, from CVT is -18 and CVT is at 10 resulting in an offset of Hex 28. 
 
 ```jcl
 //SYSPRG1A  JOB REGION=0M,CLASS=S,MSGCLASS=X,              
