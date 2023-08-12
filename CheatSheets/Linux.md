@@ -1,5 +1,10 @@
 # Linux Snippets
 
+## Repo removal in Ubuntu
+
+1. sudo add-apt-repository --remove https://ppa.launchpadcontent.net/vantuz/cool-retro-term/ubuntu
+2. sudo apt update
+
 ## Static IP Linux
 1. nano /etc/sysconfig/network-scripts/ifcfg-ens160
 ```
