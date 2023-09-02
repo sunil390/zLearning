@@ -5,7 +5,8 @@
 ## Palm2 
 
 1. Set environment variable PALM_API_KEY in windows with the Bard API Key
-2. Pyhon Code to call Palm2
+2. pip install -q google-generativeai
+3. Pyhon Code to call Palm2
 ```.py
 import google.generativeai as palm
 import os
