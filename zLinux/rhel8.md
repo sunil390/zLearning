@@ -1,5 +1,14 @@
 # RHEL / Almalinux on x86
 
+## awx-on-k3s pull latest updates and upgrade gitea 1st Oct 2023
+1. cd awx-on-k3s
+2. sudo rm nano.save; sudo rm nano.save.1
+3. git add .
+4. git commit -m "local updates" -a
+5. git pull origin main
+6. git config pull.rebase false
+7. kubectl apply -k git 
+
 ## K3S Upgrade 26th July 2023 from 1.26.4 to 1.27.3
 1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 2. sudo nano /etc/rancher/k3s/resolv.conf
