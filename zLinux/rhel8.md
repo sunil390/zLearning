@@ -17,14 +17,14 @@ ExecStart=/usr/local/bin/k3s \
 5. Restart Linux.
 
 ## AWX Upgrade 2-12-2023
-cd ~
-sudo rm -rf awx-operator
-git clone https://github.com/ansible/awx-operator.git
-cd awx-operator
-git checkout 2.8.0
-export NAMESPACE=awx
-make deploy
-kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
+1. cd ~
+2. sudo rm -rf awx-operator
+3. git clone https://github.com/ansible/awx-operator.git
+4. cd awx-operator
+5. git checkout 2.8.0
+6. export NAMESPACE=awx
+7. make deploy
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
 
 ### Offline Repo from iso AlmaLinux 8.9.  - 02-12-2023  
 1. Download dvd image to Linux Desktop 
@@ -48,7 +48,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 ```
 7. sudo nano /etc/yum/pluginconf.d/subscription-manager.conf  changed the parameter “enabled=1” to “enabled=0”
 8. sudo yum clean all
-```
 9. sudo yum  --noplugins list
 10. sudo yum update
 
