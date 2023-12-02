@@ -62,8 +62,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 ## K3S Upgrade 26th July 2023 from 1.26.4 to 1.27.3
 1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
-2. sudo nano /etc/rancher/k3s/resolv.conf
-nameserver 192.168.2.87
+2. sudo nano /etc/rancher/k3s/resolv.conf nameserver 192.168.2.87
 3. sudo nano /etc/systemd/system/k3s.service
 ``` 
 ExecStart=/usr/local/bin/k3s \
