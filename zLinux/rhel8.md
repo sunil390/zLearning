@@ -1,5 +1,57 @@
 # RHEL / Almalinux on x86
 
+## K3S Upgrade  2-12-2023
+1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+2. sudo nano /etc/rancher/k3s/resolv.conf nameserver 192.168.2.4
+3. sudo nano /etc/systemd/system/k3s.service
+
+```
+ExecStart=/usr/local/bin/k3s \
+    server \
+        '--write-kubeconfig-mode' \
+        '644' \
+        '--resolv-conf' \
+        '/etc/rancher/k3s/resolv.conf' \ 
+``` 
+4. sudo service k3s stop  
+5. Restart Linux.
+
+## AWX Upgrade 2-12-2023
+cd ~
+sudo rm -rf awx-operator
+git clone https://github.com/ansible/awx-operator.git
+cd awx-operator
+git checkout 2.8.0
+export NAMESPACE=awx
+make deploy
+kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
+
+### Offline Repo from iso AlmaLinux 8.9.  - 02-12-2023  
+1. Download dvd image to Linux Desktop 
+2. sudo mount -o loop AlmaLinux-8.9-x86_64-dvd.iso /mnt/hgfs
+3. sudo nano /etc/yum.repos.d/rhel8iso.repo
+4. sudo service k3s stop
+```
+[dvd-BaseOS]
+name=DVD for RHEL - BaseOS
+baseurl=file:///mnt/hgfs/BaseOS
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[dvd-AppStream]
+name=DVD for RHEL - AppStream
+baseurl=file:///mnt/hgfs/AppStream
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+```
+7. sudo nano /etc/yum/pluginconf.d/subscription-manager.conf  changed the parameter “enabled=1” to “enabled=0”
+8. sudo yum clean all
+```
+9. sudo yum  --noplugins list
+10. sudo yum update
+
 ## awx-on-k3s pull latest updates and upgrade gitea 1st Oct 2023
 1. cd awx-on-k3s
 2. sudo rm nano.save; sudo rm nano.save.1
