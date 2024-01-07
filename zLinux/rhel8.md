@@ -1,5 +1,21 @@
 # RHEL / Almalinux on x86
 
+## AWX Upgrade 7-1-2024
+1. cd ~
+2. sudo rm -rf awx-operator
+3. git clone https://github.com/ansible/awx-operator.git
+4. cd awx-operator
+5. git checkout 2.10.0
+6. export NAMESPACE=awx
+7. make deploy
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
+
+## awx-on-k3s pull latest updates and upgrade gitea 7th Jan 2024
+cd awx-on-k3s
+git pull origin main
+cd git;nano kustomization.yaml -> change version to 1.21.3
+kubectl apply -k git
+
 ## K3S Upgrade  2-12-2023
 1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 2. sudo nano /etc/rancher/k3s/resolv.conf nameserver 192.168.2.4
