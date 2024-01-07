@@ -11,10 +11,10 @@
 8. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
 
 ## awx-on-k3s pull latest updates and upgrade gitea 7th Jan 2024
-cd awx-on-k3s
-git pull origin main
-cd git;nano kustomization.yaml -> change version to 1.21.3
-kubectl apply -k git
+1. cd awx-on-k3s
+2. git pull origin main
+3. cd git;nano kustomization.yaml -> change version to 1.21.3
+4. kubectl apply -k git
 
 ## K3S Upgrade  2-12-2023
 1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
