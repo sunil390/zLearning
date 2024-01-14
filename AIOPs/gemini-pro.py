@@ -1,3 +1,6 @@
+# pip install -q -U google-generativeai 
+# pip install pathlib textwrap3 ipython
+
 import google.generativeai as genai
 import os
 import pathlib
