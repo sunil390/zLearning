@@ -91,9 +91,10 @@ ExecStart=/usr/local/bin/k3s \
 4. sudo service k3s stop , Restart Linux.
 
 ## Windows PowerShell to RHEL ssh without pw 10th June
+```
 1. Get-Content "$env:USERPROFILE\.ssh\id_rsa.pub" | ssh sunil390@192.168.2.4 "cat >> ~/.ssh/authorized_keys"
 2. /etc/ssh/sshd_config -> PubkeyAuthentication yes and AuthorizedKeysFile .ssh/authorized_keys
-
+```
 ## Root FileSystem Repair almalinux root 3rd June 2023
 
 1. #xfs_repair /dev/mapper/almalinux-root (Best Option)
