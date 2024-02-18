@@ -128,28 +128,33 @@ docker run -it --rm registry.al9.com/reguser/whalesay:latest cowsay hoge
 1. cd awx-on-k3s/base 
 2. nano middleware.yaml
 ```
-apiVersion: traefik.containo.us/v1alpha1
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: redirect
+  namespace: kube-system
+  name: hsts
 spec:
-  redirectScheme:
-    scheme: https
-    permanent: true
+  headers:
+    sslRedirect: true
+    forceSTSHeader: true
+    stsSeconds: 63072000
+    stsIncludeSubdomains: true
+    stsPreload: true
 ```
-3. kubectl -n default apply -f middleware.yaml
-4. kubectl -n default get middleware
+3. kubectl -n kube-system apply -f middleware.yaml
+4. kubectl -n kube-system get middleware.traefik.io
 5. nano awx.yaml 
 ```
 spec:
   ...
-  ingress_annotations: |      👈👈👈
-    traefik.ingress.kubernetes.io/router.middlewares: default-redirect@kubernetescrd      👈👈👈
+  ingress_annotations: |     👈👈👈
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd     👈👈👈
 ```
 6. cd ..
 7. kubectl apply -k base
 8. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
 9. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
+
 ### gitea
 1. cd git
 2. nano ingress.yaml 
@@ -159,8 +164,7 @@ kind: Ingress
 metadata:
   name: <resource name>
   annotations:     👈👈👈
-    traefik.ingress.kubernetes.io/router.middlewares: default-redirect@kubernetescrd     👈👈👈
-...
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd     👈👈👈
 ```
 3. cd ..
 4. kubectl apply -k git
@@ -170,6 +174,7 @@ metadata:
 ```
 192.168.2.85 awx.al9.com
 192.168.2.85 git.al9.com
+192.168.2.85 registry.al9.com
 ```
 2. sudo dnf install dnsmasq
 3. sudo systemctl enable dnsmasq --now
@@ -236,33 +241,29 @@ pod "busybox" deleted
 
 ## [K3S on alma9](https://github.com/kurokobo/awx-on-k3s)
 1. sudo systemctl disable firewalld --now
-2. sudo reboot
-3. sudo dnf install -y git make
-4. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
-5. cd ~
-6. git clone https://github.com/ansible/awx-operator.git
-7. cd awx-operator
-8. git checkout 1.1.2
-9. export NAMESPACE=awx
-10. make deploy
-11. kubectl -n awx get all
-12. git clone https://github.com/kurokobo/awx-on-k3s.git
-13. cd awx-on-k3s
-14. git checkout 1.1.2
-15. AWX_HOST="awx.al9.com"
-16. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
-17. cd base
-18. sudo nano awx.yaml -> change host to awx.al9.com
-19. sudo nano kustomization.yaml -> change both the passwords
-20. sudo mkdir -p /data/postgres-13
-21. sudo mkdir -p /data/projects
-22. sudo chmod 755 /data/postgres-13
-23. sudo chown 1000:0 /data/projects
-24. cd ..
-25. kubectl apply -k base
-26. kubectl -n awx logs -f deployments/awx-operator-controller-manager
-27. kubectl -n awx get awx,all,ingress,secrets
-28. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.85 awx.al9.com
+2. sudo systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
+3. sudo reboot
+4. sudo dnf install -y git curl
+5. curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.28.6+k3s2 sh -s - --write-kubeconfig-mode 644
+6. cd ~
+7. git clone https://github.com/kurokobo/awx-on-k3s.git
+8. cd awx-on-k3s
+9. git checkout 2.12.1
+10. kubectl apply -k operator
+11. AWX_HOST="awx.al9.com"
+12. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
+13. cd base
+14. sudo nano awx.yaml -> change host to awx.al9.com
+15. sudo nano kustomization.yaml -> change both the passwords
+16. sudo mkdir -p /data/postgres-13
+17. sudo mkdir -p /data/projects
+18. sudo chmod 755 /data/postgres-13
+19. sudo chown 1000:0 /data/projects
+20. cd ..
+21. kubectl apply -k base
+22. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+23. kubectl -n awx get awx,all,ingress,secrets
+24. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.85 awx.al9.com
 
 ## tools
 1. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
