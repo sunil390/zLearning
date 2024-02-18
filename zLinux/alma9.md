@@ -1,37 +1,5 @@
 # Almalinux9 on x86
 
-## AWX Upgrade 7-1-2024
-1. cd ~
-2. sudo rm -rf awx-operator
-3. git clone https://github.com/ansible/awx-operator.git
-4. cd awx-operator
-5. git checkout 2.10.0
-6. export NAMESPACE=awx
-7. make deploy
-8. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
-
-## awx-on-k3s pull latest updates and upgrade gitea 7th Jan 2024
-1. cd awx-on-k3s
-2. git pull origin main
-3. cd git;nano kustomization.yaml -> change version to 1.21.3
-4. kubectl apply -k git
-
-## K3S Upgrade  2-12-2023
-1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
-2. sudo nano /etc/rancher/k3s/resolv.conf nameserver 192.168.2.85
-3. sudo nano /etc/systemd/system/k3s.service
-
-```
-ExecStart=/usr/local/bin/k3s \
-    server \
-        '--write-kubeconfig-mode' \
-        '644' \
-        '--resolv-conf' \
-        '/etc/rancher/k3s/resolv.conf' \ 
-``` 
-4. sudo service k3s stop  
-5. Restart Linux.
-
 ## External [MariaDB](https://www.atlantic.net/dedicated-server-hosting/how-to-install-gitea-code-hosting-service-on-rockylinux-8/) for Gitea.
 
 1. sudo dnf install git unzip gnupg2 nano wget -y
@@ -61,7 +29,7 @@ innodb_default_row_format = dynamic
 4. sudo rm -rf git gitea ssh 
 5. cd ~/awx-on-k3s
 6. kubectl apply -k git
-7. git.al8.com
+7. git.al9.com
 8. Database Type : MySQL
 9. Host : 192.168.2.85:3306
 10. Username : gitea
@@ -123,7 +91,7 @@ docker run -it --rm registry.al9.com/reguser/whalesay:latest cowsay hoge
 
 ```
 
-## http to https redirect
+## http to https redirect 18th Feb 2024
 #### AWX
 1. cd awx-on-k3s/base 
 2. nano middleware.yaml
@@ -155,7 +123,7 @@ spec:
 8. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
 9. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
 
-### gitea
+### gitea 18th Feb 2024
 1. cd git
 2. nano ingress.yaml 
 ```
@@ -225,7 +193,7 @@ Address 1: 192.168.2.85 alma9
 pod "busybox" deleted
 ```
 
-## Gitea for AWX
+## Gitea for AWX 18th Feb 2024
 1. cd awx-on-k3s
 2. GIT_HOST="git.al9.com"
 3. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./git/tls.crt -keyout ./git/tls.key -subj "/CN=${GIT_HOST}/O=${GIT_HOST}" -addext "subjectAltName = DNS:${GIT_HOST}"
@@ -239,7 +207,7 @@ pod "busybox" deleted
 11. git config --global http.sslVerify false
 12. git push -u origin main
 
-## [K3S on alma9](https://github.com/kurokobo/awx-on-k3s)
+## [K3S on alma9](https://github.com/kurokobo/awx-on-k3s) 18th Feb 2024
 1. sudo systemctl disable firewalld --now
 2. sudo systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
 3. sudo reboot
@@ -265,7 +233,7 @@ pod "busybox" deleted
 23. kubectl -n awx get awx,all,ingress,secrets
 24. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.85 awx.al9.com
 
-## tools
+## tools 17th Feb 2024
 1. sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 2. sudo dnf upgrade
 3. sudo dnf install snapd
