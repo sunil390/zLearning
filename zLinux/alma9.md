@@ -130,7 +130,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: <resource name>
+  name: git-ingress
   annotations:     👈👈👈
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd     👈👈👈
 ```
