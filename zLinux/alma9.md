@@ -91,7 +91,7 @@ docker run -it --rm registry.al9.com/reguser/whalesay:latest cowsay hoge
 
 ```
 
-## http to https redirect 18th Feb 2024
+## http to https redirect 19th Feb 2024
 #### AWX
 1. cd awx-on-k3s/base 
 2. nano middleware.yaml
@@ -137,7 +137,7 @@ metadata:
 3. cd ..
 4. kubectl apply -k git
 
-## Expose /etc/hosts to Pods on K3s
+## Expose /etc/hosts to Pods on K3s 19th Feb 2024
 1. sudo nano /etc/hosts
 ```
 192.168.2.85 awx.al9.com
@@ -187,7 +187,7 @@ pod "busybox" deleted
 
 ```
 
-## Gitea for AWX 18th Feb 2024
+## Gitea for AWX 19th Feb 2024
 1. cd awx-on-k3s
 2. GIT_HOST="git.al9.com"
 3. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./git/tls.crt -keyout ./git/tls.key -subj "/CN=${GIT_HOST}/O=${GIT_HOST}" -addext "subjectAltName = DNS:${GIT_HOST}"
