@@ -162,35 +162,29 @@ ExecStart=/usr/local/bin/k3s \
 8. kubectl -n kube-system delete pod -l k8s-app=kube-dns
 9. sudo systemctl restart dnsmasq
 10. kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.al9.com
-11. dnsmasq issue
+11. almalinux 9.3 dnsmasq issue
 ```
-systemctl status dnsmasq output shows as failed.
-Dec 18 04:58:54 rhel8 dnsmasq[119706]: failed to create listening socket for port 53: Address already in use
+[sunil390@alma9 ~]$ kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.al9.com
+If you don't see a command prompt, try pressing enter.
+nslookup: can't resolve 'git.al9.com'
+pod "busybox" deleted
+pod default/busybox terminated (Error)
 
-ps ax | grep dnsmasq
-   2082 ?        S      0:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
-   2084 ?        S      0:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
- 124778 pts/0    S+     0:00 grep --color=auto dnsmasq
-
-netstat -anp | egrep "list|53"
-(Not all processes could be identified, non-owned process info
- will not be shown, you would have to be root to see it all.)
-tcp        0      0 192.168.122.1:53        0.0.0.0:*               LISTEN      -
-tcp        0      0 10.42.0.1:37530         10.42.0.16:8181         TIME_WAIT   -
-tcp        0      0 10.42.0.1:37538         10.42.0.16:8181         TIME_WAIT   -
-tcp6       0      0 192.168.2.85:10250      10.42.0.3:53904         ESTABLISHED -
-udp        0      0 192.168.122.1:53        0.0.0.0:*                           -
+/etc/dnsmasq.conf - comment out below two parameters
+# interface=lo
+# bind-interfaces
 
 sudo pkill -9 -f dnsmasq
 sudo service dnsmasq restart
 systemctl status dnsmasq
 
-kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.al9.com
+[sunil390@alma9 ~]$ kubectl run -it --rm --restart=Never busybox --image=busybox:1.28 -- nslookup git.al9.com
 Server:    10.43.0.10
 Address 1: 10.43.0.10 kube-dns.kube-system.svc.cluster.local
 Name:      git.al9.com
 Address 1: 192.168.2.85 alma9
 pod "busybox" deleted
+
 ```
 
 ## Gitea for AWX 18th Feb 2024
