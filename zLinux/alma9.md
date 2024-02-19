@@ -123,7 +123,7 @@ spec:
 8. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
 9. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
 
-### gitea 18th Feb 2024
+### gitea 19th Feb 2024
 1. cd git
 2. nano ingress.yaml 
 ```
