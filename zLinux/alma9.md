@@ -90,6 +90,15 @@ kubectl logs registry-69df8f9f57-dntdj -c registry -n registry | less
 docker run -it --rm registry.al9.com/reguser/whalesay:latest cowsay hoge
 
 ```
+## awx Upgrade 9th March 2024.
+1. cd ~
+2. sudo rm -rf awx-operator
+3. git clone https://github.com/ansible/awx-operator.git
+4. cd awx-operator
+5. git checkout 2.12.2
+6. export NAMESPACE=awx
+7. make deploy
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
 
 ## http to https redirect 19th Feb 2024
 #### AWX
