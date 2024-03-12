@@ -90,6 +90,23 @@ kubectl logs registry-69df8f9f57-dntdj -c registry -n registry | less
 docker run -it --rm registry.al9.com/reguser/whalesay:latest cowsay hoge
 
 ```
+## K3S Upgrade  12 Mar 2024
+1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+2. sudo nano /etc/rancher/k3s/resolv.conf nameserver 192.168.2.85
+3. sudo nano /etc/systemd/system/k3s.service
+
+```
+ExecStart=/usr/local/bin/k3s \
+    server \
+        '--write-kubeconfig-mode' \
+        '644' \
+        '--resolv-conf' \
+        '/etc/rancher/k3s/resolv.conf' \ 
+``` 
+4. sudo service k3s stop  
+5. Restart Linux.
+
+
 ## awx Upgrade 9th March 2024.
 1. cd ~
 2. sudo rm -rf awx-operator
