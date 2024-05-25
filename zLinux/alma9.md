@@ -1,6 +1,34 @@
 # Almalinux9 on x86
 
-## External [MariaDB](https://www.atlantic.net/dedicated-server-hosting/how-to-install-gitea-code-hosting-service-on-rockylinux-8/) for Gitea.
+## K3S Upgrade  25th May 2024
+1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+2. sudo nano /etc/rancher/k3s/resolv.conf nameserver 192.168.2.85
+3. sudo nano /etc/systemd/system/k3s.service
+
+```
+ExecStart=/usr/local/bin/k3s \
+    server \
+        '--write-kubeconfig-mode' \
+        '644' \
+        '--resolv-conf' \
+        '/etc/rancher/k3s/resolv.conf' \ 
+``` 
+4. sudo service k3s stop  
+5. Restart Linux.
+
+
+## awx Upgrade 25th May 2024.
+1. cd ~
+2. sudo rm -rf awx-operator
+3. git clone https://github.com/ansible/awx-operator.git
+4. cd awx-operator
+5. git checkout 2.17.0
+6. export NAMESPACE=awx
+7. make deploy
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager -c awx-manager
+
+
+## External [MariaDB](https://www.atlantic.net/dedicated-server-hosting/how-to-install-gitea-code-hosting-service-on-rockylinux-8/) for Gitea. - Pending
 
 1. sudo dnf install git unzip gnupg2 nano wget -y
 2. sudo dnf install mariadb-server -y
@@ -44,7 +72,7 @@ innodb_default_row_format = dynamic
 19. git push -u origin main
 
 
-## Private Registry - Work in Progress - Open Issues
+## Private Registry - Work in Progress - Open Issues - Pending
 1. cd awx-on-k3s
 2. REGISTRY_HOST="registry.al9.com"
 3. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./registry/tls.crt -keyout ./registry/tls.key -subj "/CN=${REGISTRY_HOST}/O=${REGISTRY_HOST}" -addext "subjectAltName = DNS:${REGISTRY_HOST}"
