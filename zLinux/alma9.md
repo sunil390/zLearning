@@ -1,5 +1,15 @@
 # Almalinux9 on x86
 
+## postgres15 26th May 2024
+1. sudo mkdir -p /data/postgres-15
+2. sudo chmod 755 /data/postgres-15
+3. cd ..
+2. kubectl apply -k base
+2. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+
+
+
+
 ## K3S Upgrade  25th May 2024
 1. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 2. sudo nano /etc/rancher/k3s/resolv.conf nameserver 192.168.2.85
