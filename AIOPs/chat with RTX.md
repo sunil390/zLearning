@@ -6,7 +6,7 @@
 2. keep the default install folder (user name should not have spaces, there is a solution though)
 3. customize for Shared access
 ```
-cd C:\Users\zsuni\AppData\Local\NVIDIA\ChatWithRTX\RAG\trt-llm-rag-windows-main\ui
+cd C:\Users\zsuni\AppData\Local\NVIDIA\ChatRTX\RAG\trt-llm-rag-windows-ChatRTX_0.3\ui
 
 Edit user_interface.py and add share=Tue 
 ...
