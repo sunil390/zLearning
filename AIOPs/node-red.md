@@ -1,14 +1,16 @@
 # Node-red in Kubernetes
 
 # nodered wth node from fnm
-1. which node
-2. sudo ln -sfn /run/user/1000/fnm_multishells/18946_1719717271743/bin/node /usr/bin/node
-3. sudo ln -sfn /run/user/1000/fnm_multishells/18946_1719717271743/bin/node /usr/bin/nodejs
-4. sudo rm -rf /etc/systemd/system/nodered.service
-5. bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/rpm/update-nodejs-and-nodered)
-6. systemctl daemon-reload
-7. /etc/systemd/system/nodered.service
-8. 
+1. curl -fsSL https://fnm.vercel.app/install | bash
+2. fnm use --install-if-missing 20
+3. node -v
+4. npm -v
+5. sudo npm install -g --unsafe-perm node-red
+6. node-red
+7. sudo rm -rf /etc/systemd/system/nodered.service <== cleanup past install entry
+8. bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/rpm/update-nodejs-and-nodered) <== not working
+9. systemctl daemon-reload <== for cleanup only
+
 
 ## podman image for znext
 1. git clone https://github.com/node-red/node-red-docker.git
