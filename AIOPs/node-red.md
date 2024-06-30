@@ -1,6 +1,13 @@
 # Node-red in Kubernetes
 
-# nodered wth node from fnm
+## tnz
+
+1. pip3 install ebcdic tnz
+2. export SESSION_PS_SIZE=43x132
+3. export SESSION_PORT=992
+4. goto 192.168.2.44
+
+## nodered wth node from fnm 30th June 2024
 1. curl -fsSL https://fnm.vercel.app/install | bash
 2. fnm use --install-if-missing 20
 3. node -v
