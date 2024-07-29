@@ -1,11 +1,9 @@
 # Ansible
 
-## md table with list
+## zAnsible
 
+1. ssh-copy-id ibmuser@machine.znext.com
 
-|sno | list |
-|---|---- |
-|one| list <br> 1. list1eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee  <br> 2. list2eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee |
 ## 5th November Ansible-Navigator and builder # rhel 8.6
 
 https://infohub.delltechnologies.com/l/dell-powermax-ansible-modules-best-practices-1/creating-ansible-execution-environments-using-ansible-builder
