@@ -1,3 +1,30 @@
+# ZOAU
+
+## Junly 2024
+
+1.
+```jcl
+//ZOAU13J   JOB REGION=0M,CLASS=S,MSGCLASS=X,               
+//            MSGLEVEL=(1,1),NOTIFY=&SYSUID                 
+//ALLOCZ   EXEC PGM=IDCAMS                                  
+//SYSPRINT DD SYSOUT=*                                      
+//SYSIN    DD *                                             
+   DEFINE CLUSTER(NAME(OMVS.VS01.ZOAU13.ZFS) -             
+   LINEAR TRACKS(1600 10) SHAREOPTIONS(3) VOLUMES(X24OA1))  
+//RCCHCK   IF ALLOCZ.RC=0 THEN                              
+//FORMAT   EXEC PGM=IOEAGFMT,REGION=0M,                     
+// PARM=('-aggregate OMVS.VS01.ZOAU13.ZFS -compat')        
+//SYSPRINT DD SYSOUT=*                                      
+//MOUNT    EXEC PGM=IKJEFT01                                
+//SYSTSPRT DD SYSOUT=*                                      
+//SYSPRINT DD SYSOUT=*                                      
+//SYSTSIN  DD *                                             
+  MOUNT FILESYSTEM('OMVS.VS01.ZOAU13.ZFS') +               
+     TYPE(ZFS) MODE(RDWR) PARM('AGGRGROW') +                
+     MOUNTPOINT('/usr/lpp/IBM/zoautil/v1r3')                     
+```
+
+
 # September 2021
 
 <https://www.ibm.com/docs/en/zoau/1.2.0?topic=installing-configuring-zoa-utilities#authorized-components>
