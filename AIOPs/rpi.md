@@ -9,4 +9,6 @@
 5. systemctl --user start rpi-connect
 6. rpi-connect signin
 7. https://connect.raspberrypi.com
+8. loginctl enable-linger
+
    
