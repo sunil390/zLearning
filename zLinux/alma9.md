@@ -13,16 +13,17 @@
 9. sudo dnf install xrdp -y
 10. sudo systemctl enable xrdp --now
 11. sudo systemctl status xrdp
-12. sudo firewall-cmd --new-zone=xrdp --permanent
-13. sudo firewall-cmd --zone=xrdp --add-port=3389/tcp --permanent
-14. sudo firewall-cmd --zone=xrdp --add-source=192.168.1.0/24 --permanent  or sudo firewall-cmd --add-port=3389/tcp --permanent
-15. sudo firewall-cmd --reload
-16. sudo reboot now
-17. sudo dnf upgrade
-18. sudo dnf install snapd
-19. sudo systemctl enable --now snapd.socket
-20. sudo ln -s /var/lib/snapd/snap /snap
-21. sudo snap install btop
+12. sudo firewall-cmd --new-zone=zremote --permanent
+13. sudo firewall-cmd --zone=zremote --add-port=3389/tcp --permanent
+14. sudo firewall-cmd --zone=zremote --add-port=22/tcp --permanent
+15. sudo firewall-cmd --zone=zremote --add-source=192.168.1.0/24 --permanent  or sudo firewall-cmd --add-port=3389/tcp --permanent
+16. sudo firewall-cmd --reload
+17. sudo reboot now
+18. sudo dnf upgrade
+19. sudo dnf install snapd
+20. sudo systemctl enable --now snapd.socket
+21. sudo ln -s /var/lib/snapd/snap /snap
+22. sudo snap install btop
 
 ## postgres15 26th May 2024
 1. sudo mkdir -p /data/postgres-15
