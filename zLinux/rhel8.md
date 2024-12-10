@@ -12,10 +12,10 @@
 9. git checkout 2.19.0
 10. kubectl apply -k operator
 11. kubectl -n awx get all 
-12. AWX_HOST="awx.znext.atos.net"
+12. AWX_HOST="awx.znext.xyz.net"
 13. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
 14. cd base
-15. sudo nano awx.yaml -> change host to awx.znext.atos.net
+15. sudo nano awx.yaml -> change host to awx.znext.xyz.net
 16. sudo nano kustomization.yaml -> change both the passwords
 17. sudo mkdir -p /data/postgres-15
 18. sudo mkdir -p /data/projects
@@ -24,7 +24,7 @@
 21. kubectl apply -k base
 22. kubectl -n awx logs -f deployments/awx-operator-controller-manager
 23. kubectl -n awx get awx,all,ingress,secrets
-24. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.87 awx.znext.com
+24. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.87 awx.znext.xyz.com
 
 ## http to https redirect 10th Dec 2024.
 
