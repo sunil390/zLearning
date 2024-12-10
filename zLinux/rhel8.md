@@ -1,6 +1,6 @@
 # RHEL / Almalinux on x86
 
-## [K3S on Alma](https://github.com/kurokobo/awx-on-k3s)
+## [K3S on Alma](https://github.com/kurokobo/awx-on-k3s) 10th Dec 2024
 1. sudo systemctl disable firewalld --now
 2. sudo systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
 3. sudo reboot
@@ -21,10 +21,42 @@
 18. sudo mkdir -p /data/projects
 19. sudo chown 1000:0 /data/projects
 20. cd ..
-31. kubectl apply -k base
-32. kubectl -n awx logs -f deployments/awx-operator-controller-manager
-33. kubectl -n awx get awx,all,ingress,secrets
-34. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.87 awx.znext.com
+21. kubectl apply -k base
+22. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+23. kubectl -n awx get awx,all,ingress,secrets
+24. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.87 awx.znext.com
+
+## http to https redirect 10th Dec 2024.
+
+1. cd awx-on-k3s/base 
+2. sudo nano middleware.yaml
+```
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  namespace: kube-system
+  name: hsts
+spec:
+  headers:
+    sslRedirect: true
+    forceSTSHeader: true
+    stsSeconds: 63072000
+    stsIncludeSubdomains: true
+    stsPreload: true
+```
+3. kubectl -n kube-system apply -f middleware.yaml
+4. kubectl -n kube-system get middleware.traefik.io
+6. sudo nano awx.yaml 
+```
+spec:
+  ...
+  ingress_annotations: |                                                               👈👈👈
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd   👈👈👈
+```
+6. cd ..
+7. kubectl apply -k base
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+9. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
 
 
 
