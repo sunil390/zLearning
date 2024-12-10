@@ -1,5 +1,33 @@
 # RHEL / Almalinux on x86
 
+## [K3S on Alma](https://github.com/kurokobo/awx-on-k3s)
+1. sudo systemctl disable firewalld --now
+2. sudo systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
+3. sudo reboot
+4. sudo dnf install -y git curl.
+5. curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.29.6+k3s2 sh -s - --write-kubeconfig-mode 644
+6. cd ~
+7. git clone https://github.com/kurokobo/awx-on-k3s.git
+8. cd awx-on-k3s
+9. git checkout 2.19.0
+10. kubectl apply -k operator
+11. kubectl -n awx get all 
+12. AWX_HOST="awx.znext.atos.net"
+13. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
+14. cd base
+15. sudo nano awx.yaml -> change host to awx.znext.atos.net
+16. sudo nano kustomization.yaml -> change both the passwords
+17. sudo mkdir -p /data/postgres-15
+18. sudo mkdir -p /data/projects
+19. sudo chown 1000:0 /data/projects
+20. cd ..
+31. kubectl apply -k base
+32. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+33. kubectl -n awx get awx,all,ingress,secrets
+34. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.87 awx.znext.com
+
+
+
 ## AWX Upgrade 7-1-2024
 1. cd ~
 2. sudo rm -rf awx-operator
