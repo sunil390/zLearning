@@ -4,7 +4,7 @@
 1. sudo systemctl disable firewalld --now
 2. sudo systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
 3. sudo reboot
-4. sudo dnf install -y git curl.
+4. sudo dnf install -y git curl
 5. curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.29.6+k3s2 sh -s - --write-kubeconfig-mode 644
 6. cd ~
 7. git clone https://github.com/kurokobo/awx-on-k3s.git
@@ -12,7 +12,7 @@
 9. git checkout 2.19.0
 10. kubectl apply -k operator
 11. kubectl -n awx get all 
-12. AWX_HOST="awx.znext.xyz.net"
+12. AWX_HOST="awx.znext.com"
 13. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
 14. cd base
 15. sudo nano awx.yaml -> change host to awx.znext.xyz.net
