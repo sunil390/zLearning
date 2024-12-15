@@ -1,6 +1,6 @@
-#Hecules
+# Hecules
 
-#Hercules helper
+# Hercules helper
 
 1. Download https://github.com/wrljet/hercules-helper-windows
 2. Unzip to C:\helper-windows
