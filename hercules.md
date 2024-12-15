@@ -7,7 +7,7 @@
 3. Install ooRexx-5.0.0-12583.windows.x86_64.exe from hercules-helper\goodies
 4. From adrmin terminal mode Set-ExecutionPolicy RemoteSigned ( Had to use Unrestricted)
 5. cd c:\hercules-helper
-6. .\hercules-buildall.ps1 -VS2017 -BuildDir c:\Z\hercules -Firewall
+6. .\hercules-buildall.ps1 -VS2022 -BuildDir c:\Z\hercules -Firewall
 
 ## Disk Compression
 
