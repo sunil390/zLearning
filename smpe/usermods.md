@@ -2,9 +2,10 @@
 
 ## ZAP Usermod to add RSU Level 
 
-1. [cvt mapping](https://www.ibm.com/docs/en/zos/2.4.0?topic=correlator-cvt-information)
-2. [iplinfo](http://www.mzelden.com/mvsfiles/iplinfo.txt)
-3. cvt mappings name display - rexx. All offsets are in decimal from the table in point 1.
+1. [cvt mapping 2.4](https://www.ibm.com/docs/en/zos/2.4.0?topic=correlator-cvt-information)
+2. [cvt mapping 3.1](https://www.ibm.com/docs/en/zos/3.1.0?topic=iar-cvt-information)
+3. [iplinfo](http://www.mzelden.com/mvsfiles/iplinfo.txt)
+4. cvt mappings name display - rexx. All offsets are in decimal from the table in point 1.
 ```.py
 /* REXX program to display the contents of the CVT Structure  */                 
 cvt = c2d(Storage(10,4))                                                         
