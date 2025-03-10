@@ -65,15 +65,15 @@ Exit
     LIST SYSMOD(UMOD001) .                                 
 //SMPPTFIN DD *        DATA,DLM=$$                         
 ++USERMOD (UMOD001) .                                      
-++VER(Z038) FMID(HBB77C0) PRE(UJ02280) .           
+++VER(Z038) FMID(HBB77E0) PRE(UJ93392) .           
 ++ZAP (IEAVCVT) DISTLIB(AOSC5) .                   
   NAME IEANUC01 IEAVCVT                            
   VER 28 4040404040404040                          
-  REP 28 D4C4C3E4F2F3F8F1                          
+  REP 28 D4C1D9F0F2F2F5C1                          
   IDRDATA UMOD001                                  
 //*                                                
 //S EXEC PGM=AMASPZAP                              
-//SYSLIB DD DSN=SYS1.NUCLEUS,DISP=SHR,UNIT=SYSDA   
+//SYSLIB DD DSN=ZOS31T.SYS1.NUCLEUS,DISP=SHR,UNIT=SYSDA   
 //SYSPRINT DD SYSOUT=*                             
 //SYSIN DD *                                       
   NAME IEANUC01 IEAVCVT                            
