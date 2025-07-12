@@ -1,5 +1,40 @@
 # RHEL / Almalinux on x86
 
+## Sequence on 12th July as awx reported internal error/bad gateway and an endless loop
+1. sudo service k3s stop
+2. sudo reboot now
+3. sudo dnf update
+4. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+5. rm -rf awx-on-k3s/
+6. git clone https://github.com/kurokobo/awx-on-k3s.git
+7. cd awx-on-k3s
+8. git checkout 2.19.0
+9. kubectl apply -k operator
+10. kubectl -n awx get all
+11. AWX_HOST="awx.znext.com"
+12. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
+13. cd base
+14. sudo nano awx.yaml
+15. sudo nano kustomization.yaml
+16. sudo mkdir -p /data/postgres-15
+17. sudo mkdir -p /data/projects
+18. sudo chown 1000:0 /data/projects
+19. cd ..
+20. kubectl apply -k base
+21. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+22. kubectl -n awx get awx,all,ingress,secrets
+23. cd ..
+24. cd awx-on-k3s
+25. cd base
+26. sudo nano middleware.yaml
+27. kubectl -n kube-system apply -f middleware.yaml
+28. kubectl -n kube-system get middleware.traefik.io
+29. sudo nano awx.yaml
+30. cd ..
+31. kubectl apply -k base
+32. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+33. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
+
 ## [K3S on Alma](https://github.com/kurokobo/awx-on-k3s) 10th Dec 2024
 1. sudo systemctl disable firewalld --now
 2. sudo systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
