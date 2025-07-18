@@ -1,5 +1,13 @@
 # RHEL / Almalinux on x86
 
+## Issue on 18th July. https://github.com/ansible/awx/issues/14019
+1. kubectl get pods -n awx
+2. kubectl exec -it -n awx awx-postgres-15-0 -- /bin/bash
+3. psql -U awx -c "DELETE FROM conf_setting WHERE key IN ('AWX_CLEANUP_PATHS', 'AWX_REQUEST_PROFILE', 'RECEPTOR_RELEASE_WORK');"
+
+# 4. Exit the pod
+exit
+
 ## Sequence on 12th July as awx reported internal error/bad gateway and an endless loop
 1. sudo service k3s stop
 2. sudo reboot now
