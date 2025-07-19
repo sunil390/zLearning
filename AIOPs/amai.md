@@ -30,6 +30,4 @@ DB_PORT: 5432
 DB_NAME: amai_knowledge_db
 DB_USER: amai_user
 DB_PASSWORD: 'a_strong_password'
-```
-
-24. 
+``` 
