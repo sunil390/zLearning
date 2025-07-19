@@ -20,6 +20,7 @@
 16. cd ../.ssh
 17. cat id_rsa
 18. Replace Private Key and Password against ibmuser credential
+19. kubectl -n awx logs -f deployments/awx-web
 
 ## Issue on 18th July. https://github.com/ansible/awx/issues/14019
 1. kubectl get pods -n awx
