@@ -17,6 +17,9 @@
 13. cd ..
 14. kubectl apply -k base
 15. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+16. cd ../.ssh
+17. cat id_rsa
+18. Replace Private Key and Password against ibmuser credential
 
 ## Issue on 18th July. https://github.com/ansible/awx/issues/14019
 1. kubectl get pods -n awx
