@@ -1,5 +1,23 @@
 # RHEL / Almalinux on x86
 
+## K3S only Cleanup
+
+1. sudo service k3s stop
+2. /usr/local/bin/k3s-uninstall.sh
+3. sudo dnf upgrade
+4. sudo reboot now
+5. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+6. cd awx-on-k3s
+7. kubectl apply -k operator
+8. kubectl -n awx get all
+9. kubectl apply -k base
+10. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+11. cd base
+12. kubectl -n kube-system apply -f middleware.yaml
+13. cd ..
+14. kubectl apply -k base
+15. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+
 ## Issue on 18th July. https://github.com/ansible/awx/issues/14019
 1. kubectl get pods -n awx
 2. kubectl exec -it -n awx awx-postgres-15-0 -- /bin/bash
