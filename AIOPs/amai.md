@@ -1,5 +1,13 @@
 # amai
 
+
+## n8n 
+
+1. podman volume create n8n_data
+2. podman run -it --rm --name n8n -p 5678:5678 -e N8N_SECURE_COOKIE="false" -e TZ="Asia/Kolkata" -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+3. export N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
+
+
 ## postgresql
 
 1. sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-$(rpm -E %{rhel})-x86_64/pgdg-redhat-repo-latest.noarch.rpm
