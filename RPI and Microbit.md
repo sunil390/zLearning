@@ -51,62 +51,61 @@ Welcome to Node-RED
 ## Microbit Code
 
 ```js
-// 2. Button A: STOP EVERYTHING
-// We only change the flag. We do NOT touch the screen or memory here.
-// This prevents the "Reset Crash".
+// 2. Button A: Manual Stop / Reset
 input.onButtonPressed(Button.A, function () {
-    isActive = false
-    isSoundEnabled = false
+    // Manually resetting ensures the board is fresh for the next test
+    control.reset()
 })
 // --- Event Handlers ---
-// 1. Bluetooth Handler
-// Triggered when Raspberry Pi sends text ending in \n
+// 1. Bluetooth Data Receiver
 bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
-    // Read the incoming data immediately
+    // Read the incoming data
     incoming = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
-    // Only update if we actually got text
-    if (incoming.length > 0) {
+    // Check for STOP command
+    // Handle new text
+    if (incoming.includes("[STOP]")) {
+        // MEMORY NUCLEAR OPTION:
+        // Resetting the board clears 100% of RAM.
+        // This prevents the "Sad Face" accumulation over time.
+        control.reset()
+    } else if (incoming.length > 0) {
+        // Explicitly clear old variable to help Garbage Collector
+        currentMessage = ""
+        // Assign new message
         currentMessage = incoming
-        // Reset state to active and enable sound for new message
-        isActive = true
-        isSoundEnabled = true
+        // Reset logic
+        beepCount = 0
+        isScrolling = true
     }
 })
-// 3. Button B: MUTE ONLY
-input.onButtonPressed(Button.B, function () {
-    isSoundEnabled = false
-})
+let isScrolling = false
+let beepCount = 0
 let currentMessage = ""
 let incoming = ""
-let isSoundEnabled = false
-let isActive = false
 // --- Setup ---
-// Start Bluetooth UART service
 bluetooth.startUartService()
-// Show 'Tick' to indicate readiness
 basic.showIcon(IconNames.Yes)
 // --- Main Loop ---
 basic.forever(function () {
-    if (isActive) {
-        // 1. Play Tone (if not muted)
-        if (isSoundEnabled) {
+    if (isScrolling) {
+        // A. Beep Logic (Only twice)
+        if (beepCount < 2) {
             music.playTone(523, music.beat(BeatFraction.Eighth))
+            basic.pause(100)
+            beepCount += 1
         }
-        // 2. Display Text
-        // basic.showString is "blocking" (code waits here until scroll finishes)
+        // B. Display Text
         if (currentMessage.length > 0) {
             basic.showString(currentMessage)
         }
-        // 3. CRITICAL PAUSE FOR MEMORY
-        // After scrolling, we clear screen and wait.
-        // This allows the "Garbage Collector" to free up RAM used by the string.
-        // Without this pause, the buffer fills up and you get Sad Face.
+        // C. Memory Pause
+        // Important: Clear screen and wait to let buffers empty
         basic.clearScreen()
-        basic.pause(600)
+        basic.pause(1000)
     } else {
-        // Idle State: Show Tick
+        // D. Idle State
+        // We only draw this if not scrolling
         basic.showIcon(IconNames.Yes)
-        // Sleep to save CPU cycles when doing nothing
         basic.pause(500)
     }
 })
