@@ -1,4 +1,54 @@
-# Flowforge Device Registration 20th May 2023
+# RPI and Microbit
+
+## December 2025 Fun Project
+
+# rpi and microbit setup
+
+1. Installed nodered using single command installer.
+```bash
+zpi@pi:~ $ node-red-start
+
+Start Node-RED
+
+Once Node-RED has started, point a browser at http://192.168.2.251:1880
+On Pi Node-RED works better with the Firefox or Chrome browser
+
+Use   node-red-stop                          to stop Node-RED
+Use   node-red-start                         to start Node-RED again
+Use   node-red-log                           to view the recent log output
+Use   sudo systemctl enable nodered.service  to autostart Node-RED at every boot
+Use   sudo systemctl disable nodered.service to disable autostart on boot
+
+To find more nodes and example flows - go to http://flows.nodered.org
+
+Starting as a systemd service.
+Started nodered.service - Node-RED graphical event wiring tool.
+30 Nov 16:59:52 - [info]
+Welcome to Node-RED
+===================
+30 Nov 16:59:52 - [info] Node-RED version: v4.1.1
+30 Nov 16:59:52 - [info] Node.js  version: v18.20.8
+30 Nov 16:59:52 - [info] Linux 6.12.47+rpt-rpi-v8 arm64 LE
+30 Nov 16:59:53 - [info] Loading palette nodes
+30 Nov 16:59:55 - [info] Settings file  : /home/sunil390/.node-red/settings.js
+30 Nov 16:59:55 - [info] Context store  : 'default' [module=memory]
+30 Nov 16:59:55 - [info] User directory : /home/sunil390/.node-red
+30 Nov 16:59:55 - [info] Projects directory: /home/sunil390/.node-red/projects
+30 Nov 16:59:55 - [info] Server now running at http://localhost:1880/
+30 Nov 16:59:55 - [info] Active project : znodered
+30 Nov 16:59:55 - [info] Flows file     : /home/sunil390/.node-red/projects/znodered/flows.json
+30 Nov 16:59:55 - [warn] Using unencrypted credentials
+30 Nov 16:59:55 - [info] Starting flows
+30 Nov 16:59:55 - [info] [ui-base:My Dashboard] Node-RED Dashboard 2.0 (v1.22.1) started at /dashboard
+30 Nov 16:59:55 - [info] [ui-base:My Dashboard] Created socket.io server bound to Node-RED port at path /dashboard/socket.io
+30 Nov 16:59:55 - [info] Started flows
+```
+2. zpi@pi:~/node-scripts $ sudo chmod o+x /home/zpi
+3. zpi@pi:~/node-scripts $ sudo chmod o+rx /home/zpi/node-scripts
+4. zpi@pi:~/node-scripts $ sudo chmod 755 /home/zpi/node-scripts/send_text.py
+6. zpi@pi:~/node-scripts $ sudo pip3 install bleak --break-system-packages
+
+## Flowforge Device Registration 20th May 2023
 
 ### PROVISIONING TOKEN ###
 1. provisioningName: zraspberry
