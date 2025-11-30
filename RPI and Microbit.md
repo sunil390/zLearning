@@ -47,7 +47,6 @@ Welcome to Node-RED
 3. zpi@pi:~/node-scripts $ sudo chmod o+rx /home/zpi/node-scripts
 4. zpi@pi:~/node-scripts $ sudo chmod 755 /home/zpi/node-scripts/send_text.py
 6. zpi@pi:~/node-scripts $ sudo pip3 install bleak --break-system-packages
-7. zpi@pi:~/node-scripts $ sudo pip3 install bluezero --break-system-packages
 
 ## Microbit Code
 
