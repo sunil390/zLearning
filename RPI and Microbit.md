@@ -111,6 +111,137 @@ basic.forever(function () {
 })
 ```
 
+## rpi Code
+
+zpi@pi:~/node-scripts $ cat check_props.py
+```py
+import asyncio
+from bleak import BleakClient
+
+ADDRESS = "C2:DB:C7:80:B7:14"
+
+async def run():
+    print(f"Connecting to {ADDRESS}...")
+    async with BleakClient(ADDRESS) as client:
+        print("Connected.")
+        for service in client.services:
+            for char in service.characteristics:
+                if "6e400002" in char.uuid:
+                    print(f"\nFOUND UART CHARACTERISTIC: {char.uuid}")
+                    print(f"Properties: {char.properties}")
+
+asyncio.run(run())
+```
+zpi@pi:~/node-scripts $ cat explore_services.py
+```py
+import asyncio
+from bleak import BleakClient
+
+# YOUR ADDRESS
+address = "C2:DB:C7:80:B7:14"
+
+async def run(address):
+    print(f"Connecting to {address}...")
+    async with BleakClient(address) as client:
+        print(f"Connected: {client.is_connected}")
+        print("Listing Services...")
+        for service in client.services:
+            print(f"[Service] {service.uuid} ({service.description})")
+            for char in service.characteristics:
+                print(f"  - [Char] {char.uuid} ({char.description})")
+
+asyncio.run(run(address))
+```
+zpi@pi:~/node-scripts $ cat find_write_uuid.py
+```py
+import asyncio
+from bleak import BleakClient
+
+ADDRESS = "C2:DB:C7:80:B7:14"
+UART_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
+
+async def run():
+    print(f"Connecting to {ADDRESS}...")
+    async with BleakClient(ADDRESS) as client:
+        print("Connected.")
+
+        # Find the UART Service
+        uart_service = None
+        for s in client.services:
+            if UART_SERVICE_UUID in s.uuid:
+                uart_service = s
+                break
+
+        if not uart_service:
+            print("Could not find UART Service!")
+            return
+
+        print("Scanning Characteristics...")
+        for char in uart_service.characteristics:
+            print(f"UUID: {char.uuid}, Properties: {char.properties}")
+            if "write" in char.properties or "write-without-response" in char.properties:
+                print(f"\n✅ CORRECT UUID TO USE: {char.uuid}")
+
+asyncio.run(run())
+```
+zpi@pi:~/node-scripts $ cat scan.py
+```py
+import asyncio
+from bleak import BleakScanner
+async def main():
+    print("Scanning...")
+    devices = await BleakScanner.discover()
+    for d in devices:
+        print(f"Address: {d.address} | Name: {d.name}")
+asyncio.run(main())
+```
+zpi@pi:~/node-scripts $ cat send_text.py
+```py
+import asyncio
+import sys
+from bleak import BleakClient
+
+# REPLACE WITH YOUR MICROBIT ADDRESS
+MICROBIT_ADDRESS = "C2:DB:C7:80:B7:14"
+UART_RX_CHAR_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+
+async def send_text(text):
+    print(f"Connecting to {MICROBIT_ADDRESS}...")
+    try:
+        async with BleakClient(MICROBIT_ADDRESS) as client:
+            if client.is_connected:
+                print("Connected!")
+                await asyncio.sleep(1.0)
+
+                # Add the New Line character which acts as the 'End of Message' signal
+                full_message = f"{text}\n"
+                data = full_message.encode('utf-8')
+
+                # --- CHUNKING LOGIC ---
+                # We must split the data into 20-byte chunks because
+                # generic BLE hardware cannot handle large packets at once.
+                chunk_size = 20
+
+                for i in range(0, len(data), chunk_size):
+                    chunk = data[i : i + chunk_size]
+                    await client.write_gatt_char(UART_RX_CHAR_UUID, chunk, response=False)
+                    # Small pause to ensure the micro:bit buffer doesn't overflow
+                    await asyncio.sleep(0.1)
+
+                print("Message sent successfully")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        # Join arguments to form the message
+        message = " ".join(sys.argv[1:])
+        asyncio.run(send_text(message))
+    else:
+        print("No text provided")
+```
+
 ## Flowforge Device Registration 20th May 2023
 
 ### PROVISIONING TOKEN ###
