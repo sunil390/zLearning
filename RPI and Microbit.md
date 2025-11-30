@@ -48,6 +48,70 @@ Welcome to Node-RED
 4. zpi@pi:~/node-scripts $ sudo chmod 755 /home/zpi/node-scripts/send_text.py
 6. zpi@pi:~/node-scripts $ sudo pip3 install bleak --break-system-packages
 
+## Microbit Code
+
+```js
+// 2. Button A: STOP EVERYTHING
+// We only change the flag. We do NOT touch the screen or memory here.
+// This prevents the "Reset Crash".
+input.onButtonPressed(Button.A, function () {
+    isActive = false
+    isSoundEnabled = false
+})
+// --- Event Handlers ---
+// 1. Bluetooth Handler
+// Triggered when Raspberry Pi sends text ending in \n
+bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
+    // Read the incoming data immediately
+    incoming = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
+    // Only update if we actually got text
+    if (incoming.length > 0) {
+        currentMessage = incoming
+        // Reset state to active and enable sound for new message
+        isActive = true
+        isSoundEnabled = true
+    }
+})
+// 3. Button B: MUTE ONLY
+input.onButtonPressed(Button.B, function () {
+    isSoundEnabled = false
+})
+let currentMessage = ""
+let incoming = ""
+let isSoundEnabled = false
+let isActive = false
+// --- Setup ---
+// Start Bluetooth UART service
+bluetooth.startUartService()
+// Show 'Tick' to indicate readiness
+basic.showIcon(IconNames.Yes)
+// --- Main Loop ---
+basic.forever(function () {
+    if (isActive) {
+        // 1. Play Tone (if not muted)
+        if (isSoundEnabled) {
+            music.playTone(523, music.beat(BeatFraction.Eighth))
+        }
+        // 2. Display Text
+        // basic.showString is "blocking" (code waits here until scroll finishes)
+        if (currentMessage.length > 0) {
+            basic.showString(currentMessage)
+        }
+        // 3. CRITICAL PAUSE FOR MEMORY
+        // After scrolling, we clear screen and wait.
+        // This allows the "Garbage Collector" to free up RAM used by the string.
+        // Without this pause, the buffer fills up and you get Sad Face.
+        basic.clearScreen()
+        basic.pause(600)
+    } else {
+        // Idle State: Show Tick
+        basic.showIcon(IconNames.Yes)
+        // Sleep to save CPU cycles when doing nothing
+        basic.pause(500)
+    }
+})
+```
+
 ## Flowforge Device Registration 20th May 2023
 
 ### PROVISIONING TOKEN ###
