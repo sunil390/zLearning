@@ -242,6 +242,421 @@ if __name__ == "__main__":
         print("No text provided")
 ```
 
+## NodeRED code to Send messages to microbit either from Dashboard2 or rest interface - 30th Nov 2025
+
+```json
+[
+    {
+        "id": "ba25b863121213b0",
+        "type": "tab",
+        "label": "Microbit",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "db2_text_input",
+        "type": "ui-text-input",
+        "z": "ba25b863121213b0",
+        "group": "db2_group_1",
+        "name": "Message Input",
+        "label": "Message to Scroll:",
+        "order": 1,
+        "width": "",
+        "height": "",
+        "topic": "",
+        "topicType": "str",
+        "mode": "text",
+        "tooltip": "",
+        "delay": "",
+        "passthru": true,
+        "sendOnDelay": true,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "sendOnClear": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "store_variable"
+            ]
+        ]
+    },
+    {
+        "id": "store_variable",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Save Text",
+        "rules": [
+            {
+                "t": "set",
+                "p": "saved_message",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db2_btn_start",
+        "type": "ui-button",
+        "z": "ba25b863121213b0",
+        "group": "db2_group_1",
+        "name": "Start Button",
+        "label": "Send Message",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 150,
+        "y": 160,
+        "wires": [
+            [
+                "get_variable"
+            ]
+        ]
+    },
+    {
+        "id": "get_variable",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Load Text",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "saved_message",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 160,
+        "wires": [
+            [
+                "rate_limit_node"
+            ]
+        ]
+    },
+    {
+        "id": "db2_btn_stop",
+        "type": "ui-button",
+        "z": "ba25b863121213b0",
+        "group": "db2_group_1",
+        "name": "Stop Button",
+        "label": "STOP Scrolling",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "set_stop_msg"
+            ]
+        ]
+    },
+    {
+        "id": "set_stop_msg",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Set Stop Payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[STOP]",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "rate_limit_node"
+            ]
+        ]
+    },
+    {
+        "id": "rate_limit_node",
+        "type": "delay",
+        "z": "ba25b863121213b0",
+        "name": "Prevent BT Spam",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 630,
+        "y": 240,
+        "wires": [
+            [
+                "send_script_node"
+            ]
+        ]
+    },
+    {
+        "id": "send_script_node",
+        "type": "exec",
+        "z": "ba25b863121213b0",
+        "command": "python3 /home/zpi/node-scripts/send_text.py",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Send to Micro:bit",
+        "x": 850,
+        "y": 240,
+        "wires": [
+            [
+                "debug_node"
+            ],
+            [
+                "debug_node"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "debug_node",
+        "type": "debug",
+        "z": "ba25b863121213b0",
+        "name": "Script Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "http_in_node",
+        "type": "http in",
+        "z": "ba25b863121213b0",
+        "name": "POST /microbit",
+        "url": "/microbit",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 340,
+        "wires": [
+            [
+                "http_response_node",
+                "prepare_n8n_payload"
+            ]
+        ]
+    },
+    {
+        "id": "http_response_node",
+        "type": "http response",
+        "z": "ba25b863121213b0",
+        "name": "Reply OK",
+        "statusCode": "200",
+        "headers": {},
+        "x": 420,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "prepare_n8n_payload",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Extract Text",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 340,
+        "wires": [
+            [
+                "rate_limit_node"
+            ]
+        ]
+    },
+    {
+        "id": "db2_group_1",
+        "type": "ui-group",
+        "name": "Micro:bit Messaging Control",
+        "page": "db2_page_1",
+        "width": "6",
+        "height": "2",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "db2_page_1",
+        "type": "ui-page",
+        "name": "Micro:bit Page",
+        "ui": "db2_ui_base",
+        "path": "/dashboard",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "7d5839f1c1a60810",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "db2_ui_base",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "navigationStyle": "default",
+        "titleBarStyle": "default"
+    },
+    {
+        "id": "7d5839f1c1a60810",
+        "type": "ui-theme",
+        "name": "znext",
+        "colors": {
+            "surface": "#d4651c",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "69ccea234487977c",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
+```
+
+
 ## Flowforge Device Registration 20th May 2023
 
 ### PROVISIONING TOKEN ###
