@@ -1,0 +1,138 @@
+# FIXCAT Peer Review Agent Configuration
+
+# Analysis Settings
+analysis:
+  # Severity thresholds
+  severity_levels:
+    critical:
+      - "ABEND"
+      - "SYSTEM FAILURE"
+      - "WAIT STATE"
+      - "LOOP"
+    high:
+      - "ERROR"
+      - "EXCEPTION"
+      - "TIMEOUT"
+      - "DEADLOCK"
+    medium:
+      - "WARNING"
+      - "RETRY"
+      - "DEGRADED"
+    low:
+      - "INFO"
+      - "NOTICE"
+  
+  # Pattern matching
+  patterns:
+    abend_codes:
+      - "S0C1"  # Operation exception
+      - "S0C4"  # Protection exception
+      - "S0C7"  # Data exception
+      - "S0CB"  # Division by zero
+      - "S222"  # Job cancelled
+      - "S322"  # Time limit exceeded
+      - "S522"  # Region size exceeded
+      - "S806"  # Load module not found
+      - "S80A"  # Unable to load
+      - "S878"  # Region not available
+      - "SB37"  # Disk space exceeded
+      - "SD37"  # Secondary space exceeded
+      - "SE37"  # No space available
+    
+    system_codes:
+      - "IEA"   # System management
+      - "IEF"   # Job management
+      - "IEC"   # Data management
+      - "IGD"   # SMS
+      - "IKJ"   # TSO
+      - "IRR"   # RACF
+      - "IXG"   # Logger
+      - "CSV"   # Contents supervision
+
+# Review Rules
+rules:
+  # Check for common issues
+  checks:
+    - name: "Frequent ABENDs"
+      description: "Detect recurring ABEND patterns"
+      threshold: 3
+      timeframe: "1h"
+      severity: "high"
+    
+    - name: "Storage Issues"
+      description: "Identify storage-related problems"
+      patterns: ["S80A", "S878", "SB37", "SD37", "SE37"]
+      severity: "high"
+    
+    - name: "Security Violations"
+      description: "Check for RACF violations"
+      patterns: ["IRR"]
+      severity: "critical"
+    
+    - name: "Performance Degradation"
+      description: "Detect performance issues"
+      patterns: ["TIMEOUT", "DEGRADED", "S322"]
+      severity: "medium"
+    
+    - name: "Data Integrity"
+      description: "Check for data-related errors"
+      patterns: ["S0C7", "IEC"]
+      severity: "high"
+
+# PTF Recommendations
+ptf_mapping:
+  S0C1:
+    - "Check for invalid operation codes"
+    - "Review recent code changes"
+    - "Verify compiler options"
+  S0C4:
+    - "Check for invalid storage references"
+    - "Review pointer usage"
+    - "Verify array bounds"
+  S0C7:
+    - "Check for uninitialized numeric fields"
+    - "Review data conversion logic"
+    - "Verify packed decimal fields"
+  S806:
+    - "Verify STEPLIB/JOBLIB concatenation"
+    - "Check load library authorization"
+    - "Review APF authorization"
+  SB37:
+    - "Increase primary space allocation"
+    - "Review space management"
+    - "Consider SMS storage class"
+
+# Report Settings
+reporting:
+  formats:
+    - "html"
+    - "json"
+    - "markdown"
+  
+  sections:
+    - "executive_summary"
+    - "severity_breakdown"
+    - "top_issues"
+    - "recommendations"
+    - "detailed_findings"
+    - "trend_analysis"
+  
+  # Output customization
+  output:
+    include_timestamps: true
+    include_system_info: true
+    max_details_per_issue: 10
+    group_by: "severity"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "fixcat_review.log"
+
+# Performance
+performance:
+  max_file_size_mb: 100
+  chunk_size: 1000
+  parallel_processing: true
+  max_workers: 4
