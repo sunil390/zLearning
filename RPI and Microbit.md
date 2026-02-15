@@ -1,4 +1,663 @@
-# Flowforge Device Registration 20th May 2023
+# RPI and Microbit
+
+## December 2025 Fun Project
+
+# rpi and microbit setup
+
+1. Installed nodered using single command installer.
+```bash
+zpi@pi:~ $ node-red-start
+
+Start Node-RED
+
+Once Node-RED has started, point a browser at http://192.168.2.251:1880
+On Pi Node-RED works better with the Firefox or Chrome browser
+
+Use   node-red-stop                          to stop Node-RED
+Use   node-red-start                         to start Node-RED again
+Use   node-red-log                           to view the recent log output
+Use   sudo systemctl enable nodered.service  to autostart Node-RED at every boot
+Use   sudo systemctl disable nodered.service to disable autostart on boot
+
+To find more nodes and example flows - go to http://flows.nodered.org
+
+Starting as a systemd service.
+Started nodered.service - Node-RED graphical event wiring tool.
+30 Nov 16:59:52 - [info]
+Welcome to Node-RED
+===================
+30 Nov 16:59:52 - [info] Node-RED version: v4.1.1
+30 Nov 16:59:52 - [info] Node.js  version: v18.20.8
+30 Nov 16:59:52 - [info] Linux 6.12.47+rpt-rpi-v8 arm64 LE
+30 Nov 16:59:53 - [info] Loading palette nodes
+30 Nov 16:59:55 - [info] Settings file  : /home/sunil390/.node-red/settings.js
+30 Nov 16:59:55 - [info] Context store  : 'default' [module=memory]
+30 Nov 16:59:55 - [info] User directory : /home/sunil390/.node-red
+30 Nov 16:59:55 - [info] Projects directory: /home/sunil390/.node-red/projects
+30 Nov 16:59:55 - [info] Server now running at http://localhost:1880/
+30 Nov 16:59:55 - [info] Active project : znodered
+30 Nov 16:59:55 - [info] Flows file     : /home/sunil390/.node-red/projects/znodered/flows.json
+30 Nov 16:59:55 - [warn] Using unencrypted credentials
+30 Nov 16:59:55 - [info] Starting flows
+30 Nov 16:59:55 - [info] [ui-base:My Dashboard] Node-RED Dashboard 2.0 (v1.22.1) started at /dashboard
+30 Nov 16:59:55 - [info] [ui-base:My Dashboard] Created socket.io server bound to Node-RED port at path /dashboard/socket.io
+30 Nov 16:59:55 - [info] Started flows
+```
+2. zpi@pi:~/node-scripts $ sudo chmod o+x /home/zpi
+3. zpi@pi:~/node-scripts $ sudo chmod o+rx /home/zpi/node-scripts
+4. zpi@pi:~/node-scripts $ sudo chmod 755 /home/zpi/node-scripts/send_text.py
+6. zpi@pi:~/node-scripts $ sudo pip3 install bleak --break-system-packages
+
+## Microbit Code
+
+```js
+// 2. Button A: Manual Stop / Reset
+input.onButtonPressed(Button.A, function () {
+    // Manually resetting ensures the board is fresh for the next test
+    control.reset()
+})
+// --- Event Handlers ---
+// 1. Bluetooth Data Receiver
+bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
+    // Read the incoming data
+    incoming = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
+    // Check for STOP command
+    // Handle new text
+    if (incoming.includes("[STOP]")) {
+        // MEMORY NUCLEAR OPTION:
+        // Resetting the board clears 100% of RAM.
+        // This prevents the "Sad Face" accumulation over time.
+        control.reset()
+    } else if (incoming.length > 0) {
+        // Explicitly clear old variable to help Garbage Collector
+        currentMessage = ""
+        // Assign new message
+        currentMessage = incoming
+        // Reset logic
+        beepCount = 0
+        isScrolling = true
+    }
+})
+let isScrolling = false
+let beepCount = 0
+let currentMessage = ""
+let incoming = ""
+// --- Setup ---
+bluetooth.startUartService()
+basic.showIcon(IconNames.Yes)
+// --- Main Loop ---
+basic.forever(function () {
+    if (isScrolling) {
+        // A. Beep Logic (Only twice)
+        if (beepCount < 2) {
+            music.playTone(523, music.beat(BeatFraction.Eighth))
+            basic.pause(100)
+            beepCount += 1
+        }
+        // B. Display Text
+        if (currentMessage.length > 0) {
+            basic.showString(currentMessage)
+        }
+        // C. Memory Pause
+        // Important: Clear screen and wait to let buffers empty
+        basic.clearScreen()
+        basic.pause(1000)
+    } else {
+        // D. Idle State
+        // We only draw this if not scrolling
+        basic.showIcon(IconNames.Yes)
+        basic.pause(500)
+    }
+})
+```
+
+## rpi Code
+
+zpi@pi:~/node-scripts $ cat check_props.py
+```py
+import asyncio
+from bleak import BleakClient
+
+ADDRESS = "C2:DB:C7:80:B7:14"
+
+async def run():
+    print(f"Connecting to {ADDRESS}...")
+    async with BleakClient(ADDRESS) as client:
+        print("Connected.")
+        for service in client.services:
+            for char in service.characteristics:
+                if "6e400002" in char.uuid:
+                    print(f"\nFOUND UART CHARACTERISTIC: {char.uuid}")
+                    print(f"Properties: {char.properties}")
+
+asyncio.run(run())
+```
+zpi@pi:~/node-scripts $ cat explore_services.py
+```py
+import asyncio
+from bleak import BleakClient
+
+# YOUR ADDRESS
+address = "C2:DB:C7:80:B7:14"
+
+async def run(address):
+    print(f"Connecting to {address}...")
+    async with BleakClient(address) as client:
+        print(f"Connected: {client.is_connected}")
+        print("Listing Services...")
+        for service in client.services:
+            print(f"[Service] {service.uuid} ({service.description})")
+            for char in service.characteristics:
+                print(f"  - [Char] {char.uuid} ({char.description})")
+
+asyncio.run(run(address))
+```
+zpi@pi:~/node-scripts $ cat find_write_uuid.py
+```py
+import asyncio
+from bleak import BleakClient
+
+ADDRESS = "C2:DB:C7:80:B7:14"
+UART_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
+
+async def run():
+    print(f"Connecting to {ADDRESS}...")
+    async with BleakClient(ADDRESS) as client:
+        print("Connected.")
+
+        # Find the UART Service
+        uart_service = None
+        for s in client.services:
+            if UART_SERVICE_UUID in s.uuid:
+                uart_service = s
+                break
+
+        if not uart_service:
+            print("Could not find UART Service!")
+            return
+
+        print("Scanning Characteristics...")
+        for char in uart_service.characteristics:
+            print(f"UUID: {char.uuid}, Properties: {char.properties}")
+            if "write" in char.properties or "write-without-response" in char.properties:
+                print(f"\n✅ CORRECT UUID TO USE: {char.uuid}")
+
+asyncio.run(run())
+```
+zpi@pi:~/node-scripts $ cat scan.py
+```py
+import asyncio
+from bleak import BleakScanner
+async def main():
+    print("Scanning...")
+    devices = await BleakScanner.discover()
+    for d in devices:
+        print(f"Address: {d.address} | Name: {d.name}")
+asyncio.run(main())
+```
+zpi@pi:~/node-scripts $ cat send_text.py
+```py
+import asyncio
+import sys
+from bleak import BleakClient
+
+# REPLACE WITH YOUR MICROBIT ADDRESS
+MICROBIT_ADDRESS = "C2:DB:C7:80:B7:14"
+UART_RX_CHAR_UUID = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+
+async def send_text(text):
+    print(f"Connecting to {MICROBIT_ADDRESS}...")
+    try:
+        async with BleakClient(MICROBIT_ADDRESS) as client:
+            if client.is_connected:
+                print("Connected!")
+                await asyncio.sleep(1.0)
+
+                # Add the New Line character which acts as the 'End of Message' signal
+                full_message = f"{text}\n"
+                data = full_message.encode('utf-8')
+
+                # --- CHUNKING LOGIC ---
+                # We must split the data into 20-byte chunks because
+                # generic BLE hardware cannot handle large packets at once.
+                chunk_size = 20
+
+                for i in range(0, len(data), chunk_size):
+                    chunk = data[i : i + chunk_size]
+                    await client.write_gatt_char(UART_RX_CHAR_UUID, chunk, response=False)
+                    # Small pause to ensure the micro:bit buffer doesn't overflow
+                    await asyncio.sleep(0.1)
+
+                print("Message sent successfully")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        # Join arguments to form the message
+        message = " ".join(sys.argv[1:])
+        asyncio.run(send_text(message))
+    else:
+        print("No text provided")
+```
+
+## NodeRED code to Send messages to microbit either from Dashboard2 or rest interface - 30th Nov 2025
+
+```json
+[
+    {
+        "id": "ba25b863121213b0",
+        "type": "tab",
+        "label": "Microbit",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "db2_text_input",
+        "type": "ui-text-input",
+        "z": "ba25b863121213b0",
+        "group": "db2_group_1",
+        "name": "Message Input",
+        "label": "Message to Scroll:",
+        "order": 1,
+        "width": "",
+        "height": "",
+        "topic": "",
+        "topicType": "str",
+        "mode": "text",
+        "tooltip": "",
+        "delay": "",
+        "passthru": true,
+        "sendOnDelay": true,
+        "sendOnBlur": true,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "sendOnClear": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "x": 160,
+        "y": 80,
+        "wires": [
+            [
+                "store_variable"
+            ]
+        ]
+    },
+    {
+        "id": "store_variable",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Save Text",
+        "rules": [
+            {
+                "t": "set",
+                "p": "saved_message",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db2_btn_start",
+        "type": "ui-button",
+        "z": "ba25b863121213b0",
+        "group": "db2_group_1",
+        "name": "Start Button",
+        "label": "Send Message",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 150,
+        "y": 160,
+        "wires": [
+            [
+                "get_variable"
+            ]
+        ]
+    },
+    {
+        "id": "get_variable",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Load Text",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "saved_message",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 160,
+        "wires": [
+            [
+                "rate_limit_node"
+            ]
+        ]
+    },
+    {
+        "id": "db2_btn_stop",
+        "type": "ui-button",
+        "z": "ba25b863121213b0",
+        "group": "db2_group_1",
+        "name": "Stop Button",
+        "label": "STOP Scrolling",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "set_stop_msg"
+            ]
+        ]
+    },
+    {
+        "id": "set_stop_msg",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Set Stop Payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[STOP]",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "rate_limit_node"
+            ]
+        ]
+    },
+    {
+        "id": "rate_limit_node",
+        "type": "delay",
+        "z": "ba25b863121213b0",
+        "name": "Prevent BT Spam",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 630,
+        "y": 240,
+        "wires": [
+            [
+                "send_script_node"
+            ]
+        ]
+    },
+    {
+        "id": "send_script_node",
+        "type": "exec",
+        "z": "ba25b863121213b0",
+        "command": "python3 /home/zpi/node-scripts/send_text.py",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "Send to Micro:bit",
+        "x": 850,
+        "y": 240,
+        "wires": [
+            [
+                "debug_node"
+            ],
+            [
+                "debug_node"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "debug_node",
+        "type": "debug",
+        "z": "ba25b863121213b0",
+        "name": "Script Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "http_in_node",
+        "type": "http in",
+        "z": "ba25b863121213b0",
+        "name": "POST /microbit",
+        "url": "/microbit",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 340,
+        "wires": [
+            [
+                "http_response_node",
+                "prepare_n8n_payload"
+            ]
+        ]
+    },
+    {
+        "id": "http_response_node",
+        "type": "http response",
+        "z": "ba25b863121213b0",
+        "name": "Reply OK",
+        "statusCode": "200",
+        "headers": {},
+        "x": 420,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "prepare_n8n_payload",
+        "type": "change",
+        "z": "ba25b863121213b0",
+        "name": "Extract Text",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 340,
+        "wires": [
+            [
+                "rate_limit_node"
+            ]
+        ]
+    },
+    {
+        "id": "db2_group_1",
+        "type": "ui-group",
+        "name": "Micro:bit Messaging Control",
+        "page": "db2_page_1",
+        "width": "6",
+        "height": "2",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "db2_page_1",
+        "type": "ui-page",
+        "name": "Micro:bit Page",
+        "ui": "db2_ui_base",
+        "path": "/dashboard",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "7d5839f1c1a60810",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "db2_ui_base",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "navigationStyle": "default",
+        "titleBarStyle": "default"
+    },
+    {
+        "id": "7d5839f1c1a60810",
+        "type": "ui-theme",
+        "name": "znext",
+        "colors": {
+            "surface": "#d4651c",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "69ccea234487977c",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
+```
+
+
+## Flowforge Device Registration 20th May 2023
 
 ### PROVISIONING TOKEN ###
 1. provisioningName: zraspberry

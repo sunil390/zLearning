@@ -1,5 +1,128 @@
 # RHEL / Almalinux on x86
 
+## K3S only Cleanup
+
+1. sudo service k3s stop
+2. /usr/local/bin/k3s-uninstall.sh
+3. sudo dnf upgrade
+4. sudo reboot now
+5. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+6. cd awx-on-k3s
+7. kubectl apply -k operator
+8. kubectl -n awx get all
+9. kubectl apply -k base
+10. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+11. cd base
+12. kubectl -n kube-system apply -f middleware.yaml
+13. cd ..
+14. kubectl apply -k base
+15. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+16. cd ../.ssh
+17. cat id_rsa
+18. Replace Private Key and Password against ibmuser credential
+19. kubectl -n awx logs -f deployments/awx-web
+
+## Issue on 18th July. https://github.com/ansible/awx/issues/14019
+1. kubectl get pods -n awx
+2. kubectl exec -it -n awx awx-postgres-15-0 -- /bin/bash
+3. psql -U awx -c "DELETE FROM conf_setting WHERE key IN ('AWX_CLEANUP_PATHS', 'AWX_REQUEST_PROFILE', 'RECEPTOR_RELEASE_WORK');"
+4. exit
+
+## Sequence on 12th July as awx reported internal error/bad gateway and an endless loop
+1. sudo service k3s stop
+2. sudo reboot now
+3. sudo dnf update
+4. curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+5. rm -rf awx-on-k3s/
+6. git clone https://github.com/kurokobo/awx-on-k3s.git
+7. cd awx-on-k3s
+8. git checkout 2.19.0
+9. kubectl apply -k operator
+10. kubectl -n awx get all
+11. AWX_HOST="awx.znext.com"
+12. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
+13. cd base
+14. sudo nano awx.yaml
+15. sudo nano kustomization.yaml
+16. sudo mkdir -p /data/postgres-15
+17. sudo mkdir -p /data/projects
+18. sudo chown 1000:0 /data/projects
+19. cd ..
+20. kubectl apply -k base
+21. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+22. kubectl -n awx get awx,all,ingress,secrets
+23. cd ..
+24. cd awx-on-k3s
+25. cd base
+26. sudo nano middleware.yaml
+27. kubectl -n kube-system apply -f middleware.yaml
+28. kubectl -n kube-system get middleware.traefik.io
+29. sudo nano awx.yaml
+30. cd ..
+31. kubectl apply -k base
+32. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+33. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
+
+## [K3S on Alma](https://github.com/kurokobo/awx-on-k3s) 10th Dec 2024
+1. sudo systemctl disable firewalld --now
+2. sudo systemctl disable nm-cloud-setup.service nm-cloud-setup.timer
+3. sudo reboot
+4. sudo dnf install -y git curl
+5. curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.29.6+k3s2 sh -s - --write-kubeconfig-mode 644
+6. cd ~
+7. git clone https://github.com/kurokobo/awx-on-k3s.git
+8. cd awx-on-k3s
+9. git checkout 2.19.0
+10. kubectl apply -k operator
+11. kubectl -n awx get all 
+12. AWX_HOST="awx.znext.com"
+13. openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -out ./base/tls.crt -keyout ./base/tls.key -subj "/CN=${AWX_HOST}/O=${AWX_HOST}" -addext "subjectAltName = DNS:${AWX_HOST}"
+14. cd base
+15. sudo nano awx.yaml -> change host to awx.znext.xyz.net
+16. sudo nano kustomization.yaml -> change both the passwords
+17. sudo mkdir -p /data/postgres-15
+18. sudo mkdir -p /data/projects
+19. sudo chown 1000:0 /data/projects
+20. cd ..
+21. kubectl apply -k base
+22. kubectl -n awx logs -f deployments/awx-operator-controller-manager
+23. kubectl -n awx get awx,all,ingress,secrets
+24. C:\Windows\System32\Drivers\etc\hosts   -> 192.168.2.87 awx.znext.xyz.com
+
+## http to https redirect 10th Dec 2024.
+
+1. cd awx-on-k3s/base 
+2. sudo nano middleware.yaml
+```
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  namespace: kube-system
+  name: hsts
+spec:
+  headers:
+    sslRedirect: true
+    forceSTSHeader: true
+    stsSeconds: 63072000
+    stsIncludeSubdomains: true
+    stsPreload: true
+```
+3. kubectl -n kube-system apply -f middleware.yaml
+4. kubectl -n kube-system get middleware.traefik.io
+6. sudo nano awx.yaml 
+```
+spec:
+  ...
+  ingress_annotations: |                                                               👈👈👈
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd   👈👈👈
+```
+6. cd ..
+7. kubectl apply -k base
+8. kubectl -n awx logs -f deployments/awx-operator-controller-manager --tail=100
+9. kubectl -n awx get ingress awx-ingress -o=jsonpath='{.metadata.annotations}' | jq
+
+
+
 ## AWX Upgrade 7-1-2024
 1. cd ~
 2. sudo rm -rf awx-operator

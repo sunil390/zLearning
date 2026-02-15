@@ -1,5 +1,30 @@
 # Almalinux9 on x86
 
+## 1 - alma linux 9.4 - fresh sequence.
+
+1. deselect sidechannel mitigation from advance options in vm player workstation 17.6.1
+2. in display settings delected accelerate 3D graphics - else desktop was not responding
+3. increase disk to 60 gb
+4. select network - bridge and custom vmten0
+5. add superuser
+6. change timezone to local timezone
+7. complete install and reboot.
+8. sudo dnf install epel-release -y
+9. sudo dnf install xrdp -y
+10. sudo systemctl enable xrdp --now
+11. sudo systemctl status xrdp
+12. sudo firewall-cmd --new-zone=zremote --permanent
+13. sudo firewall-cmd --zone=zremote --add-port=3389/tcp --permanent
+14. sudo firewall-cmd --zone=zremote --add-port=22/tcp --permanent
+15. sudo firewall-cmd --zone=zremote --add-source=192.168.1.0/24 --permanent  or sudo firewall-cmd --add-port=3389/tcp --permanent
+16. sudo firewall-cmd --reload
+17. sudo reboot now
+18. sudo dnf upgrade
+19. sudo dnf install snapd
+20. sudo systemctl enable --now snapd.socket
+21. sudo ln -s /var/lib/snapd/snap /snap
+22. sudo snap install btop
+
 ## postgres15 26th May 2024
 1. sudo mkdir -p /data/postgres-15
 2. sudo chmod 755 /data/postgres-15

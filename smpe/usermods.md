@@ -2,9 +2,10 @@
 
 ## ZAP Usermod to add RSU Level 
 
-1. [cvt mapping](https://www.ibm.com/docs/en/zos/2.4.0?topic=correlator-cvt-information)
-2. [iplinfo](http://www.mzelden.com/mvsfiles/iplinfo.txt)
-3. cvt mappings name display - rexx. All offsets are in decimal from the table in point 1.
+1. [cvt mapping 2.4](https://www.ibm.com/docs/en/zos/2.4.0?topic=correlator-cvt-information)
+2. [cvt mapping 3.1](https://www.ibm.com/docs/en/zos/3.1.0?topic=iar-cvt-information)
+3. [iplinfo](http://www.mzelden.com/mvsfiles/iplinfo.txt)
+4. cvt mappings name display - rexx. All offsets are in decimal from the table in point 1.
 ```.py
 /* REXX program to display the contents of the CVT Structure  */                 
 cvt = c2d(Storage(10,4))                                                         
@@ -64,15 +65,15 @@ Exit
     LIST SYSMOD(UMOD001) .                                 
 //SMPPTFIN DD *        DATA,DLM=$$                         
 ++USERMOD (UMOD001) .                                      
-++VER(Z038) FMID(HBB77C0) PRE(UJ02280) .           
+++VER(Z038) FMID(HBB77E0) PRE(UJ93392) .           
 ++ZAP (IEAVCVT) DISTLIB(AOSC5) .                   
   NAME IEANUC01 IEAVCVT                            
   VER 28 4040404040404040                          
-  REP 28 D4C4C3E4F2F3F8F1                          
+  REP 28 D4C1D9F0F2F2F5C1                          
   IDRDATA UMOD001                                  
 //*                                                
 //S EXEC PGM=AMASPZAP                              
-//SYSLIB DD DSN=SYS1.NUCLEUS,DISP=SHR,UNIT=SYSDA   
+//SYSLIB DD DSN=ZOS31T.SYS1.NUCLEUS,DISP=SHR,UNIT=SYSDA   
 //SYSPRINT DD SYSOUT=*                             
 //SYSIN DD *                                       
   NAME IEANUC01 IEAVCVT                            
