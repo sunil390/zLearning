@@ -1,5 +1,7 @@
-# TK5 Experiment - 22nd Feb 2026 https://www.prince-webdesign.nl/images/downloads/TK5-Introduction-and-User-Manual.pdf
+# TK5 MVS 3.8J Experiment - 22nd Feb 2026 
+https://www.prince-webdesign.nl/images/downloads/TK5-Introduction-and-User-Manual.pdf
 
+## Setup TK5 and MVSMF
 1. Download TK5 Update 5 from https://www.prince-webdesign.nl/index.php/software/mvs-3-8j-turnkey-5
 2. Unzip the folder and double click on mvs.bat
 3. connect to console http://localhost:8038/
@@ -30,4 +32,20 @@
 ```
 18. Now List datasets and jobs from zowe panel in VSCode!
 19. /f bsppilot,shutnow to shutdown TK5 or issue SHUTDOWN from READY Prompt.
+
+## Enable IBM Z Open Editor MCP and Chat from VSCode Github Copilot.
+
+1. Install IBM Z Open Editor Extention
+2. Open Settings Ctrl + ,
+3. Search for zopeneditor.mcp.enabled - Enable it
+4. Add .vscode/mcp.json in the repo
+```json
+{
+  "servers": {
+    "zopeneditor-sample": { "url": "http://localhost:3005/mcp" }
+  }
+}
+```
+5. Start the mcp server from Extentions - MCP SERVERS - INSTALLED section.
+6. Open VSCode Chat and ask about Datasets and Jobs !
 
