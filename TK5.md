@@ -1,4 +1,4 @@
-# TK5 Experiment - 22nd Feb 2026
+# TK5 Experiment - 22nd Feb 2026 https://www.prince-webdesign.nl/images/downloads/TK5-Introduction-and-User-Manual.pdf
 
 1. Download TK5 Update 5 from https://www.prince-webdesign.nl/index.php/software/mvs-3-8j-turnkey-5
 2. Unzip the folder and double click on mvs.bat
@@ -29,4 +29,5 @@
         },
 ```
 18. Now List datasets and jobs from zowe panel in VSCode!
+19. /f bsppilot,shutnow to shutdown TK5 or issue SHUTDOWN from READY Prompt.
 
