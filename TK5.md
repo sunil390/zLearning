@@ -36,9 +36,10 @@ https://www.prince-webdesign.nl/images/downloads/TK5-Introduction-and-User-Manua
 ## Enable IBM Z Open Editor MCP and Chat from VSCode Github Copilot.
 
 1. Install IBM Z Open Editor Extention
-2. Open Settings Ctrl + ,
-3. Search for zopeneditor.mcp.enabled - Enable it
-4. Add .vscode/mcp.json in the repo
+2. Install IBM Semeru JDK 21 LTS if not already installed.
+3. Open Settings Ctrl + ,
+4. Search for zopeneditor.mcp.enabled - Enable it
+5. Add .vscode/mcp.json in the repo
 ```json
 {
   "servers": {
