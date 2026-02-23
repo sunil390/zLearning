@@ -1,4 +1,4 @@
-# TK5 MVS 3.8J Experiment - A Huge Thanks to  Rob Prins, Mike Großmann, Mike Rayborn and Countless MVS Sysprogs contributing to this platform.
+# TK5 MVS 3.8J Experiment - A Huge Thanks to  Rob Prins, Mike Großmann, Mike Rayborn, Juergen Winkelmann, Volker Bandke and Countless MVS Sysprogs contributing to this platform.
 https://www.prince-webdesign.nl/images/downloads/TK5-Introduction-and-User-Manual.pdf
 
 ## Todo - test Container Option https://hub.docker.com/r/praths/mvs-tk5 - 23rd Jan 2026
