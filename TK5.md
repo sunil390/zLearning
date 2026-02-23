@@ -1,7 +1,9 @@
-# TK5 MVS 3.8J Experiment - 22nd Feb 2026 
+# TK5 MVS 3.8J Experiment - A Huge Thanks to  Rob Prins, Mike Großmann, Mike Rayborn and Countless MVS Sysprogs contributing to this platform.
 https://www.prince-webdesign.nl/images/downloads/TK5-Introduction-and-User-Manual.pdf
 
-## Setup TK5 and MVSMF
+## Todo - test Container Option https://hub.docker.com/r/praths/mvs-tk5 - 23rd Jan 2026
+
+## Setup TK5 and MVSMF - 22nd Feb 2026
 1. Download TK5 Update 5 from https://www.prince-webdesign.nl/index.php/software/mvs-3-8j-turnkey-5
 2. Unzip the folder and double click on mvs.bat
 3. connect to console http://localhost:8038/
@@ -33,7 +35,7 @@ https://www.prince-webdesign.nl/images/downloads/TK5-Introduction-and-User-Manua
 18. Now List datasets and jobs from zowe panel in VSCode!
 19. /f bsppilot,shutnow to shutdown TK5 or issue SHUTDOWN from READY Prompt.
 
-## Enable IBM Z Open Editor MCP and Chat from VSCode Github Copilot.
+## Enable IBM Z Open Editor MCP and Chat from VSCode Github Copilot -  - 22nd Feb 2026
 
 1. Install IBM Z Open Editor Extention
 2. Install IBM Semeru JDK 21 LTS if not already installed.
