@@ -89,7 +89,7 @@ sensor:
 
 # Streams the coordinates seamlessly over the network back to Node-RED 5
 mqtt:
-  broker: 127.0.0.1  # Points directly back to your Pi's local broker profile
+  broker: 192.168.2.251  # Points directly back to your Pi's local broker profile
   topic_prefix: home/radar
 ```
 
@@ -197,3 +197,12 @@ INFO Starting log output from /dev/ttyACM0 with baud rate 115200
 [01:16:59.300][C][wifi:1248]:   DNS1: 192.168.2.1
 [01:16:59.301][C][wifi:1248]:   DNS2: 0.0.0.0
 ```
+
+13. sudo apt install -y mosquitto mosquitto-clients
+14. sudo nano /etc/mosquitto/conf.d/local.conf
+```sh
+listener 1883 0.0.0.0
+allow_anonymous true
+```
+15. sudo systemctl restart mosquitto
+
