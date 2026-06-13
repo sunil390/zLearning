@@ -1,0 +1,76 @@
+esphome:
+  name: radar-node
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+# --- WI-FI SETTINGS ---
+wifi:
+  ssid: "AX55"
+  password: !secret wifi_password
+
+  # SoftAP fallback hotspot if your home Wi-Fi disconnects
+  ap:
+    ssid: "Radar-Node-Fallback"
+    password: !secret ap_password
+
+captive_portal:
+
+logger:
+
+# --- HARDWARE SERIAL CONFIGURATION ---
+# Handles the high-speed 256k raw radar stream on D0/D1 pins
+uart:
+  - id: radar_uart
+    tx_pin: GPIO44  # Physical D1 pad on the ESP32-S3 Mini
+    rx_pin: GPIO43  # Physical D0 pad on the ESP32-S3 Mini
+    baud_rate: 256000
+
+# Activates the built-in RD-03D library components
+rd03d:
+  uart_id: radar_uart
+
+# --- SENSOR INGESTION & COUPLING ---
+binary_sensor:
+  - platform: rd03d
+    target:
+      name: "Target Detected"
+
+# --- SENSORS ---
+sensor:
+  # --- Target 1 ---
+  - platform: rd03d
+    target_1:
+      x:
+        name: "Target 1 X"
+      y:
+        name: "Target 1 Y"
+      speed:
+        name: "Target 1 Speed"
+
+  # --- Target 2 ---
+  - platform: rd03d
+    target_2:
+      x:
+        name: "Target 2 X"
+      y:
+        name: "Target 2 Y"
+      speed:
+        name: "Target 2 Speed"
+
+  # --- Target 3 ---
+  - platform: rd03d
+    target_3:
+      x:
+        name: "Target 3 X"
+      y:
+        name: "Target 3 Y"
+      speed:
+        name: "Target 3 Speed"
+
+# Streams coordinates over MQTT back to Node-RED
+mqtt:
+  broker: 192.168.2.251
+  topic_prefix: home/radar
