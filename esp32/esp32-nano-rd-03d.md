@@ -9,9 +9,9 @@
 5. sudo usermod -a -G dialout zpi
 6. ls /dev/tty*
 7. mkdir -p config
-8. esphome dashboard config/
-9. esphome run config/radar-node.yaml --device /dev/ttyACM0
-10. esphome logs config/radar-node.yaml
+8. esphome dashboard config-nano-s3/
+9. esphome run config-nano-s3/radar-node.yaml --device /dev/ttyACM0
+10. esphome logs config-nano-s3/radar-node.yaml
 11. radar-node.yml
 
 ```yml
