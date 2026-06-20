@@ -1,0 +1,359 @@
+[
+    {
+        "id": "26e4e309610a0579",
+        "type": "tab",
+        "label": "Presence Automation",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0a7170b8fa33ca8a",
+        "type": "alexa-remote-routine",
+        "z": "26e4e309610a0579",
+        "name": "Plug On (Arrival)",
+        "account": "2632d7878d7f7655",
+        "routineNode": {
+            "type": "routine",
+            "payload": {
+                "routine": {
+                    "type": "str",
+                    "value": "amzn1.alexa.automation.8a9ea390-877c-4758-9410-be13ee26573d"
+                },
+                "device": {
+                    "type": "str",
+                    "value": "3493a9c77f9ddd8cd1d6ce019fa2f7d9"
+                }
+            }
+        },
+        "x": 720,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1b8af07c0798800c",
+        "type": "alexa-remote-routine",
+        "z": "26e4e309610a0579",
+        "name": "Plug Off (Departure)",
+        "account": "2632d7878d7f7655",
+        "routineNode": {
+            "type": "routine",
+            "payload": {
+                "routine": {
+                    "type": "str",
+                    "value": "amzn1.alexa.automation.d75ddab9-9af2-4c4e-8e76-ab3239304c76"
+                },
+                "device": {
+                    "type": "str",
+                    "value": "3493a9c77f9ddd8cd1d6ce019fa2f7d9"
+                }
+            }
+        },
+        "x": 1020,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "355d91b376838afd",
+        "type": "mqtt in",
+        "z": "26e4e309610a0579",
+        "name": "Radar Ingest",
+        "topic": "home/radar/sensor/+/state",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "331640aedffce7aa",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 110,
+        "y": 360,
+        "wires": [
+            [
+                "f6fa7c91edf99328"
+            ]
+        ]
+    },
+    {
+        "id": "3481b6aeb1a17556",
+        "type": "ui-template",
+        "z": "26e4e309610a0579",
+        "group": "2ac811281ef859fc",
+        "page": "",
+        "ui": "",
+        "name": "Live Radar Sweep Canvas",
+        "order": 1,
+        "width": "6",
+        "height": "9",
+        "format": "<template>\n    <div style=\"display: flex; flex-direction: column; align-items: center; background: #111; padding: 15px; border-radius: 8px; width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;\">\n        <h3 style=\"color: #00ff00; font-family: monospace; margin-top: 0; margin-bottom: 8px; font-size: 16px; font-weight: bold; letter-spacing: 1px;\">Multi-Target Radar Scan</h3>\n        <div style=\"flex: 1; display: flex; align-items: flex-end; justify-content: center; width: 100%; height: 100%; overflow: hidden;\">\n            <canvas ref=\"radarCanvas\" width=\"600\" height=\"450\" style=\"border: 2px solid #006600; background: #050505; border-radius: 4px; max-width: 100%; max-height: 100%; aspect-ratio: 4/3;\"></canvas>\n        </div>\n    </div>\n</template>\n\n<script>\nexport default {\n    name: 'RadarSweepCanvas',\n    props: ['id', 'props', 'state'],\n    data() {\n        return {\n            sweepAngle: -Math.PI,\n            targetDest: {\n                t1: {x:0, y:0, active: false},\n                t2: {x:0, y:0, active: false},\n                t3: {x:0, y:0, active: false}\n            },\n            targetDisplay: {\n                t1: {x:0, y:0, active: false, initialized: false},\n                t2: {x:0, y:0, active: false, initialized: false},\n                t3: {x:0, y:0, active: false, initialized: false}\n            },\n            maxRange: 6.0, \n            animationFrameId: null,\n            lastTime: 0\n        }\n    },\n    mounted() {\n        const canvas = this.$refs.radarCanvas;\n        if (!canvas) return;\n        \n        const ctx = canvas.getContext('2d');\n        const cx = canvas.width / 2;\n        const cy = canvas.height - 20; \n        const scale = (canvas.height - 40) / this.maxRange;\n\n        this.$socket.on('msg-input:' + this.id, (msg) => {\n            if (msg && msg.payload && typeof msg.payload === 'object') {\n                ['t1', 't2', 't3'].forEach(t => {\n                    if (msg.payload[t]) {\n                        this.targetDest[t].x = (msg.payload[t].x || 0) / 1000;\n                        this.targetDest[t].y = (msg.payload[t].y || 0) / 1000;\n                        this.targetDest[t].active = msg.payload[t].active || false;\n                        \n                        if (!this.targetDisplay[t].initialized && this.targetDest[t].active) {\n                            this.targetDisplay[t].x = this.targetDest[t].x;\n                            this.targetDisplay[t].y = this.targetDest[t].y;\n                            this.targetDisplay[t].initialized = true;\n                        }\n                        this.targetDisplay[t].active = this.targetDest[t].active;\n                    }\n                });\n            }\n        });\n\n        const lerp = (start, end, amt) => (1 - amt) * start + amt * end;\n        this.lastTime = performance.now();\n\n        const drawRadar = (timestamp) => {\n            let dt = (timestamp - this.lastTime) / 16.666; \n            if (isNaN(dt) || dt > 10) dt = 1;\n            this.lastTime = timestamp;\n\n            ctx.fillStyle = 'rgba(5, 5, 5, 0.45)';\n            ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n            // Bolder Rings & Labels\n            ctx.strokeStyle = '#004400';\n            ctx.lineWidth = 1.5;\n            ctx.fillStyle = '#00ff00';\n            ctx.font = 'bold 14px monospace';\n            ctx.textBaseline = 'bottom';\n            ctx.textAlign = 'center';\n\n            for (let r = 1.5; r <= this.maxRange; r += 1.5) {\n                ctx.beginPath();\n                ctx.arc(cx, cy, r * scale, Math.PI, 2 * Math.PI);\n                ctx.stroke();\n                \n                ctx.fillStyle = '#000000';\n                ctx.fillText(r.toFixed(1) + 'm', cx + 1, cy - (r * scale) + 15);\n                ctx.fillStyle = '#00ff00';\n                ctx.fillText(r.toFixed(1) + 'm', cx, cy - (r * scale) + 14);\n            }\n\n            // Bolder Angle Cross Rays\n            ctx.strokeStyle = '#003300';\n            ctx.lineWidth = 1.5;\n            const angles = [Math.PI * 7/6, Math.PI * 4/3, Math.PI * 3/2, Math.PI * 5/3, Math.PI * 11/6];\n            angles.forEach(a => {\n                ctx.beginPath();\n                ctx.moveTo(cx, cy);\n                ctx.lineTo(cx + Math.cos(a) * canvas.width, cy + Math.sin(a) * canvas.width);\n                ctx.stroke();\n            });\n\n            // Fixed 180° Upper Semi-Circle Sweeper\n            this.sweepAngle += 0.015 * dt;\n            if (this.sweepAngle > 0) this.sweepAngle = -Math.PI;\n            \n            ctx.strokeStyle = 'rgba(0, 255, 0, 0.25)';\n            ctx.lineWidth = 2.5;\n            ctx.beginPath();\n            ctx.moveTo(cx, cy);\n            ctx.lineTo(cx + Math.cos(this.sweepAngle) * (6.0 * scale), cy + Math.sin(this.sweepAngle) * (6.0 * scale));\n            ctx.stroke();\n\n            const baseEase = 0.05;\n            const currentEase = Math.min(1, baseEase * dt);\n\n            ['t1', 't2', 't3'].forEach(t => {\n                if (this.targetDisplay[t].active) {\n                    this.targetDisplay[t].x = lerp(this.targetDisplay[t].x, this.targetDest[t].x, currentEase);\n                    this.targetDisplay[t].y = lerp(this.targetDisplay[t].y, this.targetDest[t].y, currentEase);\n                } else {\n                    this.targetDisplay[t].initialized = false;\n                }\n            });\n\n            this.drawBlip(ctx, cx, cy, scale, this.targetDisplay.t1, '#00ff00', 'T1');\n            this.drawBlip(ctx, cx, cy, scale, this.targetDisplay.t2, '#00ffff', 'T2');\n            this.drawBlip(ctx, cx, cy, scale, this.targetDisplay.t3, '#ffff00', 'T3');\n\n            this.animationFrameId = requestAnimationFrame(drawRadar);\n        };\n\n        this.animationFrameId = requestAnimationFrame(drawRadar);\n    },\n    beforeUnmount() {\n        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);\n    },\n    methods: {\n        drawBlip(ctx, cx, cy, scale, target, color, label) {\n            if (target && target.active && (target.x !== 0 || target.y !== 0)) {\n                let pixelX = Math.round(cx + (target.x * scale));\n                let pixelY = Math.round(cy - (target.y * scale));\n\n                if (pixelX >= 0 && pixelX <= 600 && pixelY >= 0 && pixelY <= 450) {\n                    ctx.fillStyle = color;\n                    ctx.beginPath();\n                    ctx.arc(pixelX, pixelY, 6, 0, 2 * Math.PI);\n                    ctx.fill();\n\n                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';\n                    ctx.lineWidth = 2;\n                    ctx.beginPath();\n                    ctx.arc(pixelX, pixelY, 10, 0, 2 * Math.PI);\n                    ctx.stroke();\n\n                    ctx.fillStyle = '#ffffff';\n                    ctx.font = 'bold 13px monospace';\n                    ctx.fillText(label, pixelX + 16, pixelY - 2);\n                }\n            }\n        }\n    }\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 740,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "route_alexa_commands",
+        "type": "switch",
+        "z": "26e4e309610a0579",
+        "name": "Route Commands",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 560,
+        "wires": [
+            [
+                "cancel_off_timer",
+                "0a7170b8fa33ca8a"
+            ],
+            [
+                "3ff8616701896538"
+            ]
+        ]
+    },
+    {
+        "id": "cancel_off_timer",
+        "type": "change",
+        "z": "26e4e309610a0579",
+        "name": "Cancel OFF Timer",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 710,
+        "y": 540,
+        "wires": [
+            [
+                "3ff8616701896538"
+            ]
+        ]
+    },
+    {
+        "id": "3ff8616701896538",
+        "type": "trigger",
+        "z": "26e4e309610a0579",
+        "name": "Wait 10s for Departure",
+        "op1": "",
+        "op2": "off",
+        "op1type": "nul",
+        "op2type": "str",
+        "duration": "10",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 720,
+        "y": 740,
+        "wires": [
+            [
+                "1b8af07c0798800c"
+            ]
+        ]
+    },
+    {
+        "id": "f6fa7c91edf99328",
+        "type": "function",
+        "z": "26e4e309610a0579",
+        "name": "Track Targets (Auto-Recover)",
+        "func": "let radarMap = flow.get(\"radarMap\") || {\n    t1: { x: 0, y: 0, active: false, distance: 0, lastUpdate: 0, inZone: false },\n    t2: { x: 0, y: 0, active: false, distance: 0, lastUpdate: 0, inZone: false },\n    t3: { x: 0, y: 0, active: false, distance: 0, lastUpdate: 0, inZone: false },\n    presence: false,\n    anyActive: false\n};\n\nlet topic = msg.topic;\nlet payloadStr = String(msg.payload).toLowerCase().trim();\nconst GEOFENCE_LIMIT = 2000; // 2 meters for Alexa Plug\nconst STICKY_TIMEOUT = 1800000; // 30 min hold\nlet now = Date.now();\nlet updated = false;\nlet isNumeric = (payloadStr !== \"nan\" && payloadStr !== \"unknown\" && payloadStr !== \"\");\n\n// 1. Auto-Recover Presence (If we get coordinates, someone is clearly there)\nif (isNumeric && topic.includes(\"target_\")) {\n    radarMap.presence = true;\n}\n\n// 2. Explicit Presence Handling & Instant Wipe\nif (topic.includes(\"presence\") || topic.includes(\"target_detected\")) {\n    let isPresent = (payloadStr === \"on\" || payloadStr === \"true\");\n    radarMap.presence = isPresent;\n    \n    if (!isPresent) {\n        // Target explicitly left the room: INSTANT WIPE\n        ['t1', 't2', 't3'].forEach(t => {\n            radarMap[t].x = 0; radarMap[t].y = 0; radarMap[t].active = false; \n            radarMap[t].inZone = false; radarMap[t].distance = 0; radarMap[t].lastUpdate = 0;\n        });\n        updated = true;\n    }\n}\n\n// 3. Coordinate Tracking\nif (isNumeric && radarMap.presence) {\n    let val = parseFloat(msg.payload);\n    if (Math.abs(val) > 5) { \n        if (topic.includes(\"target_1\")) {\n            if (topic.endsWith(\"x/state\")) { radarMap.t1.x = val; radarMap.t1.lastUpdate = now; updated = true; }\n            if (topic.endsWith(\"y/state\")) { radarMap.t1.y = val; radarMap.t1.lastUpdate = now; updated = true; }\n        }\n        else if (topic.includes(\"target_2\")) {\n            if (topic.endsWith(\"x/state\")) { radarMap.t2.x = val; radarMap.t2.lastUpdate = now; updated = true; }\n            if (topic.endsWith(\"y/state\")) { radarMap.t2.y = val; radarMap.t2.lastUpdate = now; updated = true; }\n        }\n        else if (topic.includes(\"target_3\")) {\n            if (topic.endsWith(\"x/state\")) { radarMap.t3.x = val; radarMap.t3.lastUpdate = now; updated = true; }\n            if (topic.endsWith(\"y/state\")) { radarMap.t3.y = val; radarMap.t3.lastUpdate = now; updated = true; }\n        }\n    }\n}\n\n// 4. Evaluate Target Timers (Only if someone is in the room)\nif (radarMap.presence) {\n    const evaluateTarget = (t) => {\n        if (t.lastUpdate > 0 && (now - t.lastUpdate > STICKY_TIMEOUT)) {\n            t.x = 0; t.y = 0; t.active = false; t.inZone = false; t.distance = 0; t.lastUpdate = 0; updated = true;\n        } else if (t.lastUpdate > 0) {\n            t.distance = Math.sqrt(Math.pow(t.x, 2) + Math.pow(t.y, 2));\n            t.active = (t.distance > 0);\n            t.inZone = (t.distance > 0 && t.distance <= GEOFENCE_LIMIT);\n        }\n    };\n    evaluateTarget(radarMap.t1);\n    evaluateTarget(radarMap.t2);\n    evaluateTarget(radarMap.t3);\n}\n\n// 5. Check Global Trigger & Route Outputs\nlet lastAnyActive = radarMap.anyActive;\nradarMap.anyActive = (radarMap.t1.inZone || radarMap.t2.inZone || radarMap.t3.inZone);\nflow.set(\"radarMap\", radarMap);\n\nlet msgUI = null;\nlet msgAlexa = null;\n\nif (updated) {\n    msgUI = { payload: radarMap };\n}\n\nif (radarMap.anyActive !== lastAnyActive) {\n    msgAlexa = { payload: radarMap.anyActive ? \"on\" : \"off\" };\n}\n\nreturn [msgUI, msgAlexa];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 360,
+        "wires": [
+            [
+                "3481b6aeb1a17556"
+            ],
+            [
+                "route_alexa_commands"
+            ]
+        ]
+    },
+    {
+        "id": "2632d7878d7f7655",
+        "type": "alexa-remote-account",
+        "name": "Alexa Profile",
+        "authMethod": "proxy",
+        "proxyOwnIp": "localhost",
+        "proxyPort": "0",
+        "cookieFile": "/home/sunil390/.node-red/alexa-cookie.json",
+        "refreshInterval": "7",
+        "alexaServiceHost": "pitangui.amazon.com",
+        "pushDispatchHost": "",
+        "amazonPage": "amazon.com",
+        "acceptLanguage": "en-IN",
+        "onKeywordInLanguage": "on",
+        "userAgent": "",
+        "usePushConnection": "on",
+        "autoInit": "on",
+        "autoQueryActivityOnTrigger": "off"
+    },
+    {
+        "id": "331640aedffce7aa",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "2ac811281ef859fc",
+        "type": "ui-group",
+        "name": "RD-03D",
+        "page": "98b112437bd850bc",
+        "width": "6",
+        "height": "9",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "98b112437bd850bc",
+        "type": "ui-page",
+        "name": "Radar",
+        "ui": "db2_ui_base",
+        "path": "/radar",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "7d5839f1c1a60810",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 3,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "db2_ui_base",
+        "type": "ui-base",
+        "name": "zDash",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 5,
+        "showDisconnectNotification": true,
+        "allowInstall": true
+    },
+    {
+        "id": "7d5839f1c1a60810",
+        "type": "ui-theme",
+        "name": "znext",
+        "colors": {
+            "surface": "#d4651c",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "05c03bcb4a523afc",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-alexa-remote2-applestrudel": "5.0.59",
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
