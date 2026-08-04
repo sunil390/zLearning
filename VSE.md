@@ -1,10 +1,10 @@
 VSE and z/VSE From Scratch
 --------------------------
 
-Internet Archive https://archive.org/details/VMESA240ADCDCD1 
+https:///details/VMESA240ADCDCD1 
 
 VSE ADCD
-https://www.betaarchive.com/forum/viewtopic.php?t=39613
+https:///forum/viewtopic.php?t=39613
 
 ```
 CPUSERIAL 000111
@@ -422,7 +422,7 @@ define telnetd,id=xxx
 zVSE 4.1
 ----------
 
-https://fsck.technology/software/IBM/z%20Install%20Media/IBM%20zVSE%204.1.1/
+https:///software/IBM/z%20Install%20Media/IBM%20zVSE%204.1.1/
 
 ```
 #------------------------------------------------------------------- 
